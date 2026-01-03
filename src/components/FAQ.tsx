@@ -5,28 +5,24 @@ const FAQ = () => {
 
   const faqs = [
     {
-      question: "What programs do you offer?",
-      answer: "We offer various theological programs including Bachelor of Theology, Master of Divinity, and specialized certificate programs in biblical studies, pastoral care, and Christian education."
+      question: "Is previous theological knowledge required for admission?",
+      answer: "No, prior theological training is not required. God's Will Bible College welcomes students at all levels of biblical understanding. Our programs are designed to provide a strong foundation in Scripture and theology, whether you are beginning your journey or seeking to deepen existing knowledge. What matters most is a sincere desire to grow in faith, character, and ministry."
     },
     {
-      question: "How can I apply for admission?",
-      answer: "You can apply online through our website, download the application form, or contact our admissions office directly. We accept applications throughout the year with specific intake periods."
+      question: "What is the admission process?",
+      answer: "The admission process includes: Completing the application form with personal details, educational background, and testimony of faith. A short interview or written statement to understand the applicant's calling, commitment, and readiness for study."
     },
     {
-      question: "What are the admission requirements?",
-      answer: "Admission requirements vary by program. Generally, we require a high school diploma or equivalent, transcripts, letters of recommendation, and a personal statement of faith and ministry goals."
+      question: "Are scholarships or financial aid options available?",
+      answer: "Yes. God's Will Bible College seeks to make theological education accessible. We offer limited scholarships and financial aid opportunities based on need, merit, and ministry calling. Applicants may apply during the admission process, and awards are prayerfully considered to support students committed to training for life and ministry."
     },
     {
-      question: "Do you offer scholarships or financial aid?",
-      answer: "Yes, we offer various scholarship opportunities and financial aid programs to qualified students. Contact our financial aid office for detailed information about available options."
+      question: "Is the Bible College affiliated or accredited?",
+      answer: "Yes. God's Will Bible College is affiliated with The Word Ministries, UK and accredited by the International Association for Theological Accreditation (IATA). This affiliation and accreditation affirm our commitment to biblically sound and globally respected theological education."
     },
     {
-      question: "What is the duration of the programs?",
-      answer: "Program duration varies: Bachelor of Theology is typically 4 years, Master of Divinity is 3 years, and certificate programs range from 6 months to 2 years depending on the specialization."
-    },
-    {
-      question: "How can I contact the admissions office?",
-      answer: "You can reach our admissions office by phone at +1 (123) 456-7890, email at admissions@wordbiblecollege.edu, or visit our campus during business hours."
+      question: "Do you offer online or distance learning programs?",
+      answer: "Yes. God's Will Bible College offers part-time online and distance learning programs designed for students who need flexibility. These programs allow learners to study at their own pace, balance ministry or work commitments, and remain connected to our vibrant community of faith and mission."
     }
   ]
 

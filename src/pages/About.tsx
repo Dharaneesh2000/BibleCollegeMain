@@ -1,6 +1,6 @@
 import LazyImage from '../components/LazyImage'
 import SEO from '../components/SEO'
-import BannerImage from '../../assets/images/BannerImage.png'
+import AboutUsImage from '../../assets/images/AboutUs.jpeg'
 import MissionVision from '../../assets/images/MissionVision.png'
 import MissionVision2 from '../../assets/images/MissionVision(2).png'
 import Ourstory1 from '../../assets/images/OurStory1.png'
@@ -17,6 +17,14 @@ import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined'
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined'
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined'
+import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined'
+import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined'
+import EmojiEventsOutlinedIcon from '@mui/icons-material/MilitaryTech'
+import VerifiedOutlinedIcon from '@mui/icons-material/VerifiedOutlined'
+import JourneyFooter from '../components/JourneyFooter'
 
 const About = () => {
   return (
@@ -26,7 +34,7 @@ const About = () => {
         description="Learn about God's Will Bible College - our mission to prepare faithful Christian ministers, our vision for global theological excellence, and our inspiring story since 2013."
         keywords="about God's Will Bible College, Bible college mission, theological education vision, Christian ministry training, Bible college history, Rourkela Odisha"
         url="https://godswillbiblecollege.com/about"
-        image={BannerImage}
+        image={AboutUsImage}
       />
 
       {/* Banner Section with Gradient Overlay */}
@@ -34,7 +42,7 @@ const About = () => {
         {/* Background Image */}
         <div className="absolute inset-0 w-full h-full">
           <LazyImage
-            src={BannerImage}
+            src={AboutUsImage}
             alt="About GWBC Banner"
             className="w-full h-full object-cover"
             width="1920"
@@ -93,7 +101,7 @@ const About = () => {
                 Our Mission
               </h3>
               <p className="text-[#636363] leading-relaxed">
-                To prepare and equip men and women for faithful Christian ministry through rigorous theological education, deep spiritual formation, and practical ministry experience. We are committed to developing servant leaders who will proclaim the Gospel with clarity, shepherd God's people with compassion, and engage the world with biblical truth and transformative love.
+                God's Will Bible College exists to equip and empower Christ-centered leaders through transformative theological education, passionate discipleship, and a heart for global missions. We are committed to nurturing spiritual maturity, academic excellence, and missional impact—raising up servant-leaders who boldly proclaim the Gospel and advance the Kingdom of God in every sphere of society.
               </p>
             </div>
 
@@ -117,14 +125,14 @@ const About = () => {
                 Our Vision
               </h3>
               <p className="text-[#636363] leading-relaxed">
-                To be a globally recognized center of theological excellence that produces Spirit-filled, biblically-grounded leaders who will plant churches, advance the Gospel, serve communities, and disciple nations for Christ. We envision a world where our graduates are catalysts for spiritual renewal, social transformation, and Kingdom expansion across every sphere of society.
+                At God's Will Bible College, we envision a generation of Spirit-led leaders equipped with sound theological education, ignited by a passion for missions, and committed to transforming the world through the power of the Gospel. We are dedicated to raising up disciples who lead with integrity, serve with compassion, and carry the message of Christ to every nation.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Our Story Section */}
+      {/* Our History Section */}
       <section 
         className="py-16 md:py-20"
         style={{
@@ -133,7 +141,7 @@ const About = () => {
       >
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-[#333333] text-center mb-4">
-            Our Story
+            Our History
           </h2>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start max-w-5xl mx-auto">
@@ -142,7 +150,7 @@ const About = () => {
               <div className="w-full overflow-hidden rounded-[12px]">
                 <LazyImage
                   src={Ourstory1}
-                  alt="God's Will Bible College Clock Tower - Our Story"
+                  alt="God's Will Bible College Clock Tower - Our History"
                   className="w-full h-auto object-cover"
                   width="400"
                   height="600"
@@ -152,7 +160,7 @@ const About = () => {
                 <div className="w-full h-[200px] overflow-hidden rounded-[12px]">
                   <LazyImage
                     src={OurStory2}
-                    alt="God's Will Bible College Clock Tower Detail - Our Story"
+                    alt="God's Will Bible College Clock Tower Detail - Our History"
                     className="w-full h-full object-cover"
                     width="200"
                     height="200"
@@ -161,7 +169,7 @@ const About = () => {
                 <div className="w-full h-[200px] overflow-hidden rounded-[12px]">
                   <LazyImage
                     src={OurStory3}
-                    alt="God's Will Bible College Clock Tower Detail - Our Story"
+                    alt="God's Will Bible College Clock Tower Detail - Our History"
                     className="w-full h-full object-cover"
                     width="200"
                     height="200"
@@ -173,11 +181,15 @@ const About = () => {
             {/* Right side - Text Content */}
             <div className="lg:col-span-2">
               <p className="text-[#636363] leading-relaxed text-lg">
-                God's Will Bible College was founded in 2013 by Pastor John Ruben, a visionary leader with a heart for equipping the next generation of Christian ministers. After completing his theological studies in Aberdeen, Scotland and Birmingham, England, Pastor John returned to India with a burning passion to raise up leaders who would carry the Gospel to the ends of the earth. Together with his wife, Chinchu, and a dedicated team of faculty members, the college began its journey of providing quality theological education rooted in Scripture and empowered by the Holy Spirit.
+                God's Will Bible College was founded in 2013 by Pastor John Ruban, a visionary leader with a heart for equipping the next generation of Christian ministers. After completing his theological studies in Aberdeen, Scotland and Birmingham, England, Pastor John returned to India with a burning passion to raise up leaders who would carry the Gospel to the ends of the earth.
               </p>
               <br />
               <p className="text-[#636363] leading-relaxed text-lg">
-                Since its inception, God's Will Bible College has trained and graduated over 200 students, many of whom have been ordained as pastors and evangelists. These alumni are now actively serving in various regions, impacting lives and communities through vibrant ministry. From humble beginnings to a thriving institution, the college continues to stand as a beacon of spiritual formation, academic excellence, and missional purpose.
+                Together with his wife, Chinthiya, and a dedicated team of faculty members, the college began its journey of providing quality theological education rooted in Scripture and empowered by the Holy Spirit. Since its inception, God's Will Bible College has trained and graduated over 200 students, many of whom have been ordained as pastors and evangelists. These alumni are now actively serving in various regions, impacting lives and communities through vibrant ministry.
+              </p>
+              <br />
+              <p className="text-[#636363] leading-relaxed text-lg">
+                From humble beginnings to a thriving institution, the college continues to stand as a beacon of spiritual formation, academic excellence, and missional purpose.
               </p>
             </div>
           </div>
@@ -195,7 +207,7 @@ const About = () => {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {/* Global Activity */}
+            {/* Theological Foundations */}
             <div 
               className="bg-white p-6 rounded-[12px]"
               style={{
@@ -203,17 +215,17 @@ const About = () => {
               }}
             >
               <div className="mb-4 flex items-center justify-center w-[60px] h-[60px] rounded-lg" style={{ backgroundColor: '#E3F2FD' }}>
-                <PublicOutlinedIcon sx={{ fontSize: 24, color: '#1976D2' }} />
+                <MenuBookOutlinedIcon sx={{ fontSize: 24, color: '#1976D2' }} />
               </div>
               <h3 className="text-xl font-bold text-[#333333] mb-3">
-                Global Activity
+                Theological Foundations
               </h3>
               <p className="text-[#636363] leading-relaxed text-sm">
-                Engaging with communities worldwide to spread the Gospel and make a global impact through missions and outreach.
+                We submit to the trustworthy Word of God as our final guide for faith, doctrine, and practice.
               </p>
             </div>
 
-            {/* Student Retention */}
+            {/* Christ-Centered Focus */}
             <div 
               className="bg-white p-6 rounded-[12px]"
               style={{
@@ -221,13 +233,49 @@ const About = () => {
               }}
             >
               <div className="mb-4 flex items-center justify-center w-[60px] h-[60px] rounded-lg" style={{ backgroundColor: '#FFEBEE' }}>
-                <FavoriteOutlinedIcon sx={{ fontSize: 24, color: '#D32F2F' }} />
+                <FavoriteIcon sx={{ fontSize: 24, color: '#D32F2F' }} />
               </div>
               <h3 className="text-xl font-bold text-[#333333] mb-3">
-                Student Retention
+                Christ-Centered Focus
               </h3>
               <p className="text-[#636363] leading-relaxed text-sm">
-                Creating a supportive environment that nurtures student growth and ensures successful completion of their educational journey.
+                We exalt Jesus Christ—His person, work, and mission—as the heart of all learning and living.
+              </p>
+            </div>
+
+            {/* Discipleship and Character */}
+            <div 
+              className="bg-white p-6 rounded-[12px]"
+              style={{
+                border: '1px solid #E6E6E6'
+              }}
+            >
+              <div className="mb-4 flex items-center justify-center w-[60px] h-[60px] rounded-lg" style={{ backgroundColor: '#E8F5E9' }}>
+                <PeopleOutlinedIcon sx={{ fontSize: 24, color: '#388E3C' }} />
+              </div>
+              <h3 className="text-xl font-bold text-[#333333] mb-3">
+                Discipleship and Character
+              </h3>
+              <p className="text-[#636363] leading-relaxed text-sm">
+                We train leaders who serve humbly, lead courageously, and steward influence for God's glory.
+              </p>
+            </div>
+
+            {/* Mission and Service */}
+            <div 
+              className="bg-white p-6 rounded-[12px]"
+              style={{
+                border: '1px solid #E6E6E6'
+              }}
+            >
+              <div className="mb-4 flex items-center justify-center w-[60px] h-[60px] rounded-lg" style={{ backgroundColor: '#E1F5FE' }}>
+                <PublicOutlinedIcon sx={{ fontSize: 24, color: '#0277BD' }} />
+              </div>
+              <h3 className="text-xl font-bold text-[#333333] mb-3">
+                Mission and Service
+              </h3>
+              <p className="text-[#636363] leading-relaxed text-sm">
+                We equip students for evangelism, church planting, and cross-cultural ministry—locally and to the nations.
               </p>
             </div>
 
@@ -239,35 +287,53 @@ const About = () => {
               }}
             >
               <div className="mb-4 flex items-center justify-center w-[60px] h-[60px] rounded-lg" style={{ backgroundColor: '#FFF9C4' }}>
-                <LightbulbOutlinedIcon sx={{ fontSize: 24, color: '#F57F17' }} />
+                <SchoolOutlinedIcon sx={{ fontSize: 24, color: '#F57F17' }} />
               </div>
               <h3 className="text-xl font-bold text-[#333333] mb-3">
                 Academic Excellence
               </h3>
               <p className="text-[#636363] leading-relaxed text-sm">
-                Maintaining high standards in theological education through rigorous curriculum and dedicated faculty commitment.
+                We pursue disciplined study, careful interpretation, and sound theological thinking anchored in Scripture.
               </p>
             </div>
 
-            {/* Spirituality */}
+            {/* Stewardship and Accountability */}
             <div 
               className="bg-white p-6 rounded-[12px]"
               style={{
                 border: '1px solid #E6E6E6'
               }}
             >
-              <div className="mb-4 flex items-center justify-center w-[60px] h-[60px] rounded-lg" style={{ backgroundColor: '#E8F5E9' }}>
-                <LocalFloristOutlinedIcon sx={{ fontSize: 24, color: '#388E3C' }} />
+              <div className="mb-4 flex items-center justify-center w-[60px] h-[60px] rounded-lg" style={{ backgroundColor: '#E0F2F1' }}>
+                <AccountBalanceOutlinedIcon sx={{ fontSize: 24, color: '#00796B' }} />
               </div>
               <h3 className="text-xl font-bold text-[#333333] mb-3">
-                Spirituality
+                Stewardship and Accountability
               </h3>
               <p className="text-[#636363] leading-relaxed text-sm">
-                Fostering deep spiritual growth and relationship with God through prayer, worship, and biblical study.
+                We manage time, gifts, and resources responsibly for the advancement of God's kingdom.
               </p>
             </div>
 
-            {/* Mission-Minded */}
+            {/* Practical Ministry */}
+            <div 
+              className="bg-white p-6 rounded-[12px]"
+              style={{
+                border: '1px solid #E6E6E6'
+              }}
+            >
+              <div className="mb-4 flex items-center justify-center w-[60px] h-[60px] rounded-lg" style={{ backgroundColor: '#FFF3E0' }}>
+                <HandshakeOutlinedIcon sx={{ fontSize: 24, color: '#E65100' }} />
+              </div>
+              <h3 className="text-xl font-bold text-[#333333] mb-3">
+                Practical Ministry
+              </h3>
+              <p className="text-[#636363] leading-relaxed text-sm">
+                We integrate classroom learning with practical ministry opportunities.
+              </p>
+            </div>
+
+            {/* Church Partnership */}
             <div 
               className="bg-white p-6 rounded-[12px]"
               style={{
@@ -275,31 +341,13 @@ const About = () => {
               }}
             >
               <div className="mb-4 flex items-center justify-center w-[60px] h-[60px] rounded-lg" style={{ backgroundColor: '#F3E5F5' }}>
-                <StarsOutlinedIcon sx={{ fontSize: 24, color: '#7B1FA2' }} />
+                <BusinessOutlinedIcon sx={{ fontSize: 24, color: '#7B1FA2' }} />
               </div>
               <h3 className="text-xl font-bold text-[#333333] mb-3">
-                Mission-Minded
+                Church Partnership
               </h3>
               <p className="text-[#636363] leading-relaxed text-sm">
-                Equipping students with a heart for missions and the tools needed to serve in diverse cultural and global contexts.
-              </p>
-            </div>
-
-            {/* Integrity */}
-            <div 
-              className="bg-white p-6 rounded-[12px]"
-              style={{
-                border: '1px solid #E6E6E6'
-              }}
-            >
-              <div className="mb-4 flex items-center justify-center w-[60px] h-[60px] rounded-lg" style={{ backgroundColor: '#E1F5FE' }}>
-                <ShieldOutlinedIcon sx={{ fontSize: 24, color: '#0277BD' }} />
-              </div>
-              <h3 className="text-xl font-bold text-[#333333] mb-3">
-                Integrity
-              </h3>
-              <p className="text-[#636363] leading-relaxed text-sm">
-                Upholding ethical standards and moral principles in all aspects of academic and personal conduct.
+                We strengthen local churches by preparing leaders who serve faithfully.
               </p>
             </div>
           </div>
@@ -322,7 +370,7 @@ const About = () => {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {/* Accredited Institution Card 1 */}
+            {/* Accreditation Card */}
             <div 
               className="bg-white p-8 rounded-[12px]"
               style={{
@@ -330,28 +378,14 @@ const About = () => {
               }}
             >
               <div className="mb-6 flex items-center justify-center w-[80px] h-[80px] rounded-lg" style={{ backgroundColor: '#E3F2FD' }}>
-                <BusinessOutlinedIcon sx={{ fontSize: 41, color: '#1976D2' }} />
+                <EmojiEventsOutlinedIcon sx={{ fontSize: 41, color: '#1976D2' }} />
               </div>
-              <h3 className="text-2xl font-bold text-[#333333] mb-4">
-                Accredited Institution
-              </h3>
-              <ul className="space-y-3">
-                <li className="flex items-start">
-                  <CheckCircleIcon sx={{ fontSize: 20, color: '#4CAF50', marginRight: '8px', marginTop: '2px', flexShrink: 0 }} />
-                  <span className="text-[#636363]">Internationally recognized programs</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircleIcon sx={{ fontSize: 20, color: '#4CAF50', marginRight: '8px', marginTop: '2px', flexShrink: 0 }} />
-                  <span className="text-[#636363]">Quality assurance in curriculum and teaching</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircleIcon sx={{ fontSize: 20, color: '#4CAF50', marginRight: '8px', marginTop: '2px', flexShrink: 0 }} />
-                  <span className="text-[#636363]">Regular evaluation and continuous improvement</span>
-                </li>
-              </ul>
+              <p className="text-[#636363] leading-relaxed text-lg">
+                Accredited by the International Association for Theological Accreditation (IATA)
+              </p>
             </div>
 
-            {/* Accredited Institution Card 2 */}
+            {/* Affiliation Card */}
             <div 
               className="bg-white p-8 rounded-[12px]"
               style={{
@@ -359,25 +393,11 @@ const About = () => {
               }}
             >
               <div className="mb-6 flex items-center justify-center w-[80px] h-[80px] rounded-lg" style={{ backgroundColor: '#F3E5F5' }}>
-                <SchoolOutlinedIcon sx={{ fontSize: 41, color: '#7B1FA2' }} />
+                <VerifiedOutlinedIcon sx={{ fontSize: 41, color: '#7B1FA2' }} />
               </div>
-              <h3 className="text-2xl font-bold text-[#333333] mb-4">
-                Accredited Institution
-              </h3>
-              <ul className="space-y-3">
-                <li className="flex items-start">
-                  <CheckCircleIcon sx={{ fontSize: 20, color: '#4CAF50', marginRight: '8px', marginTop: '2px', flexShrink: 0 }} />
-                  <span className="text-[#636363]">Internationally recognized programs</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircleIcon sx={{ fontSize: 20, color: '#4CAF50', marginRight: '8px', marginTop: '2px', flexShrink: 0 }} />
-                  <span className="text-[#636363]">Quality assurance in curriculum and teaching</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircleIcon sx={{ fontSize: 20, color: '#4CAF50', marginRight: '8px', marginTop: '2px', flexShrink: 0 }} />
-                  <span className="text-[#636363]">Regular evaluation and continuous improvement</span>
-                </li>
-              </ul>
+              <p className="text-[#636363] leading-relaxed text-lg">
+                Affiliated with The Word Ministries, Birmingham, England.
+              </p>
             </div>
           </div>
         </div>
@@ -438,6 +458,9 @@ const About = () => {
           </div>
         </div>
       </section>
+
+      {/* Journey Footer */}
+      <JourneyFooter />
     </div>
   )
 }

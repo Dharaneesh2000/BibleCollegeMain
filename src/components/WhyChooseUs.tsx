@@ -9,25 +9,25 @@ const WhyChooseUs = () => {
     {
       icon: BiblicalFoundation,
       title: "Biblical Foundation",
-      description: "Our curriculum is centered on the inerrant Word of God, providing a solid theological foundation for life and ministry.",
+      description: "Grounded in God's inerrant Word, our curriculum equips believers with strong theological foundations for life, ministry, and mission.",
       color: "bg-orange-50"
     },
     {
       icon: GlobalMissionFocus,
-      title: "Global Mission Focus",
-      description: "We emphasize equipping students to engage the world through missions and outreach in diverse contexts.",
+      title: "Global Mission",
+      description: "Shaped by God's inspired Word, our curriculum builds robust theology and a global mission mindset for impactful life and ministry.",
       color: "bg-[#E7F5E8]"
     },
     {
       icon: VibrantCommunity,
       title: "Vibrant Community",
-      description: "Join a Christ-centered community that supports spiritual growth, friendship, and collaboration.",
+      description: "Rooted in the Bible, our college fosters worship, mentorship, and mission, cultivating resilient leaders for church and world.",
       color: "bg-[#F0F5FF]"
     },
     {
       icon: ExpertFaculty,
       title: "Expert Faculty",
-      description: "Learn from experienced faculty who combine academic excellence with ministry experience.",
+      description: "Seasoned pastors and theologians offering rigorous, Bible-grounded training with personal guidance that forms character and calling.",
       color: "bg-[#F8EDFF]"
     }
   ];
@@ -40,11 +40,10 @@ const WhyChooseUs = () => {
           <div>
             <div className="w-[94px] h-[7px] bg-[#012659] mb-6"></div>
             <h2 id="why-choose-us-heading" className="text-[38px] font-[700] text-[#333333] leading-tight mb-6">
-              Why GWBC is Your <br /> Best Choice?
+              Why GWBC your Choice?
             </h2>
             <p className="text-[18px] font-[400] text-[#333333] leading-relaxed">
-              Discover an education that informs your mind, transforms your heart, 
-              and prepares you for impactful service.
+              We believe that true education is more than knowledge—it is transformation. Rooted in Scripture and guided by the Holy Spirit, our mission is to equip men and women to live out God's calling with clarity, conviction, and compassion. At God's Will Bible College, you don't just earn a degree—you discover your purpose, deepen your faith, and prepare to fulfill God's will for your life.
             </p>
           </div>
 

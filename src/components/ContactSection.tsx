@@ -13,8 +13,6 @@ const ContactSection = () => {
     name: "",
     email: "",
     phone: "",
-    message: "",
-    courseType: "",
     select: "",
   });
   const [submitting, setSubmitting] = useState(false);
@@ -65,8 +63,6 @@ const ContactSection = () => {
           name: formData.name,
           email: formData.email,
           phone: formData.phone || null,
-          message: formData.message,
-          course_type: formData.courseType || null,
           selected_course: formData.select || null,
         }]);
 
@@ -79,8 +75,6 @@ const ContactSection = () => {
         name: "",
         email: "",
         phone: "",
-        message: "",
-        courseType: "",
         select: "",
       });
     } catch (error: any) {
@@ -254,31 +248,6 @@ const ContactSection = () => {
                   onChange={handleInputChange}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bible-blue focus:border-transparent text-black"
                   placeholder="Phone Number"
-                />
-              </div>
-
-              <div>
-                <input
-                  type="text"
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bible-blue focus:border-transparent text-black"
-                  placeholder="Message"
-                  required
-                />
-              </div>
-
-              <div>
-                <input
-                  type="text"
-                  id="courseType"
-                  name="courseType"
-                  value={formData.courseType}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bible-blue focus:border-transparent text-black"
-                  placeholder="What type of course"
                 />
               </div>
 

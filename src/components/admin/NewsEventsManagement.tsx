@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
+import JourneyFooter from '../JourneyFooter'
 
 interface Speaker {
   name: string
@@ -48,6 +49,7 @@ const NewsEventsManagement = () => {
   })
   const [speakers, setSpeakers] = useState<Speaker[]>([])
   const [newSpeaker, setNewSpeaker] = useState({ name: '', description: '', bio: '' })
+  const [newSpeakerImageFile, setNewSpeakerImageFile] = useState<File | null>(null)
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [heroImageFile, setHeroImageFile] = useState<File | null>(null)
   const [speakerImageFiles, setSpeakerImageFiles] = useState<{ [key: number]: File }>({})
@@ -87,7 +89,7 @@ const NewsEventsManagement = () => {
     }
   }
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'image' | 'hero' | 'speaker' | 'resources') => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'image' | 'hero' | 'speaker' | 'resources' | 'new-speaker') => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0]
       
@@ -115,6 +117,8 @@ const NewsEventsManagement = () => {
         setImageFile(file)
       } else if (type === 'hero') {
         setHeroImageFile(file)
+      } else if (type === 'new-speaker') {
+        setNewSpeakerImageFile(file)
       } else if (type === 'speaker') {
         const index = parseInt(e.target.dataset.index || '0')
         setSpeakerImageFiles({ ...speakerImageFiles, [index]: file })
@@ -319,8 +323,17 @@ const NewsEventsManagement = () => {
 
   const addSpeaker = () => {
     if (newSpeaker.name) {
+      const nextIndex = speakers.length
       setSpeakers([...speakers, { ...newSpeaker, image_url: null }])
+      // If there's an image file for the new speaker, store it with the new index
+      if (newSpeakerImageFile) {
+        setSpeakerImageFiles({ ...speakerImageFiles, [nextIndex]: newSpeakerImageFile })
+      }
       setNewSpeaker({ name: '', description: '', bio: '' })
+      setNewSpeakerImageFile(null)
+      // Reset the file input
+      const fileInput = document.querySelector('input[data-type="new-speaker"]') as HTMLInputElement
+      if (fileInput) fileInput.value = ''
     }
   }
 
@@ -347,6 +360,7 @@ const NewsEventsManagement = () => {
     })
     setSpeakers([])
     setNewSpeaker({ name: '', description: '', bio: '' })
+    setNewSpeakerImageFile(null)
     setImageFile(null)
     setHeroImageFile(null)
     setSpeakerImageFiles({})
@@ -612,6 +626,19 @@ const NewsEventsManagement = () => {
                     rows={2}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D]"
                   />
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Speaker Photo</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      data-type="new-speaker"
+                      onChange={(e) => handleImageChange(e, 'new-speaker')}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D]"
+                    />
+                    {newSpeakerImageFile && (
+                      <p className="mt-1 text-xs text-gray-600">Selected: {newSpeakerImageFile.name}</p>
+                    )}
+                  </div>
                   <button
                     type="button"
                     onClick={addSpeaker}
@@ -738,6 +765,9 @@ const NewsEventsManagement = () => {
       {items.length === 0 && (
         <div className="text-center py-12 text-gray-500">No news/events yet. Add your first one!</div>
       )}
+
+      {/* Journey Footer */}
+      <JourneyFooter />
     </div>
   )
 }

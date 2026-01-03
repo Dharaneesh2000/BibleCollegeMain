@@ -1,27 +1,24 @@
-import FacultyImg from "../../assets/images/OurFaculty.png";
+import Faculty1 from "../../assets/images/Faculty1.jpeg";
+import Faculty2 from "../../assets/images/faculty2.jpeg";
+import Faculty3 from "../../assets/images/faculty3.jpeg";
 import LazyImage from './LazyImage';
 
 const OurFaculty = () => {
   const faculty = [
     {
-      name: "Sam Matthews",
-      title: "Founder",
-      image: FacultyImg,
+      name: "John Ruban",
+      title: "HOD",
+      image: Faculty1,
     },
     {
-      name: "Sam Matthews",
-      title: "Founder",
-      image: FacultyImg,
+      name: "Chinthiya John Ruban",
+      title: "Faculty",
+      image: Faculty2,
     },
     {
-      name: "Sam Matthews",
-      title: "Founder",
-      image: FacultyImg,
-    },
-    {
-      name: "Sam Matthews",
-      title: "Founder",
-      image: FacultyImg,
+      name: "Shobana Arun Kumar",
+      title: "Faculty",
+      image: Faculty3,
     },
   ];
 
@@ -40,7 +37,7 @@ const OurFaculty = () => {
         </div>
 
         {/* Faculty Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
           {/* Decorative dots in background */}
           <div
             className="absolute top-0 right-0 z-0 pointer-events-none"
@@ -60,7 +57,9 @@ const OurFaculty = () => {
                 <LazyImage
                   src={member.image}
                   alt={`${member.name} - ${member.title} at God's Will Bible College, experienced faculty mentor`}
-                  className="w-full h-96 object-cover group-hover:scale-105 transition-transform duration-300"
+                  className={`w-full h-96 group-hover:scale-105 transition-transform duration-300 ${
+                    index === 2 ? 'object-top object-cover' : 'object-cover'
+                  }`}
                   width="400"
                   height="400"
                 />
