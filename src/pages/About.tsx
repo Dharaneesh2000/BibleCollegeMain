@@ -31,32 +31,16 @@ const About = () => {
         image={AboutUsImage}
       />
 
-      {/* Banner Section with Gradient Overlay */}
+      {/* Banner Section */}
       <section className="relative w-full h-[500px] md:h-[600px] overflow-hidden">
-        {/* Background Image */}
-        <div className="absolute inset-0 w-full h-full">
-          <LazyImage
-            src={AboutUsImage}
-            alt="About GWBC Banner"
-            className="w-full h-full object-cover"
-            width="1920"
-            height="1080"
-            loading="eager"
-          />
-        </div>
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 w-full h-full bg-black bg-opacity-60 z-[1]" />
-        {/* Content */}
-        <div className="absolute inset-0 flex items-center justify-center z-10">
-          <div className="text-center text-white px-4">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-              About GWBC
-            </h1>
-            <p className="text-lg md:text-xl max-w-3xl mx-auto">
-              Transform your supply chain with AI-powered traceability and blockchain technology
-            </p>
-          </div>
-        </div>
+        <LazyImage
+          src={AboutUsImage}
+          alt="About GWBC Banner"
+          className="w-full h-full object-cover"
+          width="1920"
+          height="1080"
+          loading="eager"
+        />
       </section>
 
       {/* Mission & Vision Section */}
