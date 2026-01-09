@@ -4,8 +4,8 @@ import { supabase } from '../lib/supabase'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
-import DownloadIcon from '@mui/icons-material/Download'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import LazyImage from '../components/LazyImage'
 import SEO from '../components/SEO'
 
@@ -21,9 +21,8 @@ interface Event {
   hero_image_url: string | null
   about_content: string | null
   what_to_expect: string[] | null
-  download_resources_url: string | null
-  download_resources_file_name: string | null
   speakers: any[] | null
+  livestream_available: boolean
   is_active: boolean
 }
 
@@ -63,15 +62,25 @@ const EventDetail = () => {
 
       if (data) {
         // Parse JSON fields if they're stored as strings
+        let parsedSpeakers = []
+        try {
+          parsedSpeakers = typeof data.speakers === 'string'
+            ? JSON.parse(data.speakers || '[]')
+            : (Array.isArray(data.speakers) ? data.speakers : [])
+        } catch (e) {
+          console.error('Error parsing speakers:', e)
+          parsedSpeakers = []
+        }
+        
         const parsedData = {
           ...data,
           what_to_expect: typeof data.what_to_expect === 'string' 
             ? JSON.parse(data.what_to_expect || '[]') 
-            : data.what_to_expect || [],
-          speakers: typeof data.speakers === 'string'
-            ? JSON.parse(data.speakers || '[]')
-            : data.speakers || []
+            : (Array.isArray(data.what_to_expect) ? data.what_to_expect : []),
+          speakers: parsedSpeakers,
+          livestream_available: data.livestream_available || false
         }
+        console.log('Parsed event data:', parsedData)
         setEvent(parsedData)
       }
     } catch (error) {
@@ -193,23 +202,23 @@ const EventDetail = () => {
           width="1920"
           height="300"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12 text-white">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">{event.title}</h1>
-          <div className="space-y-3">
-            <div className="flex items-center gap-3">
-              <CalendarTodayIcon />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
+        <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12 lg:p-16 text-white">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">{event.title}</h1>
+          <div className="flex flex-wrap items-center gap-6 text-base md:text-lg">
+            <div className="flex items-center gap-2">
+              <CalendarTodayIcon style={{ fontSize: '20px' }} />
               <span>{formatDate(event.date)}</span>
             </div>
             {(event.start_time || event.end_time) && (
-              <div className="flex items-center gap-3">
-                <AccessTimeIcon />
+              <div className="flex items-center gap-2">
+                <AccessTimeIcon style={{ fontSize: '20px' }} />
                 <span>{formatTimeRange(event.start_time, event.end_time)}</span>
               </div>
             )}
             {event.location && (
-              <div className="flex items-center gap-3">
-                <LocationOnIcon />
+              <div className="flex items-center gap-2">
+                <LocationOnIcon style={{ fontSize: '20px' }} />
                 <span>{event.location}</span>
               </div>
             )}
@@ -218,68 +227,110 @@ const EventDetail = () => {
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-8 md:px-12 lg:px-16 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-          {/* About this Event */}
-          <div>
-            <h2 className="text-2xl font-bold text-[#1A2633] mb-6">About this Event</h2>
-            <div className="text-[#333333] leading-relaxed whitespace-pre-wrap">
+      <div className="container mx-auto px-8 md:px-12 lg:px-16 py-16">
+        <div className="flex flex-col lg:flex-row gap-12 mb-20">
+          {/* About this Event - 60% width */}
+          <div className="lg:w-[60%]">
+            <h2 className="text-3xl font-bold text-[#1A2633] mb-8">About this Event</h2>
+            <div className="text-[#333333] leading-relaxed text-lg whitespace-pre-wrap">
               {event.about_content || event.description}
             </div>
           </div>
 
-          {/* What to Expect */}
-          <div>
-            <h2 className="text-2xl font-bold text-[#1A2633] mb-6">What to Expect</h2>
-            {event.what_to_expect && event.what_to_expect.length > 0 ? (
-              <ul className="space-y-3 mb-6">
-                {event.what_to_expect.map((item, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <div className="w-2 h-2 rounded-full bg-bible-blue mt-2 flex-shrink-0" />
-                    <span className="text-[#333333]">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-[#333333] mb-6">More details coming soon.</p>
-            )}
-            {event.download_resources_url && (
-              <a
-                href={event.download_resources_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#15133D] text-white rounded-lg hover:bg-[#1a1650] transition-colors font-medium"
-              >
-                Download Resources
-                <DownloadIcon style={{ color: "#ffffff" }} />
-              </a>
-            )}
+          {/* What to Expect - 40% width */}
+          <div className="lg:w-[40%]">
+            <div>
+              <h2 className="text-3xl font-bold text-[#1A2633] mb-8">What to Expect</h2>
+              {event.what_to_expect && event.what_to_expect.length > 0 ? (
+                <div 
+                  className="space-y-6 mb-8 pt-6 rounded-[14px]"
+                  style={{
+                    borderTop: '1px solid #0000001A'
+                  }}
+                >
+                  {event.what_to_expect.map((item, index) => {
+                    // Handle both string and object formats
+                    const itemObj = item as any
+                    const itemTitle = typeof itemObj === 'object' && itemObj !== null && itemObj.title ? itemObj.title : item
+                    const itemDescription = typeof itemObj === 'object' && itemObj !== null && itemObj.description ? itemObj.description : null
+                    
+                    return (
+                      <div key={index} className="flex items-start gap-4">
+                        <div className="flex-shrink-0 mt-1">
+                          <div 
+                            className="rounded-full p-1.5 flex items-center justify-center"
+                            style={{ 
+                              background: '#DBEAFE',
+                              border: '1.67px solid #155DFC'
+                            }}
+                          >
+                            <FavoriteBorderIcon 
+                              style={{ 
+                                color: "#155DFC", 
+                                fontSize: '20px' 
+                              }} 
+                            />
+                          </div>
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-[#1A2633] text-lg mb-2">{itemTitle}</h3>
+                          {itemDescription && (
+                            <p className="text-[#666666] leading-relaxed text-sm">{itemDescription}</p>
+                          )}
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              ) : (
+                <p className="text-[#666666] text-lg mb-8">More details coming soon.</p>
+              )}
+              
+              {/* Livestream Section - Only this section has background */}
+              {event.livestream_available && (
+                <div 
+                  className="mt-8 pt-8 px-6 pb-6 rounded-[14px] border-t border-[#BEDBFF]"
+                  style={{ background: '#EFF6FF' }}
+                >
+                  <h3 className="text-xl font-bold text-[#1A2633] mb-3">Livestream Available</h3>
+                  <p className="text-[#666666] text-sm leading-relaxed">
+                    Can't attend in person? Join our livestream on our website and social media!
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
-        {/* Speaker Details */}
-        {event.speakers && event.speakers.length > 0 && (
-          <div className="mb-16">
-            <h2 className="text-2xl font-bold text-[#1A2633] mb-8">Speaker Details</h2>
+        {/* Speaker Details - Separate Section */}
+        {event.speakers && Array.isArray(event.speakers) && event.speakers.length > 0 && (
+          <div className="mt-20 mb-20">
+            <h2 className="text-3xl font-bold text-[#1A2633] mb-12">Speaker Details</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {event.speakers.map((speaker, index) => (
-                <div key={index} className="bg-white rounded-lg shadow-md p-6">
-                  {speaker.image_url && (
-                    <div className="mb-4">
+              {event.speakers.map((speaker: any, index: number) => (
+                <div 
+                  key={index} 
+                  className="bg-white rounded-[12px] p-8 text-center"
+                  style={{
+                    border: '1px solid #E6E6E6'
+                  }}
+                >
+                  {speaker?.image_url && (
+                    <div className="mb-6 flex justify-center">
                       <LazyImage
                         src={speaker.image_url}
                         alt={speaker.name || 'Speaker'}
-                        className="w-24 h-24 rounded-full object-cover mx-auto"
-                        width="96"
-                        height="96"
+                        className="w-32 h-32 rounded-full object-cover border-4 border-gray-100"
+                        width="128"
+                        height="128"
                       />
                     </div>
                   )}
-                  <h3 className="text-xl font-bold text-[#1A2633] mb-2 text-center">
-                    {speaker.name || 'Speaker'}
+                  <h3 className="text-2xl font-bold text-[#1A2633] mb-4">
+                    {speaker?.name || 'Speaker'}
                   </h3>
-                  <p className="text-[#333333] text-sm text-center">
-                    {speaker.description || speaker.bio || ''}
+                  <p className="text-[#666666] leading-relaxed text-sm">
+                    {speaker?.description || speaker?.bio || ''}
                   </p>
                 </div>
               ))}

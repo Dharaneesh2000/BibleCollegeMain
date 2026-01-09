@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
-import JourneyFooter from '../JourneyFooter'
 
 interface Speaker {
   name: string
@@ -22,10 +21,9 @@ interface NewsEvent {
   image_path: string | null
   read_more_link: string | null
   about_content: string | null
-  what_to_expect: string[] | null
-  download_resources_url: string | null
-  download_resources_file_name: string | null
+  what_to_expect: Array<{ title: string; description?: string } | string> | null
   speakers: Speaker[] | null
+  livestream_available: boolean
   is_active: boolean
 }
 
@@ -43,17 +41,14 @@ const NewsEventsManagement = () => {
     location: '',
     read_more_link: '',
     about_content: '',
-    what_to_expect: [] as string[],
-    download_resources_url: '',
+    what_to_expect: [] as Array<{ title: string; description: string }>,
+    livestream_available: false,
     is_active: true,
   })
   const [speakers, setSpeakers] = useState<Speaker[]>([])
-  const [newSpeaker, setNewSpeaker] = useState({ name: '', description: '', bio: '' })
-  const [newSpeakerImageFile, setNewSpeakerImageFile] = useState<File | null>(null)
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [heroImageFile, setHeroImageFile] = useState<File | null>(null)
   const [speakerImageFiles, setSpeakerImageFiles] = useState<{ [key: number]: File }>({})
-  const [resourcesFile, setResourcesFile] = useState<File | null>(null)
   const [uploading, setUploading] = useState(false)
 
   useEffect(() => {
@@ -89,18 +84,9 @@ const NewsEventsManagement = () => {
     }
   }
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'image' | 'hero' | 'speaker' | 'resources' | 'new-speaker') => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'image' | 'hero' | 'speaker') => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0]
-      
-      if (type === 'resources') {
-        if (file.size > 10 * 1024 * 1024) {
-          alert('File size must be less than 10MB')
-          return
-        }
-        setResourcesFile(file)
-        return
-      }
       
       // Validate file size (5MB max for images)
       if (file.size > 5 * 1024 * 1024) {
@@ -117,8 +103,6 @@ const NewsEventsManagement = () => {
         setImageFile(file)
       } else if (type === 'hero') {
         setHeroImageFile(file)
-      } else if (type === 'new-speaker') {
-        setNewSpeakerImageFile(file)
       } else if (type === 'speaker') {
         const index = parseInt(e.target.dataset.index || '0')
         setSpeakerImageFiles({ ...speakerImageFiles, [index]: file })
@@ -149,28 +133,6 @@ const NewsEventsManagement = () => {
     }
   }
 
-  const uploadFile = async (file: File, itemId: string): Promise<{ url: string; fileName: string } | null> => {
-    try {
-      const fileName = `${itemId}-${Date.now()}-${file.name}`
-      const filePath = `resources/${fileName}`
-
-      const { error: uploadError } = await supabase.storage
-        .from('news-events-images')
-        .upload(filePath, file, { upsert: true })
-
-      if (uploadError) throw uploadError
-
-      const { data } = supabase.storage
-        .from('news-events-images')
-        .getPublicUrl(filePath)
-
-      return { url: data.publicUrl, fileName: file.name }
-    } catch (error) {
-      console.error('Error uploading file:', error)
-      return null
-    }
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setUploading(true)
@@ -180,8 +142,6 @@ const NewsEventsManagement = () => {
       let imageUrl = editingItem?.image_url || null
       let heroImageUrl = editingItem?.hero_image_url || null
       let imagePath = editingItem?.image_path || null
-      let resourcesUrl = formData.download_resources_url || null
-      let resourcesFileName = null
 
       // Upload regular image if provided
       if (imageFile) {
@@ -215,15 +175,6 @@ const NewsEventsManagement = () => {
         })
       )
 
-      // Upload resources file if provided
-      if (resourcesFile) {
-        const fileData = await uploadFile(resourcesFile, itemId)
-        if (fileData) {
-          resourcesUrl = fileData.url
-          resourcesFileName = fileData.fileName
-        }
-      }
-
       const eventData = {
         title: formData.title,
         description: formData.description,
@@ -237,9 +188,8 @@ const NewsEventsManagement = () => {
         read_more_link: formData.read_more_link || null,
         about_content: formData.about_content || null,
         what_to_expect: formData.what_to_expect.length > 0 ? JSON.stringify(formData.what_to_expect) : null,
-        download_resources_url: resourcesUrl,
-        download_resources_file_name: resourcesFileName,
         speakers: updatedSpeakers.length > 0 ? JSON.stringify(updatedSpeakers) : null,
+        livestream_available: formData.livestream_available,
         is_active: formData.is_active,
         updated_at: new Date().toISOString(),
       }
@@ -273,6 +223,10 @@ const NewsEventsManagement = () => {
 
   const handleEdit = (item: NewsEvent) => {
     setEditingItem(item)
+    // Normalize what_to_expect - convert strings to objects
+    const normalizedWhatToExpect = (item.what_to_expect || []).map((item: any) => 
+      typeof item === 'string' ? { title: item, description: '' } : { title: item.title || '', description: item.description || '' }
+    )
     setFormData({
       title: item.title,
       description: item.description,
@@ -282,8 +236,8 @@ const NewsEventsManagement = () => {
       location: item.location || '',
       read_more_link: item.read_more_link || '',
       about_content: item.about_content || '',
-      what_to_expect: item.what_to_expect || [],
-      download_resources_url: item.download_resources_url || '',
+      what_to_expect: normalizedWhatToExpect,
+      livestream_available: item.livestream_available || false,
       is_active: item.is_active,
     })
     setSpeakers(item.speakers || [])
@@ -307,12 +261,12 @@ const NewsEventsManagement = () => {
   }
 
   const addWhatToExpect = () => {
-    setFormData({ ...formData, what_to_expect: [...formData.what_to_expect, ''] })
+    setFormData({ ...formData, what_to_expect: [...formData.what_to_expect, { title: '', description: '' }] })
   }
 
-  const updateWhatToExpect = (index: number, value: string) => {
+  const updateWhatToExpect = (index: number, field: 'title' | 'description', value: string) => {
     const updated = [...formData.what_to_expect]
-    updated[index] = value
+    updated[index] = { ...updated[index] as { title: string; description: string }, [field]: value }
     setFormData({ ...formData, what_to_expect: updated })
   }
 
@@ -322,25 +276,26 @@ const NewsEventsManagement = () => {
   }
 
   const addSpeaker = () => {
-    if (newSpeaker.name) {
-      const nextIndex = speakers.length
-      setSpeakers([...speakers, { ...newSpeaker, image_url: null }])
-      // If there's an image file for the new speaker, store it with the new index
-      if (newSpeakerImageFile) {
-        setSpeakerImageFiles({ ...speakerImageFiles, [nextIndex]: newSpeakerImageFile })
-      }
-      setNewSpeaker({ name: '', description: '', bio: '' })
-      setNewSpeakerImageFile(null)
-      // Reset the file input
-      const fileInput = document.querySelector('input[data-type="new-speaker"]') as HTMLInputElement
-      if (fileInput) fileInput.value = ''
-    }
+    setSpeakers([...speakers, { name: '', description: '', bio: '', image_url: null }])
   }
 
   const removeSpeaker = (index: number) => {
-    setSpeakers(speakers.filter((_, i) => i !== index))
-    const newFiles = { ...speakerImageFiles }
-    delete newFiles[index]
+    const updatedSpeakers = speakers.filter((_, i) => i !== index)
+    setSpeakers(updatedSpeakers)
+    
+    // Re-map image files after removal
+    const newFiles: { [key: number]: File } = {}
+    Object.keys(speakerImageFiles).forEach((key) => {
+      const oldIndex = parseInt(key)
+      if (oldIndex < index) {
+        // Keep files before the removed index
+        newFiles[oldIndex] = speakerImageFiles[oldIndex]
+      } else if (oldIndex > index) {
+        // Shift files after the removed index down by 1
+        newFiles[oldIndex - 1] = speakerImageFiles[oldIndex]
+      }
+      // Skip the file at the removed index
+    })
     setSpeakerImageFiles(newFiles)
   }
 
@@ -355,16 +310,13 @@ const NewsEventsManagement = () => {
       read_more_link: '',
       about_content: '',
       what_to_expect: [],
-      download_resources_url: '',
+      livestream_available: false,
       is_active: true,
     })
     setSpeakers([])
-    setNewSpeaker({ name: '', description: '', bio: '' })
-    setNewSpeakerImageFile(null)
     setImageFile(null)
     setHeroImageFile(null)
     setSpeakerImageFiles({})
-    setResourcesFile(null)
     setEditingItem(null)
     setShowForm(false)
   }
@@ -525,25 +477,40 @@ const NewsEventsManagement = () => {
                   + Add Item
                 </button>
               </div>
-              <div className="space-y-2">
-                {formData.what_to_expect.map((item, index) => (
-                  <div key={index} className="flex gap-2">
-                    <input
-                      type="text"
-                      value={item}
-                      onChange={(e) => updateWhatToExpect(index, e.target.value)}
-                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D]"
-                      placeholder="e.g., Worship & Prayer"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removeWhatToExpect(index)}
-                      className="px-3 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                ))}
+              <div className="space-y-4">
+                {formData.what_to_expect.map((item, index) => {
+                  const itemObj = typeof item === 'string' ? { title: item, description: '' } : item
+                  return (
+                    <div key={index} className="border p-4 rounded-lg bg-gray-50">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-medium text-gray-700">Item {index + 1}</span>
+                        <button
+                          type="button"
+                          onClick={() => removeWhatToExpect(index)}
+                          className="px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                      <div className="space-y-2">
+                        <input
+                          type="text"
+                          value={itemObj.title}
+                          onChange={(e) => updateWhatToExpect(index, 'title', e.target.value)}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D]"
+                          placeholder="Title (e.g., Worship & Prayer)"
+                        />
+                        <textarea
+                          value={itemObj.description}
+                          onChange={(e) => updateWhatToExpect(index, 'description', e.target.value)}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D]"
+                          placeholder="Description (e.g., Powerful worship session and dedicated prayer time)"
+                          rows={2}
+                        />
+                      </div>
+                    </div>
+                  )
+                })}
                 {formData.what_to_expect.length === 0 && (
                   <p className="text-sm text-gray-500">No items added. Click "Add Item" to add expectations.</p>
                 )}
@@ -554,16 +521,23 @@ const NewsEventsManagement = () => {
             <div className="border-b pb-4">
               <div className="flex justify-between items-center mb-3">
                 <h4 className="text-lg font-semibold">Speaker Details</h4>
+                <button
+                  type="button"
+                  onClick={addSpeaker}
+                  className="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600"
+                >
+                  + Add Speaker
+                </button>
               </div>
-              <div className="space-y-4 mb-4">
+              <div className="space-y-4">
                 {speakers.map((speaker, index) => (
-                  <div key={index} className="border p-4 rounded-lg">
-                    <div className="flex justify-between items-start mb-2">
-                      <h5 className="font-medium">Speaker {index + 1}</h5>
+                  <div key={index} className="border p-4 rounded-lg bg-gray-50">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-sm font-medium text-gray-700">Speaker {index + 1}</span>
                       <button
                         type="button"
                         onClick={() => removeSpeaker(index)}
-                        className="text-red-500 hover:text-red-700 text-sm"
+                        className="px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600"
                       >
                         Remove
                       </button>
@@ -608,76 +582,9 @@ const NewsEventsManagement = () => {
                     </div>
                   </div>
                 ))}
-              </div>
-              <div className="border p-3 rounded-lg bg-gray-50">
-                <h5 className="font-medium mb-2">Add New Speaker</h5>
-                <div className="space-y-2">
-                  <input
-                    type="text"
-                    value={newSpeaker.name}
-                    onChange={(e) => setNewSpeaker({ ...newSpeaker, name: e.target.value })}
-                    placeholder="Speaker Name"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D]"
-                  />
-                  <textarea
-                    value={newSpeaker.description}
-                    onChange={(e) => setNewSpeaker({ ...newSpeaker, description: e.target.value, bio: e.target.value })}
-                    placeholder="Speaker Bio/Description"
-                    rows={2}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D]"
-                  />
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Speaker Photo</label>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      data-type="new-speaker"
-                      onChange={(e) => handleImageChange(e, 'new-speaker')}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D]"
-                    />
-                    {newSpeakerImageFile && (
-                      <p className="mt-1 text-xs text-gray-600">Selected: {newSpeakerImageFile.name}</p>
-                    )}
-                  </div>
-                  <button
-                    type="button"
-                    onClick={addSpeaker}
-                    className="w-full px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-                  >
-                    Add Speaker
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Resources */}
-            <div className="border-b pb-4">
-              <h4 className="text-lg font-semibold mb-3">Download Resources</h4>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Resource File (PDF, DOC, etc. max 10MB)
-                </label>
-                <input
-                  type="file"
-                  accept=".pdf,.doc,.docx"
-                  onChange={(e) => handleImageChange(e, 'resources')}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D]"
-                />
-                {formData.download_resources_url && !resourcesFile && (
-                  <p className="mt-2 text-sm text-gray-600">
-                    Current: {editingItem?.download_resources_file_name || 'Resource file'}
-                  </p>
+                {speakers.length === 0 && (
+                  <p className="text-sm text-gray-500">No speakers added. Click "Add Speaker" to add speakers.</p>
                 )}
-              </div>
-              <div className="mt-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Or Resource URL</label>
-                <input
-                  type="url"
-                  value={formData.download_resources_url}
-                  onChange={(e) => setFormData({ ...formData, download_resources_url: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D]"
-                  placeholder="https://..."
-                />
               </div>
             </div>
 
@@ -704,6 +611,18 @@ const NewsEventsManagement = () => {
                 />
                 <label htmlFor="is_active" className="text-sm font-medium text-gray-700">
                   Active (visible on website)
+                </label>
+              </div>
+              <div className="flex items-center mt-4">
+                <input
+                  type="checkbox"
+                  id="livestream_available"
+                  checked={formData.livestream_available}
+                  onChange={(e) => setFormData({ ...formData, livestream_available: e.target.checked })}
+                  className="mr-2"
+                />
+                <label htmlFor="livestream_available" className="text-sm font-medium text-gray-700">
+                  Livestream Available
                 </label>
               </div>
             </div>
@@ -765,9 +684,6 @@ const NewsEventsManagement = () => {
       {items.length === 0 && (
         <div className="text-center py-12 text-gray-500">No news/events yet. Add your first one!</div>
       )}
-
-      {/* Journey Footer */}
-      <JourneyFooter />
     </div>
   )
 }
