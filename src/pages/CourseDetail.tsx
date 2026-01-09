@@ -9,6 +9,7 @@ import CourseRequirements from '../components/CourseRequirements'
 import ContactSection from '../components/ContactSection'
 import EnrollCard from '../components/EnrollCard'
 import SEO from '../components/SEO'
+import Loader from '../components/common/Loader'
 import { getCourseStructuredData, getBreadcrumbStructuredData } from '../utils/seoData'
 
 interface Course {
@@ -81,13 +82,7 @@ const CourseDetail = () => {
   }
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-gray-600">Loading course...</p>
-        </div>
-      </div>
-    )
+    return <Loader fullScreen message="Loading course..." />
   }
 
   if (!course) {

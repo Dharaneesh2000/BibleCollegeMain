@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LazyImage from './LazyImage';
+import Loader from './common/Loader';
 
 interface NewsEvent {
   id: string;
@@ -73,9 +74,7 @@ const NewsEvents = () => {
     return (
       <section className="py-16 bg-white">
         <div className="container mx-auto px-8 md:px-12 lg:px-16">
-          <div className="text-center py-12">
-            <p className="text-gray-600">Loading news and events...</p>
-          </div>
+          <Loader message="Loading news and events..." />
         </div>
       </section>
     );

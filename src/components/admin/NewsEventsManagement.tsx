@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
+import Loader from '../common/Loader'
 
 interface Speaker {
   name: string
@@ -322,7 +323,7 @@ const NewsEventsManagement = () => {
   }
 
   if (loading) {
-    return <div className="text-center py-12">Loading...</div>
+    return <Loader message="Loading..." />
   }
 
   return (

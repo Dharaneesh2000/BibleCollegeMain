@@ -8,6 +8,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import LazyImage from '../components/LazyImage'
 import SEO from '../components/SEO'
+import Loader from '../components/common/Loader'
 
 interface Event {
   id: string
@@ -156,13 +157,7 @@ const EventDetail = () => {
   }
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-gray-600">Loading event...</p>
-        </div>
-      </div>
-    )
+    return <Loader fullScreen message="Loading event..." />
   }
 
   if (!event) {

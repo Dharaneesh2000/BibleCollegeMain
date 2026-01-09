@@ -4,6 +4,7 @@ import { supabase } from "../lib/supabase";
 import SearchIcon from "@mui/icons-material/Search";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import LazyImage from '../components/LazyImage';
+import Loader from '../components/common/Loader';
 
 interface NewsEvent {
   id: string;
@@ -90,9 +91,7 @@ const NewsEventsPage = () => {
     return (
       <div className="min-h-screen bg-white py-16">
         <div className="container mx-auto px-8 md:px-12 lg:px-16">
-          <div className="text-center py-12">
-            <p className="text-gray-600">Loading events...</p>
-          </div>
+          <Loader message="Loading events..." />
         </div>
       </div>
     );

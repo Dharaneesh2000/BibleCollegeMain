@@ -5,6 +5,7 @@ import ContactSubmissions from '../components/admin/ContactSubmissions'
 import NewsEventsManagement from '../components/admin/NewsEventsManagement'
 import TestimonialsManagement from '../components/admin/TestimonialsManagement'
 import CoursesManagement from '../components/admin/CoursesManagement'
+import Loader from '../components/common/Loader'
 
 const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState('contact')
@@ -52,7 +53,7 @@ const AdminDashboard = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#15133D]">
-        <div className="text-white text-lg">Loading...</div>
+        <Loader size="large" />
       </div>
     )
   }

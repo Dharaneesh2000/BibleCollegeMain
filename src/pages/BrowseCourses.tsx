@@ -6,6 +6,7 @@ import { supabase } from '../lib/supabase'
 import SEO from '../components/SEO'
 import { getBreadcrumbStructuredData } from '../utils/seoData'
 import LazyImage from '../components/LazyImage'
+import Loader from '../components/common/Loader'
 
 interface Course {
   id: string
@@ -157,7 +158,7 @@ const BrowseCourses = () => {
 
         {/* Courses Grid */}
         {loading ? (
-          <div className="text-center py-12 text-gray-500">Loading courses...</div>
+          <Loader message="Loading courses..." />
         ) : filteredCourses.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-[18px] font-[400] text-[#636363]">

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import TestimonialsBackground from '../../assets/images/Background.png'
 import { supabase } from '../lib/supabase'
 import LazyImage from './LazyImage'
+import Loader from './common/Loader'
 
 interface Testimonial {
   id: string
@@ -63,9 +64,7 @@ const Testimonials = () => {
         }}
       >
         <div className="relative container mx-auto px-4">
-          <div className="text-center py-12">
-            <p className="text-white">Loading testimonials...</p>
-          </div>
+          <Loader message="Loading testimonials..." textColor="light" />
         </div>
       </section>
     );

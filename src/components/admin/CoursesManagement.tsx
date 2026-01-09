@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
+import Loader from '../common/Loader'
 
 interface Course {
   id: string
@@ -734,7 +735,7 @@ const CoursesManagement = () => {
   }
 
   if (loading) {
-    return <div className="text-center py-12 text-gray-500">Loading...</div>
+    return <Loader message="Loading..." />
   }
 
   // All menu items - combining form and content

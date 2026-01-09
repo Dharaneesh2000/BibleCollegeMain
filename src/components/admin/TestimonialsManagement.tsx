@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
+import Loader from '../common/Loader'
 
 interface Testimonial {
   id: string
@@ -186,7 +187,7 @@ const TestimonialsManagement = () => {
   }
 
   if (loading) {
-    return <div className="text-center py-12">Loading...</div>
+    return <Loader message="Loading..." />
   }
 
   return (
