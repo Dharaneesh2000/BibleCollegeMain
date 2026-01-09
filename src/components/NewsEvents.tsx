@@ -48,10 +48,10 @@ const NewsEvents = () => {
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
       });
     } catch {
       return dateString;
@@ -82,7 +82,11 @@ const NewsEvents = () => {
 
   return (
     <>
-      <section className="py-16 bg-white" aria-labelledby="news-events-heading">
+      <section
+        className="min-h-[821px] py-16 flex items-center"
+        style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #EAE9FE 100%)' }}
+        aria-labelledby="news-events-heading"
+      >
         <div className="container mx-auto px-8 md:px-12 lg:px-16">
           <div className="flex justify-between items-start mb-12">
             <div>
@@ -93,7 +97,7 @@ const NewsEvents = () => {
                 Learn from dedicated mentors who are experts in their fields and passionate about your<span className="hidden lg:inline"><br /></span> spiritual and academic growth.
               </p>
             </div>
-            <button 
+            <button
               onClick={() => navigate('/news')}
               className="flex items-center gap-2 px-4 py-2 rounded-[6px] bg-[#15133D] text-[12px] font-medium text-[#ffffff] hover:bg-[#1a1650] transition-colors"
             >
@@ -106,38 +110,38 @@ const NewsEvents = () => {
               <p>No news or events available at the moment.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {news.map((item) => (
                 <article
                   key={item.id}
-                  className="bg-white rounded-[12px] shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+                  className="bg-white rounded-[12px] shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer w-full flex flex-col"
                   onClick={() => navigate(`/news/${item.id}`)}
                 >
-                  <div className="p-[15px]">
-                    <div className="aspect-video overflow-hidden rounded-[12px]">
+                  <div className="p-[20px]">
+                    <div className="w-full aspect-video overflow-hidden rounded-[12px]">
                       <LazyImage
                         src={item.image_url || "/images/Events.png"}
                         alt={`${item.title} - News and events at God's Will Bible College`}
                         className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 rounded-[12px]"
-                        width="400"
-                        height="225"
+                        width="448"
+                        height="252"
                         onError={(e) => {
                           (e.target as HTMLImageElement).src = "/images/Events.png";
                         }}
                       />
                     </div>
                   </div>
-                  <div className="p-6">
-                    <h3 className="text-[18px] font-semibold text-[#1A2633] mb-2 line-clamp-2">
+                  <div className="px-[20px] pb-[20px] flex-1 flex flex-col">
+                    <h3 className="text-[20px] font-semibold text-[#1A2633] mb-2 line-clamp-2 leading-snug">
                       {item.title}
                     </h3>
-                    <p className="text-bible-gold font-medium mb-3">{formatDate(item.date)}</p>
-                    <p className="text-[14px] font-normal text-[#333333] mb-4">
-                      {truncateDescription(item.description, 52)}
+                    <p className="text-bible-gold font-medium mb-3 text-[16px]">{formatDate(item.date)}</p>
+                    <p className="text-[16px] font-normal text-[#333333] mb-4 flex-1 line-clamp-3">
+                      {truncateDescription(item.description, 100)}
                     </p>
                     <button
                       onClick={(e) => handleReadMore(item, e)}
-                      className="text-bible-blue font-medium hover:text-bible-purple transition-colors duration-200 cursor-pointer"
+                      className="text-bible-blue font-medium hover:text-bible-purple transition-colors duration-200 cursor-pointer text-left mt-auto"
                     >
                       Read More
                     </button>

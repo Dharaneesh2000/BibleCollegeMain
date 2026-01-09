@@ -92,12 +92,11 @@ const Testimonials = () => {
 
   return (
     <section
-      className="py-16 relative overflow-hidden bg-cover bg-center bg-no-repeat"
+      className="py-20 lg:py-28 relative overflow-hidden bg-cover bg-center bg-no-repeat flex items-center"
       style={{
         backgroundImage: `url(${TestimonialsBackground})`,
         backgroundSize: 'cover',
         backgroundAttachment: 'fixed',
-        minHeight: '100%',
       }}
       aria-labelledby="testimonials-heading"
     >
@@ -114,7 +113,7 @@ const Testimonials = () => {
             {/* Navigation arrows */}
             {testimonials.length > 2 && (
               <div className="flex space-x-2 flex-shrink-0">
-                <button 
+                <button
                   onClick={handlePrev}
                   disabled={currentIndex === 0}
                   className="w-10 h-10 border-2 border-white rounded-full flex items-center justify-center bg-[#ffffff33] hover:bg-[#ffffff55] transition-colors duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
@@ -123,7 +122,7 @@ const Testimonials = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
-                <button 
+                <button
                   onClick={handleNext}
                   disabled={currentIndex === maxIndex}
                   className="w-10 h-10 border-2 border-white rounded-full flex items-center justify-center bg-[#ffffff33] hover:bg-[#ffffff55] transition-colors duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
@@ -139,18 +138,18 @@ const Testimonials = () => {
 
         {/* Testimonial cards */}
         <div className="relative overflow-hidden">
-          <div 
+          <div
             className="flex transition-transform duration-500 ease-in-out cursor-grab active:cursor-grabbing"
             style={{ transform: `translateX(-${currentIndex * 51}%)` }}
           >
             {testimonials.map((testimonial) => (
-              <div 
-                key={testimonial.id} 
+              <div
+                key={testimonial.id}
                 className="flex-shrink-0 px-3"
                 style={{ width: '49%' }}
               >
-                <div 
-                  className="p-8 relative h-full select-none"
+                <div
+                  className="p-[36px] relative h-full min-h-[364px] select-none flex flex-col justify-between"
                   style={{
                     borderRadius: '50px 50px 0px 50px',
                     border: '1px solid #FFFFFF',
@@ -158,42 +157,44 @@ const Testimonials = () => {
                     boxShadow: '0px 13px 19px 0px #00000012'
                   }}
                 >
-                  {/* Quote icon */}
-                  <div className="mb-4">
-                    <svg className="w-8 h-8 text-[#E7E7E7]" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849H0V3h9.983zm14.017 0v7.391c0 5.704-3.748 9.57-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849H14V3h10z"/>
-                    </svg>
+                  <div>
+                    {/* Quote icon */}
+                    <div className="mb-4">
+                      <svg className="w-8 h-8 text-[#E7E7E7]" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849H0V3h9.983zm14.017 0v7.391c0 5.704-3.748 9.57-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849H14V3h10z" />
+                      </svg>
+                    </div>
+
+                    {/* Testimonial text */}
+                    <p className="text-[20px] font-normal text-white mb-6 leading-relaxed break-words">
+                      {testimonial.text}
+                    </p>
                   </div>
-                  
-                  {/* Testimonial text */}
-                  <p className="text-[18px] font-normal text-white mb-6 leading-relaxed break-words">
-                    {testimonial.text}
-                  </p>
-                  
+
                   {/* Author info */}
                   <div className="flex items-center">
                     {testimonial.avatar_url ? (
-                      <div className="w-10 h-10 rounded-full mr-3 flex-shrink-0 overflow-hidden">
+                      <div className="w-[48px] h-[48px] rounded-full mr-3 flex-shrink-0 overflow-hidden">
                         <LazyImage
-                          src={testimonial.avatar_url} 
+                          src={testimonial.avatar_url}
                           alt={`${testimonial.author} - ${testimonial.title} testimonial at God's Will Bible College`}
                           className="w-full h-full object-cover"
-                          width="40"
-                          height="40"
+                          width="48"
+                          height="48"
                         />
                       </div>
                     ) : (
-                      <div className="w-10 h-10 bg-gray-600 rounded-full mr-3 flex-shrink-0 overflow-hidden">
+                      <div className="w-[48px] h-[48px] bg-gray-600 rounded-full mr-3 flex-shrink-0 overflow-hidden">
                         <div className="w-full h-full bg-gradient-to-br from-gray-500 to-gray-600 rounded-full flex items-center justify-center">
-                          <span className="text-white font-bold text-sm">
+                          <span className="text-white font-bold text-lg">
                             {testimonial.author[0]?.toUpperCase() || '?'}
                           </span>
                         </div>
                       </div>
                     )}
                     <div>
-                      <h4 className="font-bold text-sm text-white">{testimonial.author}</h4>
-                      <p className="text-gray-300 text-xs">{testimonial.title}</p>
+                      <h4 className="text-[18px] font-medium text-white">{testimonial.author}</h4>
+                      <p className="text-gray-300 text-sm">{testimonial.title}</p>
                     </div>
                   </div>
                 </div>

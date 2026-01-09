@@ -72,11 +72,11 @@ const EventDetail = () => {
           console.error('Error parsing speakers:', e)
           parsedSpeakers = []
         }
-        
+
         const parsedData = {
           ...data,
-          what_to_expect: typeof data.what_to_expect === 'string' 
-            ? JSON.parse(data.what_to_expect || '[]') 
+          what_to_expect: typeof data.what_to_expect === 'string'
+            ? JSON.parse(data.what_to_expect || '[]')
             : (Array.isArray(data.what_to_expect) ? data.what_to_expect : []),
           speakers: parsedSpeakers,
           livestream_available: data.livestream_available || false
@@ -178,7 +178,7 @@ const EventDetail = () => {
   const eventUrl = `https://godswillbiblecollege.com/news/${event.id}`
 
   return (
-    <div className="bg-white">
+    <div className="bg-white font-sans">
       <SEO
         title={`${event.title} - God's Will Bible College`}
         description={eventDescription.substring(0, 160)}
@@ -189,31 +189,41 @@ const EventDetail = () => {
       />
 
       {/* Hero Section */}
-      <div className="relative w-full h-[300px] overflow-hidden">
+      <div className="relative w-full h-[500px] overflow-hidden">
         <LazyImage
           src={event.hero_image_url || event.image_url || "/images/Events.png"}
           alt={event.title}
           className="w-full h-full object-cover"
           width="1920"
-          height="300"
+          height="500"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
-        <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12 lg:p-16 text-white">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">{event.title}</h1>
-          <div className="flex flex-wrap items-center gap-6 text-base md:text-lg">
-            <div className="flex items-center gap-2">
-              <CalendarTodayIcon style={{ fontSize: '20px' }} />
+        {/* Dark Gradient Overlay */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(180deg, rgba(10, 10, 35, 0.2) 0%, rgba(10, 10, 35, 0.6) 50%, rgba(10, 10, 35, 0.9) 100%)'
+          }}
+        />
+
+        {/* Hero Content */}
+        <div className="absolute bottom-0 left-0 right-0 py-8 md:py-12 lg:py-20 px-0 container mx-auto text-white">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight max-w-4xl tracking-tight">
+            {event.title}
+          </h1>
+          <div className="flex flex-wrap items-center gap-6 md:gap-10 text-sm md:text-base font-medium">
+            <div className="flex items-center gap-2.5">
+              <CalendarTodayIcon className="text-white" style={{ fontSize: '22px' }} />
               <span>{formatDate(event.date)}</span>
             </div>
             {(event.start_time || event.end_time) && (
-              <div className="flex items-center gap-2">
-                <AccessTimeIcon style={{ fontSize: '20px' }} />
+              <div className="flex items-center gap-2.5">
+                <AccessTimeIcon className="text-white" style={{ fontSize: '22px' }} />
                 <span>{formatTimeRange(event.start_time, event.end_time)}</span>
               </div>
             )}
             {event.location && (
-              <div className="flex items-center gap-2">
-                <LocationOnIcon style={{ fontSize: '20px' }} />
+              <div className="flex items-center gap-2.5">
+                <LocationOnIcon className="text-white" style={{ fontSize: '22px' }} />
                 <span>{event.location}</span>
               </div>
             )}
@@ -221,56 +231,41 @@ const EventDetail = () => {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="container mx-auto px-8 md:px-12 lg:px-16 py-16">
-        <div className="flex flex-col lg:flex-row gap-12 mb-20">
-          {/* About this Event - 60% width */}
-          <div className="lg:w-[60%]">
-            <h2 className="text-3xl font-bold text-[#1A2633] mb-8">About this Event</h2>
-            <div className="text-[#333333] leading-relaxed text-lg whitespace-pre-wrap">
+      {/* Main Content Container */}
+      <div className="container mx-auto px-0 py-20 lg:py-24">
+        <div className="flex flex-col lg:flex-row gap-16 mb-24">
+
+          {/* Left Column: About Event (65%) */}
+          <div className="lg:w-[65%]">
+            <h2 className="text-[28px] font-bold text-[#333333] mb-8 font-poppins">About this Event</h2>
+            <div className="text-[#545454] leading-[1.8] text-[20px] font-normal whitespace-pre-wrap font-poppins">
               {event.about_content || event.description}
             </div>
           </div>
 
-          {/* What to Expect - 40% width */}
-          <div className="lg:w-[40%]">
-            <div>
-              <h2 className="text-3xl font-bold text-[#1A2633] mb-8">What to Expect</h2>
+          {/* Right Column: What to Expect (35%) */}
+          <div className="lg:w-[35%] space-y-8">
+            <div className="bg-white border border-[#E6E6E6] rounded-[20px] p-8 shadow-sm">
+              <h3 className="text-[24px] font-bold text-[#1A2633] mb-8 font-poppins">What to Expect</h3>
+
               {event.what_to_expect && event.what_to_expect.length > 0 ? (
-                <div 
-                  className="space-y-6 mb-8 pt-6 rounded-[14px]"
-                  style={{
-                    borderTop: '1px solid #0000001A'
-                  }}
-                >
+                <div className="space-y-6">
                   {event.what_to_expect.map((item, index) => {
-                    // Handle both string and object formats
                     const itemObj = item as any
-                    const itemTitle = typeof itemObj === 'object' && itemObj !== null && itemObj.title ? itemObj.title : item
-                    const itemDescription = typeof itemObj === 'object' && itemObj !== null && itemObj.description ? itemObj.description : null
-                    
+                    const itemTitle = typeof itemObj === 'object' && itemObj?.title ? itemObj.title : item
+                    const itemDescription = typeof itemObj === 'object' && itemObj?.description ? itemObj.description : null
+
                     return (
-                      <div key={index} className="flex items-start gap-4">
-                        <div className="flex-shrink-0 mt-1">
-                          <div 
-                            className="rounded-full p-1.5 flex items-center justify-center"
-                            style={{ 
-                              background: '#DBEAFE',
-                              border: '1.67px solid #155DFC'
-                            }}
-                          >
-                            <FavoriteBorderIcon 
-                              style={{ 
-                                color: "#155DFC", 
-                                fontSize: '20px' 
-                              }} 
-                            />
+                      <div key={index} className="flex flex-col gap-4 pb-6 border-b border-[#E6E6E6] last:border-0 last:pb-0">
+                        <div className="flex-shrink-0">
+                          <div className="w-10 h-10 rounded-full bg-[#E0F2FE] flex items-center justify-center text-[#0284C7]">
+                            <FavoriteBorderIcon style={{ fontSize: '20px' }} />
                           </div>
                         </div>
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-[#1A2633] text-lg mb-2">{itemTitle}</h3>
+                        <div>
+                          <h4 className="font-semibold text-[#333333] text-[16px] mb-2 font-poppins">{itemTitle}</h4>
                           {itemDescription && (
-                            <p className="text-[#666666] leading-relaxed text-sm">{itemDescription}</p>
+                            <p className="text-[#333333] text-[16px] font-normal leading-relaxed font-poppins">{itemDescription}</p>
                           )}
                         </div>
                       </div>
@@ -278,54 +273,46 @@ const EventDetail = () => {
                   })}
                 </div>
               ) : (
-                <p className="text-[#666666] text-lg mb-8">More details coming soon.</p>
-              )}
-              
-              {/* Livestream Section - Only this section has background */}
-              {event.livestream_available && (
-                <div 
-                  className="mt-8 pt-8 px-6 pb-6 rounded-[14px] border-t border-[#BEDBFF]"
-                  style={{ background: '#EFF6FF' }}
-                >
-                  <h3 className="text-xl font-bold text-[#1A2633] mb-3">Livestream Available</h3>
-                  <p className="text-[#666666] text-sm leading-relaxed">
-                    Can't attend in person? Join our livestream on our website and social media!
-                  </p>
-                </div>
+                <p className="text-[#64748B] italic">Details coming soon...</p>
               )}
             </div>
+
+            {/* Livestream Box */}
+            {event.livestream_available && (
+              <div className="p-6 bg-[#EFF6FF] rounded-[16px] border border-[#BFDBFE]">
+                <h4 className="font-bold text-[#1A2633] mb-2 font-poppins">Livestream Available</h4>
+                <p className="text-[#64748B] text-sm leading-relaxed font-poppins">
+                  Can't attend in person? Join our livestream online!
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Speaker Details - Separate Section */}
+        {/* Speaker Details */}
         {event.speakers && Array.isArray(event.speakers) && event.speakers.length > 0 && (
-          <div className="mt-20 mb-20">
-            <h2 className="text-3xl font-bold text-[#1A2633] mb-12">Speaker Details</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="mb-24">
+            <h2 className="text-[28px] font-bold text-[#333333] mb-12 font-poppins">Speaker Details</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {event.speakers.map((speaker: any, index: number) => (
-                <div 
-                  key={index} 
-                  className="bg-white rounded-[12px] p-8 text-center"
-                  style={{
-                    border: '1px solid #E6E6E6'
-                  }}
+                <div
+                  key={index}
+                  className="bg-white border border-[#E6E6E6] rounded-[20px] p-10 flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow"
                 >
-                  {speaker?.image_url && (
-                    <div className="mb-6 flex justify-center">
+                  <div className="mb-6 relative">
+                    <div className="w-[96px] h-[96px] rounded-full overflow-hidden border-[3px] border-white shadow-md">
                       <LazyImage
-                        src={speaker.image_url}
-                        alt={speaker.name || 'Speaker'}
-                        className="w-32 h-32 rounded-full object-cover border-4 border-gray-100"
-                        width="128"
-                        height="128"
+                        src={speaker.image_url || "/images/SpeakerPlaceholder.png"} // Fallback image needed
+                        alt={speaker.name}
+                        className="w-full h-full object-cover"
+                        width="96"
+                        height="96"
                       />
                     </div>
-                  )}
-                  <h3 className="text-2xl font-bold text-[#1A2633] mb-4">
-                    {speaker?.name || 'Speaker'}
-                  </h3>
-                  <p className="text-[#666666] leading-relaxed text-sm">
-                    {speaker?.description || speaker?.bio || ''}
+                  </div>
+                  <h3 className="text-[20px] font-medium text-[#0A0A0A] mb-3 font-poppins">{speaker.name}</h3>
+                  <p className="text-[#4A5565] text-[14px] font-normal leading-relaxed font-poppins max-w-xs">
+                    {speaker.description || speaker.bio}
                   </p>
                 </div>
               ))}
@@ -335,63 +322,84 @@ const EventDetail = () => {
 
         {/* Related Events */}
         {relatedEvents.length > 0 && (
-          <div>
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-2xl font-bold text-[#1A2633]">Related Events</h2>
+          <div className="mb-20">
+            <div className="flex justify-between items-center mb-10">
+              <h2 className="text-[48px] font-bold text-[#333333] font-poppins">Related Events</h2>
               <Link
                 to="/news"
-                className="flex items-center gap-2 px-4 py-2 bg-[#15133D] text-white rounded-lg hover:bg-[#1a1650] transition-colors text-sm font-medium"
+                className="px-6 py-2.5 bg-[#15133D] text-white rounded-[8px] text-sm font-semibold hover:bg-[#1a1650] transition-colors"
               >
-                View All
-                <ChevronRightIcon style={{ color: "#ffffff" }} />
+                View more &gt;
               </Link>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {relatedEvents.map((relatedEvent) => (
-                <article
+                <div
                   key={relatedEvent.id}
-                  className="bg-white rounded-[12px] shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+                  className="group cursor-pointer"
                   onClick={() => navigate(`/news/${relatedEvent.id}`)}
                 >
-                  <div className="p-[15px]">
-                    <div className="aspect-video overflow-hidden rounded-[12px]">
-                      <LazyImage
-                        src={relatedEvent.image_url || "/images/Events.png"}
-                        alt={relatedEvent.title}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 rounded-[12px]"
-                        width="400"
-                        height="225"
-                      />
-                    </div>
+                  <div className="rounded-[16px] overflow-hidden mb-5 aspect-[16/9]">
+                    <LazyImage
+                      src={relatedEvent.image_url || "/images/Events.png"}
+                      alt={relatedEvent.title}
+                      className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                      width="400"
+                      height="225"
+                    />
                   </div>
-                  <div className="p-6">
-                    <h3 className="text-[18px] font-semibold text-[#1A2633] mb-2 line-clamp-2">
-                      {relatedEvent.title}
-                    </h3>
-                    <div className="flex items-center gap-2 text-bible-gold font-medium text-sm mb-4">
-                      <CalendarTodayIcon style={{ fontSize: '18px' }} />
-                      <span>{formatCardDate(relatedEvent.date, relatedEvent.start_time)}</span>
-                    </div>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        navigate(`/news/${relatedEvent.id}`)
-                      }}
-                      className="text-bible-blue font-medium hover:text-bible-purple transition-colors duration-200 flex items-center gap-1"
-                    >
-                      View Details
-                      <ChevronRightIcon style={{ fontSize: '16px' }} />
-                    </button>
+                  <h3 className="text-[20px] font-bold text-[#1A2633] mb-3 leading-snug font-poppins group-hover:text-[#15133D] transition-colors">
+                    {relatedEvent.title}
+                  </h3>
+                  <p className="text-[#64748B] text-sm leading-relaxed mb-4 line-clamp-2 font-poppins">
+                    {relatedEvent.description}
+                  </p>
+
+                  <div className="flex items-center gap-2 text-[#2563EB] font-medium text-sm">
+                    <CalendarTodayIcon style={{ fontSize: '18px' }} />
+                    <span>{formatCardDate(relatedEvent.date, relatedEvent.start_time)}</span>
                   </div>
-                </article>
+                </div>
               ))}
             </div>
           </div>
         )}
+      </div>
+
+      {/* Begin Your Journey Section (Footer CTA) */}
+      <div className="bg-[#0B0A1F] py-24 text-center">
+        <div className="container mx-auto px-0">
+          <h2 className="text-[36px] md:text-[42px] font-bold text-white mb-4 font-poppins">
+            Begin Your Journey with Us
+          </h2>
+          <p className="text-[#A3A3A3] text-lg max-w-2xl mx-auto mb-10 font-poppins leading-relaxed">
+            Whether you're exploring your calling or ready to take the next step, we're here to walk with you. Discover how Grace Bible College can equip you for a lifetime of faithful ministry.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <Link
+              to="/academics"
+              className="px-8 py-3.5 bg-[#FDBA08] text-[#0F0E24] rounded-[8px] font-bold text-[15px] hover:bg-[#e0a507] transition-colors min-w-[180px]"
+            >
+              Explore Programs
+            </Link>
+            <button
+              onClick={() => {
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                  contactSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className="px-8 py-3.5 border border-[#3E3D55] text-white rounded-[8px] font-bold text-[15px] hover:bg-[#1a1835] transition-colors min-w-[180px] flex items-center justify-center gap-2"
+            >
+              Contact Us
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   )
 }
 
 export default EventDetail
-

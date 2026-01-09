@@ -23,7 +23,7 @@ const OurFaculty = () => {
   ];
 
   return (
-    <section className="py-16 bg-white relative overflow-hidden" aria-labelledby="our-faculty-heading">
+    <section className="min-h-[763px] py-16 bg-white relative overflow-hidden flex items-center" aria-labelledby="our-faculty-heading">
       <div className="container mx-auto px-8 md:px-12 lg:px-16">
         {/* Section Heading */}
         <div className="text-left mb-12">
@@ -37,7 +37,7 @@ const OurFaculty = () => {
         </div>
 
         {/* Faculty Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative justify-items-center">
           {/* Decorative dots in background */}
           <div
             className="absolute top-0 right-0 z-0 pointer-events-none"
@@ -52,26 +52,25 @@ const OurFaculty = () => {
 
           {/* Faculty Cards */}
           {faculty.map((member, index) => (
-            <div key={index} className="text-left group relative z-10">
-              <div className="relative overflow-hidden rounded-[12px] shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+            <div key={index} className="text-left group relative z-10 w-full max-w-[336px]">
+              <div className="relative overflow-hidden rounded-[12px] shadow-lg group-hover:shadow-xl transition-shadow duration-300 h-[407px]">
                 <LazyImage
                   src={member.image}
                   alt={`${member.name} - ${member.title} at God's Will Bible College, experienced faculty mentor`}
-                  className={`w-full h-96 group-hover:scale-105 transition-transform duration-300 ${
-                    index === 2 ? 'object-top object-cover' : 'object-cover'
-                  }`}
-                  width="400"
-                  height="400"
+                  className={`w-full h-full group-hover:scale-105 transition-transform duration-300 ${index === 2 ? 'object-top object-cover' : 'object-cover'
+                    }`}
+                  width="336"
+                  height="407"
                 />
 
                 {/* Overlay with blur only (no border) */}
                 <div
-                  className="absolute bottom-4 left-4 right-4 p-4 backdrop-blur-[4.7px] bg-white/80 rounded-[16px]"
+                  className="absolute bottom-4 left-4 right-4 p-[16px] backdrop-blur-[4.7px] bg-white rounded-[16px]"
                 >
-                  <h3 className="text-[18px] font-[700] text-[#333333] mb-1">
+                  <h3 className="text-[20px] font-bold text-[#333333] mb-1">
                     {member.name}
                   </h3>
-                  <p className="text-[14px] font-[500] text-[#4C4C4C]">
+                  <p className="text-[16px] font-medium text-[#4C4C4C]">
                     {member.title}
                   </p>
                 </div>

@@ -97,7 +97,7 @@ const FAQ = () => {
 
   return (
     <section
-      className="py-20 md:py-24"
+      className="py-20 lg:py-28 flex items-center"
       style={{
         background: 'linear-gradient(181.77deg, #E8E7EC 1.5%, #DBD9FF 147.24%)'
       }}
