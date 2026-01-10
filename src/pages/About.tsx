@@ -132,18 +132,6 @@ const About = () => {
 
           {/* Our Story */}
           <div>
-            <h2 
-              className="text-[#333333] mb-4"
-              style={{
-                fontSize: '30px',
-                fontWeight: 500,
-                lineHeight: '36px',
-                textAlign: 'left'
-              }}
-            >
-              Our Story
-            </h2>
-
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
               {/* Left side - Images */}
               <div className="lg:col-span-1 flex flex-col space-y-4" style={{ height: '100%' }}>
@@ -179,7 +167,18 @@ const About = () => {
               </div>
 
               {/* Right side - Text Content */}
-              <div className="lg:col-span-2 flex items-center" style={{ height: '100%' }}>
+              <div className="lg:col-span-2 flex flex-col justify-center" style={{ height: '100%' }}>
+                <h2 
+                  className="text-[#333333] mb-4"
+                  style={{
+                    fontSize: '30px',
+                    fontWeight: 500,
+                    lineHeight: '36px',
+                    textAlign: 'left'
+                  }}
+                >
+                  Our Story
+                </h2>
                 <p className="text-[#636363] leading-relaxed text-lg">
                   God's Will Bible College was founded in 2013 by Pastor John Reuben, a visionary leader with a heart for equipping the next generation of Christian ministers. After completing his theological studies in Aberdeen, Scotland and Birmingham, England, Pastor John returned to India with a burning passion to raise up leaders who would carry the Gospel to the ends of the earth. Together with his wife, Chinthija, and a dedicated team of faculty members, the college began its journey of providing quality theological education rooted in Scripture and empowered by the Holy Spirit. Since its inception, God's Will Bible College has trained and graduated over 300 students, many of whom have been ordained as pastors and evangelists. These alumni are now actively serving in various regions, impacting lives and communities through vibrant ministry. From humble beginnings to a thriving institution, the college continues to stand as a beacon of spiritual formation, academic excellence, and missional purpose.
                 </p>
