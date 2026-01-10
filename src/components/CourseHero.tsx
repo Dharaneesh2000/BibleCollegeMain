@@ -26,27 +26,33 @@ const CourseHero = ({
       }}
     >
       {/* Content */}
-      <div className="relative mx-auto px-3" style={{ maxWidth: '95%' }}>
+      <div className="relative mx-auto px-3 lg:pr-[38%] xl:pr-[36%]" style={{ maxWidth: '95%' }}>
         <div className="max-w-4xl">
           <h1 
-            className="mb-6"
+            className="mb-6 break-words"
             style={{ 
-              fontSize: '58px', 
+              fontSize: 'clamp(32px, 3.02vw + 18px, 58px)', 
               fontWeight: 600, 
               color: '#FFFFFF',
-              fontFamily: 'Montserrat, sans-serif'
+              fontFamily: 'Montserrat, sans-serif',
+              wordWrap: 'break-word',
+              overflowWrap: 'break-word',
+              lineHeight: '1.2'
             }}
           >
             {title}
           </h1>
           {description && (
             <p 
-              className="mb-8 leading-relaxed"
+              className="mb-8 leading-relaxed break-words"
               style={{ 
-                fontSize: '18px', 
+                fontSize: 'clamp(16px, 0.104vw + 15px, 18px)', 
                 fontWeight: 400, 
                 color: '#CFCFCF',
-                fontFamily: 'Montserrat, sans-serif'
+                fontFamily: 'Montserrat, sans-serif',
+                wordWrap: 'break-word',
+                overflowWrap: 'break-word',
+                maxWidth: '100%'
               }}
             >
               {description}
@@ -60,6 +66,7 @@ const CourseHero = ({
                 className="px-4 py-2 rounded-full flex items-center"
                 style={{
                   backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  border: '1px solid #FFFFFF',
                   fontSize: '14px',
                   fontWeight: 500,
                   color: '#FFFFFF',
@@ -88,6 +95,7 @@ const CourseHero = ({
                 className="px-4 py-2 rounded-full"
                 style={{
                   backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  border: '1px solid #FFFFFF',
                   fontSize: '14px',
                   fontWeight: 500,
                   color: '#FFFFFF',
@@ -103,6 +111,7 @@ const CourseHero = ({
                 className="px-4 py-2 rounded-full flex items-center"
                 style={{
                   backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  border: '1px solid #FFFFFF',
                   fontSize: '14px',
                   fontWeight: 500,
                   color: '#FFFFFF',

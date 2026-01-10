@@ -6,7 +6,6 @@ interface Requirement {
   title: string
   icon: string
   bgColor: string
-  borderColor: string
 }
 
 interface CourseRequirementsProps {
@@ -20,19 +19,16 @@ const CourseRequirements = ({ requirements }: CourseRequirementsProps) => {
       icon: "school",
       title: "12th Grade Completion Certificate",
       bgColor: "#EFF6FF",
-      borderColor: "#155DFC",
     },
     {
       icon: "certificate",
       title: "Minimum 50% aggregate marks",
       bgColor: "#F0FDF4",
-      borderColor: "#00A63E",
     },
     {
       icon: "document",
       title: "Character certificate from previous institution",
       bgColor: "#FAF5FF",
-      borderColor: "#9810FA",
     },
   ];
 
@@ -79,9 +75,6 @@ const CourseRequirements = ({ requirements }: CourseRequirementsProps) => {
             <div
               key={index}
               className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow duration-300 flex items-center space-x-3"
-              style={{
-                borderColor: requirement.borderColor,
-              }}
             >
               <div
                 className="w-14 h-14 rounded-lg flex items-center justify-center flex-shrink-0"

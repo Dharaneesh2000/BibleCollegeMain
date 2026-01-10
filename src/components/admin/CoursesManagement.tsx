@@ -56,7 +56,6 @@ interface Requirement {
   title: string
   icon: string
   bgColor: string
-  borderColor: string
 }
 
 const CoursesManagement = () => {
@@ -105,9 +104,9 @@ const CoursesManagement = () => {
     { year: '4th year', title: '', topics: [], color: '#F0B100' },
   ])
   const [requirements, setRequirements] = useState<Requirement[]>([
-    { title: '', icon: 'school', bgColor: '#EFF6FF', borderColor: '#155DFC' },
-    { title: '', icon: 'certificate', bgColor: '#F0FDF4', borderColor: '#00A63E' },
-    { title: '', icon: 'document', bgColor: '#FAF5FF', borderColor: '#9810FA' },
+    { title: '', icon: 'school', bgColor: '#EFF6FF' },
+    { title: '', icon: 'certificate', bgColor: '#F0FDF4' },
+    { title: '', icon: 'document', bgColor: '#FAF5FF' },
   ])
   const [overviewContent, setOverviewContent] = useState('')
 
@@ -164,12 +163,18 @@ const CoursesManagement = () => {
         ])
       }
       if (requirementsContent?.metadata?.requirements && Array.isArray(requirementsContent.metadata.requirements)) {
-        setRequirements(requirementsContent.metadata.requirements)
+        // Remove borderColor if it exists in old data
+        const cleanedRequirements = requirementsContent.metadata.requirements.map((req: any) => ({
+          title: req.title || '',
+          icon: req.icon || 'school',
+          bgColor: req.bgColor || '#EFF6FF'
+        }))
+        setRequirements(cleanedRequirements)
       } else {
         setRequirements([
-          { title: '', icon: 'school', bgColor: '#EFF6FF', borderColor: '#155DFC' },
-          { title: '', icon: 'certificate', bgColor: '#F0FDF4', borderColor: '#00A63E' },
-          { title: '', icon: 'document', bgColor: '#FAF5FF', borderColor: '#9810FA' },
+          { title: '', icon: 'school', bgColor: '#EFF6FF' },
+          { title: '', icon: 'certificate', bgColor: '#F0FDF4' },
+          { title: '', icon: 'document', bgColor: '#FAF5FF' },
         ])
       }
     } catch (error) {
@@ -1389,24 +1394,23 @@ const CoursesManagement = () => {
                             </div>
                           </div>
                           <div>
-                            <label className="block text-sm font-bold text-gray-700 mb-2">Card Style</label>
+                            <label className="block text-sm font-bold text-gray-700 mb-2">Card Background Color</label>
                             <select
-                              value={`${req.bgColor}-${req.borderColor}`}
+                              value={req.bgColor}
                               onChange={(e) => {
-                                const [bgColor, borderColor] = e.target.value.split('-')
                                 const newReqs = [...requirements]
-                                newReqs[index].bgColor = bgColor
-                                newReqs[index].borderColor = borderColor
+                                newReqs[index].bgColor = e.target.value
                                 setRequirements(newReqs)
                               }}
                               className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] focus:border-[#15133D] transition-all"
                             >
-                              <option value="#EFF6FF-#155DFC">Blue Style</option>
-                              <option value="#F0FDF4-#00A63E">Green Style</option>
-                              <option value="#FAF5FF-#9810FA">Purple Style</option>
-                              <option value="#FFF5F5-#EF4444">Red Style</option>
-                              <option value="#F0F9FF-#0EA5E9">Sky Blue Style</option>
-                              <option value="#FEF3C7-#F59E0B">Amber Style</option>
+                              <option value="#EFF6FF">Blue Background</option>
+                              <option value="#F0FDF4">Green Background</option>
+                              <option value="#FAF5FF">Purple Background</option>
+                              <option value="#FFF5F5">Red Background</option>
+                              <option value="#F0F9FF">Sky Blue Background</option>
+                              <option value="#FEF3C7">Amber Background</option>
+                              <option value="#F9FAFB">Gray Background</option>
                             </select>
                           </div>
                         </div>
