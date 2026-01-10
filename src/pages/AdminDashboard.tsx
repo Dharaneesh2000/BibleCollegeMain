@@ -5,6 +5,7 @@ import ContactSubmissions from '../components/admin/ContactSubmissions'
 import NewsEventsManagement from '../components/admin/NewsEventsManagement'
 import TestimonialsManagement from '../components/admin/TestimonialsManagement'
 import CoursesManagement from '../components/admin/CoursesManagement'
+import EnrollmentManagement from '../components/admin/EnrollmentManagement'
 import Loader from '../components/common/Loader'
 
 const AdminDashboard = () => {
@@ -60,6 +61,7 @@ const AdminDashboard = () => {
 
   const menuItems = [
     { id: 'contact', label: 'Contact Submissions', icon: '📧', color: 'bg-blue-500' },
+    { id: 'enrollments', label: 'Enrollments', icon: '📝', color: 'bg-indigo-500' },
     { id: 'news', label: 'News & Events', icon: '📰', color: 'bg-green-500' },
     { id: 'testimonials', label: 'Testimonials', icon: '💬', color: 'bg-purple-500' },
     { id: 'courses', label: 'Courses', icon: '📚', color: 'bg-orange-500' },
@@ -131,6 +133,32 @@ const AdminDashboard = () => {
         {/* Top Bar */}
         <header className="bg-white shadow-sm border-b sticky top-0 z-40">
           <div className="px-6 py-4">
+            {/* Breadcrumbs */}
+            <nav className="flex mb-4" aria-label="Breadcrumb">
+              <ol className="inline-flex items-center space-x-1 md:space-x-2 bg-gray-50 px-4 py-2 rounded-lg border border-gray-200">
+                <li className="inline-flex items-center">
+                  <button
+                    onClick={() => setActiveSection('contact')}
+                    className="inline-flex items-center text-sm font-medium text-gray-600 hover:text-[#15133D] transition-colors duration-200"
+                  >
+                    <svg className="w-4 h-4 mr-1.5 text-[#15133D]" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                    </svg>
+                    Admin Dashboard
+                  </button>
+                </li>
+                <li>
+                  <div className="flex items-center">
+                    <svg className="w-4 h-4 text-gray-400 mx-1.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd"></path>
+                    </svg>
+                    <span className="text-sm font-semibold text-[#15133D]">
+                      {menuItems.find(item => item.id === activeSection)?.label || 'Admin Panel'}
+                    </span>
+                  </div>
+                </li>
+              </ol>
+            </nav>
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-bold text-[#15133D]">
@@ -147,6 +175,7 @@ const AdminDashboard = () => {
         {/* Content Area */}
         <div className="p-6">
           {activeSection === 'contact' && <ContactSubmissions />}
+          {activeSection === 'enrollments' && <EnrollmentManagement />}
           {activeSection === 'news' && <NewsEventsManagement />}
           {activeSection === 'testimonials' && <TestimonialsManagement />}
           {activeSection === 'courses' && <CoursesManagement />}

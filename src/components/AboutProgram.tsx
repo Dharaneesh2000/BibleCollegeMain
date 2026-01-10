@@ -92,7 +92,8 @@ const AboutProgram = () => {
               <img 
                 src={ExpertFaculty} 
                 alt="Decorative border" 
-                className="absolute -top-5 -right-5 w-24 h-24 pointer-events-none z-20"
+                className="absolute -right-5 w-24 h-24 pointer-events-none z-20"
+                style={{ top: '3rem' }}
               />
             </div>
           </div>

@@ -50,9 +50,9 @@ const About = () => {
           background: 'linear-gradient(180deg, #FFFFFF 0%, #EAE9FE 100%)'
         }}
       >
-        <div className="container mx-auto px-4 max-w-7xl">
+        <div className="container mx-auto max-w-7xl">
           {/* Mission & Vision */}
-          <div className="mb-20">
+          <div className="mb-20" style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
             <h2 
               className="text-[#333333] text-center mb-4"
               style={{
@@ -131,7 +131,7 @@ const About = () => {
           </div>
 
           {/* Our Story */}
-          <div>
+          <div style={{ paddingLeft: '1rem', paddingRight: '1rem' }}>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
               {/* Left side - Images */}
               <div className="lg:col-span-1 flex flex-col space-y-4" style={{ height: '100%' }}>
@@ -190,7 +190,7 @@ const About = () => {
 
       {/* Our Core Values Section */}
       <section className="py-14 md:py-16 bg-white">
-        <div className="container mx-auto px-4 max-w-7xl">
+        <div className="container mx-auto max-w-7xl" style={{ paddingLeft: '2rem', paddingRight: '2rem' }}>
           <h2 
             className="text-[#333333] text-center mb-4"
             style={{
@@ -219,14 +219,20 @@ const About = () => {
               <h3 
                 className="text-[#333333]"
                 style={{
-                  fontSize: '24px',
-                  fontWeight: 600,
+                  fontSize: '16px',
+                  fontWeight: 400,
                   marginBottom: '18px'
                 }}
               >
                 Theological Foundations
               </h3>
-              <p className="text-[#636363] leading-relaxed text-sm">
+              <p 
+                className="text-[#636363] leading-relaxed"
+                style={{
+                  fontSize: '14px',
+                  fontWeight: 400
+                }}
+              >
                 We submit to the trustworthy Word of God as our final guide for faith, doctrine, and practice.
               </p>
             </div>
@@ -244,14 +250,20 @@ const About = () => {
               <h3 
                 className="text-[#333333]"
                 style={{
-                  fontSize: '24px',
-                  fontWeight: 600,
+                  fontSize: '16px',
+                  fontWeight: 400,
                   marginBottom: '18px'
                 }}
               >
                 Christ-Centered Focus
               </h3>
-              <p className="text-[#636363] leading-relaxed text-sm">
+              <p 
+                className="text-[#636363] leading-relaxed"
+                style={{
+                  fontSize: '14px',
+                  fontWeight: 400
+                }}
+              >
                 We exalt Jesus Christ—His person, work, and mission—as the heart of all learning and living.
               </p>
             </div>
@@ -269,14 +281,20 @@ const About = () => {
               <h3 
                 className="text-[#333333]"
                 style={{
-                  fontSize: '24px',
-                  fontWeight: 600,
+                  fontSize: '16px',
+                  fontWeight: 400,
                   marginBottom: '18px'
                 }}
               >
                 Discipleship and Character
               </h3>
-              <p className="text-[#636363] leading-relaxed text-sm">
+              <p 
+                className="text-[#636363] leading-relaxed"
+                style={{
+                  fontSize: '14px',
+                  fontWeight: 400
+                }}
+              >
                 We train leaders who serve humbly, lead courageously, and steward influence for God's glory.
               </p>
             </div>
@@ -294,14 +312,20 @@ const About = () => {
               <h3 
                 className="text-[#333333]"
                 style={{
-                  fontSize: '24px',
-                  fontWeight: 600,
+                  fontSize: '16px',
+                  fontWeight: 400,
                   marginBottom: '18px'
                 }}
               >
                 Mission and Service
               </h3>
-              <p className="text-[#636363] leading-relaxed text-sm">
+              <p 
+                className="text-[#636363] leading-relaxed"
+                style={{
+                  fontSize: '14px',
+                  fontWeight: 400
+                }}
+              >
                 We equip students for evangelism, church planting, and cross-cultural ministry—locally and to the nations.
               </p>
             </div>
@@ -319,14 +343,20 @@ const About = () => {
               <h3 
                 className="text-[#333333]"
                 style={{
-                  fontSize: '24px',
-                  fontWeight: 600,
+                  fontSize: '16px',
+                  fontWeight: 400,
                   marginBottom: '18px'
                 }}
               >
                 Academic Excellence
               </h3>
-              <p className="text-[#636363] leading-relaxed text-sm">
+              <p 
+                className="text-[#636363] leading-relaxed"
+                style={{
+                  fontSize: '14px',
+                  fontWeight: 400
+                }}
+              >
                 We pursue disciplined study, careful interpretation, and sound theological thinking anchored in Scripture.
               </p>
             </div>
@@ -344,14 +374,20 @@ const About = () => {
               <h3 
                 className="text-[#333333]"
                 style={{
-                  fontSize: '24px',
-                  fontWeight: 600,
+                  fontSize: '16px',
+                  fontWeight: 400,
                   marginBottom: '18px'
                 }}
               >
                 Stewardship and Accountability
               </h3>
-              <p className="text-[#636363] leading-relaxed text-sm">
+              <p 
+                className="text-[#636363] leading-relaxed"
+                style={{
+                  fontSize: '14px',
+                  fontWeight: 400
+                }}
+              >
                 We manage time, gifts, and resources responsibly for the advancement of God's kingdom.
               </p>
             </div>
@@ -369,14 +405,20 @@ const About = () => {
               <h3 
                 className="text-[#333333]"
                 style={{
-                  fontSize: '24px',
-                  fontWeight: 600,
+                  fontSize: '16px',
+                  fontWeight: 400,
                   marginBottom: '18px'
                 }}
               >
                 Practical Ministry
               </h3>
-              <p className="text-[#636363] leading-relaxed text-sm">
+              <p 
+                className="text-[#636363] leading-relaxed"
+                style={{
+                  fontSize: '14px',
+                  fontWeight: 400
+                }}
+              >
                 We integrate classroom learning with practical ministry opportunities.
               </p>
             </div>
@@ -394,14 +436,20 @@ const About = () => {
               <h3 
                 className="text-[#333333]"
                 style={{
-                  fontSize: '24px',
-                  fontWeight: 600,
+                  fontSize: '16px',
+                  fontWeight: 400,
                   marginBottom: '18px'
                 }}
               >
                 Church Partnership
               </h3>
-              <p className="text-[#636363] leading-relaxed text-sm">
+              <p 
+                className="text-[#636363] leading-relaxed"
+                style={{
+                  fontSize: '14px',
+                  fontWeight: 400
+                }}
+              >
                 We strengthen local churches by preparing leaders who serve faithfully.
               </p>
             </div>
@@ -416,7 +464,7 @@ const About = () => {
           background: 'linear-gradient(153.68deg, #EFF6FF -98.22%, rgba(5, 101, 255, 0.1) 13.44%)'
         }}
       >
-        <div className="container mx-auto px-4 max-w-7xl">
+        <div className="container mx-auto max-w-7xl" style={{ paddingLeft: '1.75rem', paddingRight: '1.75rem' }}>
           <h2 
             className="text-[#333333] text-center mb-4"
             style={{
@@ -451,13 +499,19 @@ const About = () => {
               <h3 
                 className="text-[#333333] mb-4"
                 style={{
-                  fontSize: '24px',
-                  fontWeight: 600
+                  fontSize: '20.5px',
+                  fontWeight: 500
                 }}
               >
                 Accredited Institution
               </h3>
-              <p className="text-[#636363] leading-relaxed text-lg">
+              <p 
+                className="text-[#636363] leading-relaxed"
+                style={{
+                  fontSize: '18px',
+                  fontWeight: 400
+                }}
+              >
                 Accredited by the International Association for Theological Accreditation (IATA).
               </p>
             </div>
@@ -475,13 +529,19 @@ const About = () => {
               <h3 
                 className="text-[#333333] mb-4"
                 style={{
-                  fontSize: '24px',
-                  fontWeight: 600
+                  fontSize: '20.5px',
+                  fontWeight: 500
                 }}
               >
                 Affiliated Institution
               </h3>
-              <p className="text-[#636363] leading-relaxed text-lg">
+              <p 
+                className="text-[#636363] leading-relaxed"
+                style={{
+                  fontSize: '18px',
+                  fontWeight: 400
+                }}
+              >
                 Affiliated with The Gospel Ministries, Birmingham, England.
               </p>
             </div>
@@ -491,7 +551,7 @@ const About = () => {
 
       {/* Campus Life & Facilities Section */}
       <section className="py-20 md:py-24 bg-white">
-        <div className="container mx-auto px-4 max-w-7xl">
+        <div className="container mx-auto max-w-7xl" style={{ paddingLeft: '0.75rem', paddingRight: '0.75rem' }}>
           <h2 
             className="text-[#333333] text-center mb-4"
             style={{
@@ -519,7 +579,13 @@ const About = () => {
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-2xl font-bold text-[#333333] mb-3">
+                <h3 
+                  className="text-[#333333] mb-3"
+                  style={{
+                    fontSize: '23.5px',
+                    fontWeight: 500
+                  }}
+                >
                   State-of-the-Art Library
                 </h3>
                 <p className="text-[#636363] leading-relaxed">
@@ -540,7 +606,13 @@ const About = () => {
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-2xl font-bold text-[#333333] mb-3">
+                <h3 
+                  className="text-[#333333] mb-3"
+                  style={{
+                    fontSize: '23.5px',
+                    fontWeight: 500
+                  }}
+                >
                   Chapel & Worship
                 </h3>
                 <p className="text-[#636363] leading-relaxed">

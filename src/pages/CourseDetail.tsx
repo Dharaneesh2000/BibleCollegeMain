@@ -172,6 +172,7 @@ const CourseDetail = () => {
                   courseType={course.enroll_course_type || ''}
                   accredited={course.enroll_accredited ?? true}
                   certificateImageUrl={course.certificate_image_url}
+                  courseId={course.id}
                 />
               </div>
             </div>

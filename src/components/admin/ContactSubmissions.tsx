@@ -47,7 +47,11 @@ const ContactSubmissions = () => {
         .eq('id', id)
 
       if (error) throw error
-      fetchSubmissions()
+      
+      // Update local state immediately for better UX
+      setSubmissions(prev => 
+        prev.map(sub => sub.id === id ? { ...sub, read: true } : sub)
+      )
     } catch (error) {
       console.error('Error marking as read:', error)
     }
@@ -81,9 +85,6 @@ const ContactSubmissions = () => {
 
   const handleViewMessage = (submission: ContactSubmission) => {
     setModalSubmission(submission)
-    if (!submission.read) {
-      markAsRead(submission.id)
-    }
   }
 
   const closeModal = () => {
@@ -106,9 +107,6 @@ const ContactSubmissions = () => {
           <table className="w-full">
             <thead className="bg-gray-50 border-b">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-12">
-                  Status
-                </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Name
                 </th>
@@ -116,26 +114,17 @@ const ContactSubmissions = () => {
                   Email
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Phone
+                  Phone Number
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Course Type
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Selected Course
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Submitted
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
+                  What type of course
                 </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {submissions.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="px-6 py-8 text-center text-gray-500">
+                  <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
                     No submissions yet
                   </td>
                 </tr>
@@ -143,13 +132,14 @@ const ContactSubmissions = () => {
                 submissions.map((submission) => (
                   <tr
                     key={submission.id}
-                    className={`hover:bg-gray-50 ${!submission.read ? 'bg-blue-50' : ''}`}
+                    className="hover:bg-gray-50 cursor-pointer"
+                    onClick={() => {
+                      handleViewMessage(submission)
+                      if (!submission.read) {
+                        markAsRead(submission.id)
+                      }
+                    }}
                   >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {!submission.read && (
-                        <span className="w-2 h-2 bg-blue-500 rounded-full inline-block"></span>
-                      )}
-                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">{submission.name}</div>
                     </td>
@@ -159,33 +149,9 @@ const ContactSubmissions = () => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">{submission.phone || '-'}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{submission.course_type || '-'}</div>
-                    </td>
                     <td className="px-6 py-4">
-                      <div className="text-sm text-gray-900 max-w-xs truncate">
+                      <div className="text-sm text-gray-900">
                         {submission.selected_course || '-'}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">
-                        {new Date(submission.created_at).toLocaleDateString()}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => handleViewMessage(submission)}
-                          className="text-blue-600 hover:text-blue-900"
-                        >
-                          View Message
-                        </button>
-                        <button
-                          onClick={() => deleteSubmission(submission.id)}
-                          className="text-red-600 hover:text-red-900"
-                        >
-                          Delete
-                        </button>
                       </div>
                     </td>
                   </tr>
@@ -224,32 +190,18 @@ const ContactSubmissions = () => {
             <div className="overflow-y-auto p-6 flex-1">
               <div className="space-y-4">
                 <div>
-                  <label className="text-sm font-medium text-gray-700">Phone</label>
+                  <label className="text-sm font-medium text-gray-700">Message</label>
+                  <p className="mt-1 text-gray-900 whitespace-pre-wrap">{modalSubmission.message || 'No message provided'}</p>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-gray-700">Phone Number</label>
                   <p className="mt-1 text-gray-900">{modalSubmission.phone || 'Not provided'}</p>
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-gray-700">Course Type</label>
-                  <p className="mt-1 text-gray-900">{modalSubmission.course_type || 'Not specified'}</p>
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium text-gray-700">Selected Course</label>
+                  <label className="text-sm font-medium text-gray-700">What type of course</label>
                   <p className="mt-1 text-gray-900">{modalSubmission.selected_course || 'Not selected'}</p>
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium text-gray-700">Message</label>
-                  <div className="mt-1 p-3 bg-gray-50 rounded border max-h-64 overflow-y-auto">
-                    <p className="text-gray-900 whitespace-pre-wrap">{modalSubmission.message}</p>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium text-gray-700">Submitted</label>
-                  <p className="mt-1 text-gray-900">
-                    {new Date(modalSubmission.created_at).toLocaleString()}
-                  </p>
                 </div>
               </div>
             </div>

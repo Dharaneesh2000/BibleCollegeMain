@@ -15,6 +15,23 @@
   }
 }
 
+@keyframes barSlideIn {
+  0% {
+    transform: translateX(-100px) scaleX(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  70% {
+    transform: translateX(10px) scaleX(1.2);
+  }
+  100% {
+    transform: translateX(0) scaleX(1);
+    opacity: 1;
+  }
+}
+
 @layer base {
   html {
     font-family: 'Montserrat', system-ui, sans-serif;
@@ -69,5 +86,26 @@
   
   .responsive-text-4xl {
     @apply text-4xl sm:text-5xl lg:text-6xl;
+  }
+
+  /* Phone Input Styles */
+  .phone-input .PhoneInputInput {
+    @apply w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D];
+  }
+
+  .phone-input.error .PhoneInputInput {
+    @apply border-red-500;
+  }
+
+  .phone-input .PhoneInputCountry {
+    @apply mr-2;
+  }
+
+  .phone-input .PhoneInputCountryIcon {
+    @apply w-6 h-4;
+  }
+
+  .phone-input .PhoneInputCountrySelect {
+    @apply pr-2 mr-2 border-r border-gray-300;
   }
 }

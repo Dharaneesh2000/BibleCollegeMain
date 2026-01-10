@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import GITMail from "/images/GITMail.png";
-import GITPhone from "/images/GITPhone.png";
-import GITHome from "/images/GITHome.png";
+import GITMail from "/images/GITMail.svg";
+import GITPhone from "/images/GITPhone.svg";
+import GITHome from "/images/GITHome.svg";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
@@ -124,28 +124,31 @@ const ContactSection = () => {
         <img
           src="/images/GetInTouch.png"
           alt="Contact God's Will Bible College - Get in touch for admissions and information"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-center"
           width="1920"
           height="1080"
+          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
         />
         <div className="absolute inset-0 bg-black opacity-0"></div>
       </div>
 
-      <div className="container mx-auto px-4 relative">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div className="container mx-auto px-4 relative py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 lg:gap-x-32 items-start">
           {/* Left side - Contact info */}
-          <div>
-            <h2 id="contact-heading" className="text-[38px] font-[700] mb-5 text-white">
-              Get in touch with us
-            </h2>
-            <p className="text-[18px] font-[400] mb-8 text-white leading-relaxed">
-              Everything you need to know about our Bible College, programs,
-              admissions, and life on campus — all in one place.
-            </p>
+          <div className="space-y-8">
+            <div>
+              <h2 id="contact-heading" className="text-[38px] font-[700] mb-4 text-white">
+                Get in touch with us
+              </h2>
+              <p className="text-[18px] font-[400] text-white" style={{ lineHeight: '1.3', paddingBottom: '48px' }}>
+                Everything you need to know about our Bible College, programs,
+                admissions, and life on campus — all in one place.
+              </p>
+            </div>
 
-            <div className="space-y-6">
+            <div className="space-y-8">
               {/* Email */}
-              <div className="flex items-center space-x-4 pb-4 border-b border-gray-600">
+              <div className="flex items-center space-x-4 pb-6 border-b border-gray-600">
                 <div 
                   className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
                   style={{ background: "#FFFFFF1A" }}
@@ -159,14 +162,14 @@ const ContactSection = () => {
                   />
                 </div>
                 <div>
-                  <p className="text-[22px] font-medium text-white">
+                  <p className="text-[18px] font-medium text-white">
                     johnruban10@gmail.com
                   </p>
                 </div>
               </div>
 
               {/* Phone */}
-              <div className="flex items-center space-x-4 pb-4 border-b border-gray-600">
+              <div className="flex items-center space-x-4 pb-6 border-b border-gray-600">
                 <div 
                   className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
                   style={{ background: "#FFFFFF1A" }}
@@ -180,7 +183,7 @@ const ContactSection = () => {
                   />
                 </div>
                 <div>
-                  <p className="text-[22px] font-medium text-white">
+                  <p className="text-[18px] font-medium text-white">
                     +91 97912 37955
                   </p>
                 </div>
@@ -201,9 +204,9 @@ const ContactSection = () => {
                   />
                 </div>
                 <div>
-                  <p className="text-[22px] font-medium text-white">
-                    No. 24, Gandhi Street<span className="hidden lg:inline"><br /></span> Anna Nagar, Chennai - 600040 Tamil
-                    Nadu, India
+                  <p className="text-[18px] font-medium text-white">
+                    No. 24, Gandhi Street Anna Nagar, Chennai - 600040<br />
+                    Tamil Nadu, India
                   </p>
                 </div>
               </div>
@@ -211,8 +214,8 @@ const ContactSection = () => {
           </div>
 
           {/* Right side - Contact form */}
-          <div className="bg-white rounded-lg p-8">
-            <form onSubmit={handleSubmit} className="space-y-6" aria-label="Contact form">
+          <div className="bg-white rounded-lg pt-8 px-8 lg:pt-10 lg:px-10 self-start" style={{ paddingBottom: '1rem' }}>
+            <form onSubmit={handleSubmit} className="space-y-5" aria-label="Contact form">
               <div>
                 <input
                   type="text"
@@ -220,7 +223,7 @@ const ContactSection = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bible-blue focus:border-transparent text-black"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bible-blue focus:border-transparent text-black placeholder-gray-400"
                   placeholder="Name"
                   required
                 />
@@ -233,7 +236,7 @@ const ContactSection = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bible-blue focus:border-transparent text-black"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bible-blue focus:border-transparent text-black placeholder-gray-400"
                   placeholder="Email"
                   required
                 />
@@ -246,7 +249,7 @@ const ContactSection = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bible-blue focus:border-transparent text-black"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bible-blue focus:border-transparent text-black placeholder-gray-400"
                   placeholder="Phone Number"
                 />
               </div>
@@ -257,12 +260,20 @@ const ContactSection = () => {
                   name="select"
                   value={formData.select}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bible-blue focus:border-transparent text-black"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bible-blue focus:border-transparent bg-white appearance-none cursor-pointer"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E")`,
+                    backgroundPosition: 'right 0.5rem center',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: '1.5em 1.5em',
+                    paddingRight: '2.5rem',
+                    color: formData.select ? '#000000' : '#9CA3AF'
+                  }}
                 >
-                  <option value="">Select</option>
-                  <option value="bachelor">Bachelor of Theology</option>
-                  <option value="master">Master of Divinity</option>
-                  <option value="certificate">Certificate Program</option>
+                  <option value="" disabled style={{ color: '#9CA3AF' }}>What type of course</option>
+                  <option value="bachelor" style={{ color: '#000000' }}>Bachelor of Theology</option>
+                  <option value="master" style={{ color: '#000000' }}>Master of Divinity</option>
+                  <option value="certificate" style={{ color: '#000000' }}>Certificate Program</option>
                 </select>
               </div>
 

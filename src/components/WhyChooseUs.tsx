@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import BiblicalFoundation from '/images/BiblicalFoundation.png';
 import GlobalMissionFocus from '/images/GlobalMissionFocus.png';
 import VibrantCommunity from '/images/vibrantCommunity.png';
@@ -5,6 +6,31 @@ import ExpertFaculty from '/images/ExpertFaculty.png';
 import LazyImage from './LazyImage';
 
 const WhyChooseUs = () => {
+  const barRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    if (barRef.current) {
+      observer.observe(barRef.current);
+    }
+
+    return () => {
+      if (barRef.current) {
+        observer.unobserve(barRef.current);
+      }
+    };
+  }, []);
   const features = [
     {
       icon: BiblicalFoundation,
@@ -38,11 +64,18 @@ const WhyChooseUs = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Left side - Text content */}
           <div>
-            <div className="w-[94px] h-[7px] bg-[#012659] mb-6"></div>
-            <h2 id="why-choose-us-heading" className="text-[40px] font-bold text-[#333333] leading-tight mb-6">
+            <div
+              ref={barRef}
+              className="w-[94px] h-[7px] bg-[#012659] mb-6"
+              style={{
+                animation: isVisible ? 'barSlideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)' : 'none',
+                transformOrigin: 'left center'
+              }}
+            ></div>
+            <h2 id="why-choose-us-heading" className="text-[40px] font-bold text-[#333333] leading-tight mb-3">
               Why GWBC is Your <br />Best Choice?
             </h2>
-            <p className="text-[16px] font-normal text-[#333333] leading-relaxed">
+            <p className="text-[16px] font-normal text-[#333333] leading-normal">
               Discover an education that informs your mind, transforms your heart, and prepares you for impactful service.
             </p>
           </div>

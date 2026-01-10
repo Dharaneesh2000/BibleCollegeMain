@@ -8,7 +8,21 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'placeholder-k
 if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
   console.warn('⚠️ Supabase credentials not found. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env file')
   console.warn('⚠️ Admin panel features will not work until credentials are configured')
+} else {
+  // Debug log to verify credentials are loaded (remove in production)
+  console.log('✅ Supabase initialized:', {
+    url: supabaseUrl,
+    hasAnonKey: !!supabaseAnonKey,
+    keyPrefix: supabaseAnonKey?.substring(0, 10)
+  })
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Create Supabase client
+// Using simplest configuration to ensure anon role is used correctly
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    persistSession: false,
+    autoRefreshToken: false
+  }
+})
 

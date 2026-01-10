@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import TestimonialsBackground from '../../assets/images/Background.png'
 import { supabase } from '../lib/supabase'
 import LazyImage from './LazyImage'
@@ -16,9 +16,34 @@ const Testimonials = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
+  const barRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     fetchTestimonials();
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    if (barRef.current) {
+      observer.observe(barRef.current);
+    }
+
+    return () => {
+      if (barRef.current) {
+        observer.unobserve(barRef.current);
+      }
+    };
   }, []);
 
   const fetchTestimonials = async () => {
@@ -104,10 +129,18 @@ const Testimonials = () => {
       <div className="relative container mx-auto px-4">
         {/* Section header */}
         <div className="mb-12">
-          <div className="w-[94px] h-[7px] bg-white mb-3" aria-hidden="true"></div>
-          <h2 id="testimonials-heading" className="text-[38px] font-[700] mb-5 text-white">Testimonials</h2>
+          <div
+            ref={barRef}
+            className="w-[94px] h-[7px] bg-white mb-3"
+            style={{
+              animation: isVisible ? 'barSlideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)' : 'none',
+              transformOrigin: 'left center'
+            }}
+            aria-hidden="true"
+          ></div>
+          <h2 id="testimonials-heading" className="text-[38px] font-[700] mb-3 text-white">Testimonials</h2>
           <div className="flex items-start justify-between gap-4">
-            <p className="text-[18px] font-[400] text-white leading-relaxed flex-1">
+            <p className="text-[18px] font-[400] text-white flex-1" style={{ lineHeight: '1.3' }}>
               Faith Journeys Shared by Our Graduates: Empowering Leaders, Equipping Servants,<span className="hidden lg:inline"><br /></span> and Impacting Nations for Christ
             </p>
             {/* Navigation arrows */}
@@ -137,15 +170,15 @@ const Testimonials = () => {
         </div>
 
         {/* Testimonial cards */}
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-visible">
           <div
             className="flex transition-transform duration-500 ease-in-out cursor-grab active:cursor-grabbing"
             style={{ transform: `translateX(-${currentIndex * 51}%)` }}
           >
-            {testimonials.map((testimonial) => (
+            {testimonials.map((testimonial, index) => (
               <div
                 key={testimonial.id}
-                className="flex-shrink-0 px-3"
+                className={`flex-shrink-0 ${index === 2 ? 'pr-0' : 'px-3'}`}
                 style={{ width: '49%' }}
               >
                 <div
@@ -160,7 +193,7 @@ const Testimonials = () => {
                   <div>
                     {/* Quote icon */}
                     <div className="mb-4">
-                      <svg className="w-8 h-8 text-[#E7E7E7]" fill="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-[60px] h-[60px] text-[#E7E7E7]" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849H0V3h9.983zm14.017 0v7.391c0 5.704-3.748 9.57-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849H14V3h10z" />
                       </svg>
                     </div>

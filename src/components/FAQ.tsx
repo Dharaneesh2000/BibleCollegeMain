@@ -1,7 +1,8 @@
 import { useState } from 'react'
 
 const FAQ = () => {
-  const [openIndices, setOpenIndices] = useState<Set<number>>(new Set())
+  // First FAQ (index 0) is open by default
+  const [openIndices, setOpenIndices] = useState<Set<number>>(new Set([0]))
 
   const faqs = [
     {
@@ -30,9 +31,16 @@ const FAQ = () => {
     setOpenIndices(prev => {
       const newSet = new Set(prev)
       if (newSet.has(index)) {
-        newSet.delete(index)
+        // If trying to close this FAQ
+        // Only allow closing if there's more than one open
+        // If this is the only open FAQ, don't close it (ensure at least one is always open)
+        if (newSet.size > 1) {
+          newSet.delete(index)
+        }
       } else {
-        newSet.add(index)
+        // If opening this FAQ, close all others and open only this one
+        // This ensures only one FAQ is open at a time
+        return new Set<number>([index])
       }
       return newSet
     })
@@ -105,8 +113,8 @@ const FAQ = () => {
       <div className="container mx-auto px-4 pb-8">
         {/* Title & Subtitle */}
         <div className="text-left mb-12">
-          <h2 className="text-[46px] font-[700] text-[#242424] mb-5">FAQ's</h2>
-          <p className="text-[14px] font-[400] text-[#4B5563] leading-relaxed">
+          <h2 className="text-[46px] font-[700] text-[#242424] mb-3">FAQ's</h2>
+          <p className="text-[14px] font-[400] text-[#4B5563]" style={{ lineHeight: '1.3' }}>
             Everything you need to know about our Bible College, programs, admissions, and life on<span className="hidden lg:inline"><br /></span> campus — all in one place
           </p>
         </div>

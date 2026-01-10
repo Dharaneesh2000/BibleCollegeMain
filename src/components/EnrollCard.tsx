@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import EnrollmentModal from './EnrollmentModal'
+
 interface EnrollCardProps {
   title?: string
   duration?: string
@@ -5,6 +8,7 @@ interface EnrollCardProps {
   courseType?: string
   accredited?: boolean
   certificateImageUrl?: string | null
+  courseId?: string
 }
 
 const EnrollCard = ({
@@ -13,13 +17,13 @@ const EnrollCard = ({
   languages = "English & Tamil",
   courseType = "Full-time / Residential / On-Campus",
   accredited = true,
-  certificateImageUrl
+  certificateImageUrl,
+  courseId
 }: EnrollCardProps) => {
-  const scrollToContact = () => {
-    const contactSection = document.getElementById('contact');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
-    }
+  const [isEnrollmentModalOpen, setIsEnrollmentModalOpen] = useState(false)
+  
+  const handleEnrollClick = () => {
+    setIsEnrollmentModalOpen(true)
   };
 
   return (
@@ -194,7 +198,7 @@ const EnrollCard = ({
 
           {/* Enroll button */}
           <button
-            onClick={scrollToContact}
+            onClick={handleEnrollClick}
             className="w-full mt-6 text-white py-3 rounded-lg font-medium transition-all duration-200 hover:opacity-90"
             style={{ backgroundColor: '#15133D' }}
           >
@@ -202,6 +206,14 @@ const EnrollCard = ({
           </button>
         </div>
       </div>
+
+      {/* Enrollment Modal */}
+      <EnrollmentModal
+        isOpen={isEnrollmentModalOpen}
+        onClose={() => setIsEnrollmentModalOpen(false)}
+        courseTitle={title}
+        courseId={courseId}
+      />
     </div>
   );
 };
