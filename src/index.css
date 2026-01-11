@@ -90,7 +90,7 @@
 
   /* Phone Input Styles */
   .phone-input .PhoneInputInput {
-    @apply w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D];
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] text-black;
   }
 
   .phone-input.error .PhoneInputInput {
@@ -107,5 +107,17 @@
 
   .phone-input .PhoneInputCountrySelect {
     @apply pr-2 mr-2 border-r border-gray-300;
+  }
+
+  .phone-input .PhoneInputCountrySelectArrow {
+    display: none !important;
+  }
+  
+  .phone-input .PhoneInputCountryIcon {
+    cursor: default;
+  }
+  
+  .phone-input .PhoneInputCountrySelect {
+    cursor: default;
   }
 }

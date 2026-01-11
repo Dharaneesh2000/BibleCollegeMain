@@ -471,6 +471,46 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
   }
 
   const handleInputChange = (field: keyof EnrollmentData, value: string | File | null) => {
+    // Special handling for phone field with length validation
+    if (field === 'phone' && typeof value === 'string') {
+      if (!value) {
+        setFormData(prev => ({ ...prev, [field]: '' }))
+        return
+      }
+
+      // Extract phone number without country code
+      const phoneNumber = value.substring(value.indexOf(' ') + 1).replace(/\D/g, '')
+      
+      // For India (IN), restrict to 10 digits
+      if (value.startsWith('+91')) {
+        if (phoneNumber.length <= 10) {
+          setFormData(prev => ({ ...prev, [field]: value }))
+          if (errors[field]) {
+            setErrors(prev => {
+              const newErrors = { ...prev }
+              delete newErrors[field]
+              return newErrors
+            })
+          }
+        }
+      } else {
+        // For other countries, allow normal input but with reasonable max length
+        const maxLength = 15 // International standard max length
+        const currentNumber = phoneNumber.length
+        if (currentNumber <= maxLength) {
+          setFormData(prev => ({ ...prev, [field]: value }))
+          if (errors[field]) {
+            setErrors(prev => {
+              const newErrors = { ...prev }
+              delete newErrors[field]
+              return newErrors
+            })
+          }
+        }
+      }
+      return
+    }
+
     setFormData(prev => ({ ...prev, [field]: value }))
     if (errors[field]) {
       setErrors(prev => {

@@ -85,7 +85,7 @@ const About = () => {
                   />
                 </div>
                 <h3 
-                  className="text-[#333333] mb-4"
+                  className="text-[#1C398E] mb-4"
                   style={{
                     fontSize: '24px',
                     fontWeight: 600
@@ -115,7 +115,7 @@ const About = () => {
                   />
                 </div>
                 <h3 
-                  className="text-[#333333] mb-4"
+                  className="text-[#59168B] mb-4"
                   style={{
                     fontSize: '24px',
                     fontWeight: 600

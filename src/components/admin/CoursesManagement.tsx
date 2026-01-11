@@ -331,13 +331,6 @@ const CoursesManagement = () => {
       return false
     }
     
-    // Check if at least one image is uploaded for new courses
-    if (!editingCourse && !imageFile) {
-      alert('❌ Please upload a course image')
-      setActiveSection('basic')
-      return false
-    }
-    
     // Validate enroll card fields
     if (!formData.enroll_languages.trim()) {
       alert('❌ Please enter languages for the enroll card')
@@ -373,35 +366,12 @@ const CoursesManagement = () => {
       const slug = formData.slug || generateSlug(formData.title)
       const courseId = editingCourse?.id || crypto.randomUUID()
 
-      let imageUrl = editingCourse?.image_url || null
-      let hoverImageUrl = editingCourse?.hover_image_url || null
       let certificateImageUrl = editingCourse?.certificate_image_url || null
       let catalogFileUrl = editingCourse?.catalog_file_url || null
-      let imagePath = editingCourse?.image_path || null
-      let hoverImagePath = editingCourse?.hover_image_path || null
       let certificateImagePath = editingCourse?.certificate_image_path || null
       let catalogFilePath = editingCourse?.catalog_file_path || null
 
-      // Upload images if provided
-      if (imageFile) {
-        imageUrl = await uploadImage(imageFile, courseId, 'image')
-        if (!imageUrl) {
-          alert('Failed to upload image')
-          setUploading(false)
-          return
-        }
-        imagePath = `courses/${courseId}-image-${Date.now()}.${imageFile.name.split('.').pop()}`
-      }
-
-      if (hoverImageFile) {
-        hoverImageUrl = await uploadImage(hoverImageFile, courseId, 'hover')
-        if (!hoverImageUrl) {
-          alert('Failed to upload hover image')
-          setUploading(false)
-          return
-        }
-        hoverImagePath = `courses/${courseId}-hover-${Date.now()}.${hoverImageFile.name.split('.').pop()}`
-      }
+      // Upload certificate image if provided
 
       if (certificateImageFile) {
         certificateImageUrl = await uploadImage(certificateImageFile, courseId, 'certificate')
@@ -430,12 +400,12 @@ const CoursesManagement = () => {
         ...formData,
         slug,
         path: autoPath,
-        image_url: imageUrl,
-        hover_image_url: hoverImageUrl,
+        image_url: null,
+        hover_image_url: null,
         certificate_image_url: certificateImageUrl,
         catalog_file_url: catalogFileUrl,
-        image_path: imagePath,
-        hover_image_path: hoverImagePath,
+        image_path: null,
+        hover_image_path: null,
         certificate_image_path: certificateImagePath,
         catalog_file_path: catalogFilePath,
         hero_title: formData.hero_title || formData.title,
@@ -940,56 +910,6 @@ const CoursesManagement = () => {
                             className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] focus:border-[#15133D] transition-all"
                             placeholder="Detailed course overview"
                           />
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <label className="block text-sm font-bold text-gray-700 mb-2">
-                              Course Image <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                              type="file"
-                              accept="image/*"
-                              onChange={(e) => handleImageChange(e, 'image')}
-                              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] focus:border-[#15133D] transition-all"
-                              required={!editingCourse?.image_url}
-                            />
-                            <p className="text-xs text-gray-500 mt-1">Recommended: 800x600px, max 5MB</p>
-                            {editingCourse?.image_url && !imageFile && (
-                              <div className="mt-3">
-                                <img src={editingCourse.image_url} alt="Current" className="h-32 w-full object-cover rounded-lg border-2 border-gray-200" />
-                                <p className="text-xs text-gray-500 mt-1">Current image</p>
-                              </div>
-                            )}
-                            {imageFile && (
-                              <div className="mt-3">
-                                <img src={URL.createObjectURL(imageFile)} alt="Preview" className="h-32 w-full object-cover rounded-lg border-2 border-green-300" />
-                                <p className="text-xs text-green-600 mt-1 font-medium">✓ New image selected</p>
-                              </div>
-                            )}
-                          </div>
-
-                          <div>
-                            <label className="block text-sm font-bold text-gray-700 mb-2">Hover Image (Optional)</label>
-                            <input
-                              type="file"
-                              accept="image/*"
-                              onChange={(e) => handleImageChange(e, 'hover')}
-                              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] focus:border-[#15133D] transition-all"
-                            />
-                            <p className="text-xs text-gray-500 mt-1">Shows on hover, same size as course image</p>
-                            {editingCourse?.hover_image_url && !hoverImageFile && (
-                              <div className="mt-3">
-                                <img src={editingCourse.hover_image_url} alt="Current" className="h-32 w-full object-cover rounded-lg border-2 border-gray-200" />
-                              </div>
-                            )}
-                            {hoverImageFile && (
-                              <div className="mt-3">
-                                <img src={URL.createObjectURL(hoverImageFile)} alt="Preview" className="h-32 w-full object-cover rounded-lg border-2 border-green-300" />
-                                <p className="text-xs text-green-600 mt-1 font-medium">✓ New image selected</p>
-                              </div>
-                            )}
-                          </div>
                         </div>
 
                         <div className="flex items-center p-4 bg-gray-50 rounded-lg border border-gray-200">
