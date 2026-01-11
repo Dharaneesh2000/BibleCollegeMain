@@ -202,7 +202,7 @@ const EnrollCard = ({
             className="w-full mt-6 text-white py-3 rounded-lg font-medium transition-all duration-200 hover:opacity-90"
             style={{ backgroundColor: '#15133D' }}
           >
-            Enroll Now
+            Apply Now
           </button>
         </div>
       </div>

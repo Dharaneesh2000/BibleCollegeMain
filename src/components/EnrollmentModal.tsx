@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { supabase } from '../lib/supabase'
 import PhoneInput from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
-import { isValidPhoneNumber } from 'react-phone-number-input'
+import { isValidPhoneNumber, parsePhoneNumber } from 'react-phone-number-input'
+import type { Country } from 'react-phone-number-input'
 
 interface EnrollmentModalProps {
   isOpen: boolean
@@ -37,6 +38,8 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
   const [currentStep, setCurrentStep] = useState(1)
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [phoneError, setPhoneError] = useState<string>('')
+  const [selectedCountry, setSelectedCountry] = useState<Country>('IN')
   
   const [formData, setFormData] = useState<EnrollmentData>({
     name: '',
@@ -439,6 +442,8 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
       photoCopy: null
     })
     setErrors({})
+    setPhoneError('')
+    setSelectedCountry('IN')
     onClose()
   }
 
@@ -473,39 +478,112 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
   const handleInputChange = (field: keyof EnrollmentData, value: string | File | null) => {
     // Special handling for phone field with length validation
     if (field === 'phone' && typeof value === 'string') {
+      setPhoneError('') // Clear error on change
+      
       if (!value) {
         setFormData(prev => ({ ...prev, [field]: '' }))
+        if (errors[field]) {
+          setErrors(prev => {
+            const newErrors = { ...prev }
+            delete newErrors[field]
+            return newErrors
+          })
+        }
         return
       }
 
+      // Try to parse phone number to get country
+      let country: Country | undefined
+      try {
+        const phoneNumber = parsePhoneNumber(value)
+        country = phoneNumber?.country as Country
+        if (country) {
+          setSelectedCountry(country)
+        }
+      } catch (e) {
+        // If parsing fails, try to detect from country code
+        if (value.startsWith('+91')) {
+          country = 'IN'
+          setSelectedCountry('IN')
+        } else if (value.startsWith('+1')) {
+          country = 'US'
+          setSelectedCountry('US')
+        } else if (value.startsWith('+44')) {
+          country = 'GB'
+          setSelectedCountry('GB')
+        }
+      }
+
       // Extract phone number without country code
-      const phoneNumber = value.substring(value.indexOf(' ') + 1).replace(/\D/g, '')
+      const phoneDigits = value.replace(/\D/g, '') // Get all digits
+      let phoneNumber = phoneDigits
       
-      // For India (IN), restrict to 10 digits
-      if (value.startsWith('+91')) {
-        if (phoneNumber.length <= 10) {
-          setFormData(prev => ({ ...prev, [field]: value }))
-          if (errors[field]) {
-            setErrors(prev => {
-              const newErrors = { ...prev }
-              delete newErrors[field]
-              return newErrors
-            })
-          }
+      // Remove country code based on detected country
+      if (country === 'IN') {
+        phoneNumber = phoneDigits.startsWith('91') ? phoneDigits.substring(2) : phoneDigits
+      } else if (country === 'US' || country === 'CA') {
+        phoneNumber = phoneDigits.startsWith('1') ? phoneDigits.substring(1) : phoneDigits
+      } else if (country === 'GB') {
+        phoneNumber = phoneDigits.startsWith('44') ? phoneDigits.substring(2) : phoneDigits
+      } else {
+        // For other countries, try to detect country code length
+        if (phoneDigits.startsWith('91')) {
+          phoneNumber = phoneDigits.substring(2)
+          country = 'IN'
+          setSelectedCountry('IN')
+        } else if (phoneDigits.startsWith('1') && phoneDigits.length > 10) {
+          phoneNumber = phoneDigits.substring(1)
+        } else if (phoneDigits.startsWith('44')) {
+          phoneNumber = phoneDigits.substring(2)
+          country = 'GB'
+          setSelectedCountry('GB')
+        }
+      }
+      
+      // Country-specific limits with error messages
+      let maxLength = 15 // Default international max
+      let errorMessage = ''
+      
+      if (country === 'IN') {
+        maxLength = 10
+        if (phoneNumber.length > 10) {
+          errorMessage = 'Should not exceed 10 numbers'
+          setPhoneError(errorMessage)
+          return // Don't update the value
+        }
+      } else if (country === 'US' || country === 'CA') {
+        maxLength = 10
+        if (phoneNumber.length > 10) {
+          errorMessage = 'Should not exceed 10 numbers'
+          setPhoneError(errorMessage)
+          return
+        }
+      } else if (country === 'GB') {
+        maxLength = 10
+        if (phoneNumber.length > 10) {
+          errorMessage = 'Should not exceed 10 numbers'
+          setPhoneError(errorMessage)
+          return
         }
       } else {
-        // For other countries, allow normal input but with reasonable max length
-        const maxLength = 15 // International standard max length
-        const currentNumber = phoneNumber.length
-        if (currentNumber <= maxLength) {
-          setFormData(prev => ({ ...prev, [field]: value }))
-          if (errors[field]) {
-            setErrors(prev => {
-              const newErrors = { ...prev }
-              delete newErrors[field]
-              return newErrors
-            })
-          }
+        // For other countries, use international standard
+        maxLength = 15
+        if (phoneNumber.length > 15) {
+          errorMessage = 'Should not exceed 15 numbers'
+          setPhoneError(errorMessage)
+          return
+        }
+      }
+      
+      // If within limit, update the value
+      if (phoneNumber.length <= maxLength) {
+        setFormData(prev => ({ ...prev, [field]: value }))
+        if (errors[field]) {
+          setErrors(prev => {
+            const newErrors = { ...prev }
+            delete newErrors[field]
+            return newErrors
+          })
         }
       }
       return
@@ -632,17 +710,19 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Phone (Home / Mobile) *</label>
-                  <div className={`phone-input ${errors.phone ? 'error' : ''}`}>
+                  <div className={`phone-input ${errors.phone || phoneError ? 'error' : ''}`}>
                     <PhoneInput
                       international
                       defaultCountry="IN"
+                      country={selectedCountry}
                       value={formData.phone}
                       onChange={(value) => handleInputChange('phone', value || '')}
                       className="w-full"
                     />
                   </div>
-                  {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
-                  <p className="text-xs text-gray-500 mt-1">Select country code and enter your phone number (numbers only)</p>
+                  {phoneError && <p className="text-red-500 text-sm mt-1">{phoneError}</p>}
+                  {errors.phone && !phoneError && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+                  <p className="text-xs text-gray-500 mt-1">Select country code and enter your phone number</p>
                 </div>
 
                 <div>
