@@ -90,8 +90,6 @@ const CoursesManagement = () => {
     catalog_file_size: '',
   })
   
-  const [imageFile, setImageFile] = useState<File | null>(null)
-  const [hoverImageFile, setHoverImageFile] = useState<File | null>(null)
   const [certificateImageFile, setCertificateImageFile] = useState<File | null>(null)
   const [catalogFile, setCatalogFile] = useState<File | null>(null)
   const [uploading, setUploading] = useState(false)
@@ -218,7 +216,7 @@ const CoursesManagement = () => {
     })
   }
 
-  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>, type: 'image' | 'hover' | 'certificate') => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>, type: 'certificate') => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0]
       if (file.size > 5 * 1024 * 1024) {
@@ -241,11 +239,7 @@ const CoursesManagement = () => {
         }
       }
       
-      if (type === 'image') {
-        setImageFile(file)
-      } else if (type === 'hover') {
-        setHoverImageFile(file)
-      } else if (type === 'certificate') {
+      if (type === 'certificate') {
         setCertificateImageFile(file)
       }
     }
@@ -680,8 +674,6 @@ const CoursesManagement = () => {
       catalog_file_name: '',
       catalog_file_size: '',
     })
-    setImageFile(null)
-    setHoverImageFile(null)
     setCertificateImageFile(null)
     setCatalogFile(null)
     setEditingCourse(null)
