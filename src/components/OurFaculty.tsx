@@ -1,9 +1,7 @@
 import { useRef, useEffect } from 'react';
 import Faculty1 from "../../assets/images/Faculty1.jpeg";
-import Faculty2 from "../../assets/images/Faculty2.jpeg";
-import Faculty3 from "../../assets/images/Faculty3.jpeg";
-import Faculty4 from "../../assets/images/Faculty4.jpeg";
-import Faculty5 from "../../assets/images/Faculty5.jpeg";
+import Faculty2 from "../../assets/images/faculty2.jpeg";
+import Faculty3 from "../../assets/images/faculty3.jpeg";
 import LazyImage from './LazyImage';
 
 const OurFaculty = () => {
@@ -12,27 +10,17 @@ const OurFaculty = () => {
 
   const faculty = [
     {
-      name: "Rev. John Ruban",
-      title: "Director",
+      name: "John Ruban",
+      title: "HOD",
       image: Faculty1,
     },
     {
-      name: "Pastor. Chinthiya John",
-      title: "Principal",
+      name: "Chinthiya John Ruban",
+      title: "Faculty",
       image: Faculty2,
     },
     {
-      name: "Pastor. Moses David",
-      title: "Faculty",
-      image: Faculty4,
-    },
-    {
-      name: "Pastor. Arun Kumar",
-      title: "Faculty",
-      image: Faculty5,
-    },
-    {
-      name: "Sis. Shobana",
+      name: "Shobana Arun Kumar",
       title: "Faculty",
       image: Faculty3,
     },
@@ -113,11 +101,11 @@ const OurFaculty = () => {
         </div>
 
         {/* Faculty Marquee */}
-        <div
+        <div 
           ref={containerRef}
           className="overflow-hidden relative"
         >
-          <div
+          <div 
             ref={marqueeRef}
             className="flex gap-6 will-change-transform"
             style={{ width: 'fit-content' }}
@@ -128,8 +116,9 @@ const OurFaculty = () => {
                   <LazyImage
                     src={member.image}
                     alt={`${member.name} - ${member.title} at God's Will Bible College, experienced faculty mentor`}
-                    className={`w-full h-full group-hover:scale-105 transition-transform duration-300 ${(index % 3 === 2) ? 'object-top object-cover' : 'object-cover'
-                      }`}
+                    className={`w-full h-full group-hover:scale-105 transition-transform duration-300 ${
+                      (index % 3 === 2) ? 'object-top object-cover' : 'object-cover'
+                    }`}
                     width="336"
                     height="407"
                   />

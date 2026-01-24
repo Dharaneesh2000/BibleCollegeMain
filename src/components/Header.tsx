@@ -14,7 +14,7 @@ const Header = () => {
   const [coursesDropdownOpen, setCoursesDropdownOpen] = useState(false)
   const [courses, setCourses] = useState<Course[]>([])
   const dropdownRef = useRef<HTMLDivElement>(null)
-
+  
   // Check if we're on the Bachelor of Theology page
   const isAcademicsPage = location.pathname.startsWith('/academics/')
 
@@ -58,7 +58,7 @@ const Header = () => {
       }
     } catch (error) {
       console.error('Error fetching courses:', error)
-      // Set empty array on error to prevent crashes
+    // Set empty array on error to prevent crashes
       setCourses([])
     }
   }
@@ -69,9 +69,9 @@ const Header = () => {
   return (
     <header
       className={`shadow-lg ${isAcademicsPage ? 'text-[#333333]' : 'text-white'}`}
-      style={{
-        backgroundColor: isAcademicsPage ? '#FFFFFF' : '#1E1C52',
-        fontFamily: "'DM Sans', sans-serif"
+      style={{ 
+        backgroundColor: isAcademicsPage ? '#FFFFFF' : '#1E1C52', 
+        fontFamily: "'DM Sans', sans-serif" 
       }}
       role="banner"
       aria-label="Main navigation"
@@ -88,14 +88,15 @@ const Header = () => {
             {/* Home */}
             <Link
               to="/"
-              className={`px-4 py-2 rounded-lg transition-all duration-200 ${location.pathname === '/'
-                ? isAcademicsPage
-                  ? 'bg-[#333333] text-white'
-                  : 'bg-[#F4F4F436] text-white'
-                : isAcademicsPage
-                  ? 'hover:bg-gray-100 text-[#333333]'
-                  : 'hover:text-bible-gold hover:bg-[#F4F4F436]'
-                }`}
+              className={`px-4 py-2 rounded-lg transition-all duration-200 ${
+                location.pathname === '/'
+                  ? isAcademicsPage
+                    ? 'bg-[#333333] text-white'
+                    : 'bg-[#F4F4F436] text-white'
+                  : isAcademicsPage
+                    ? 'hover:bg-gray-100 text-[#333333]'
+                    : 'hover:text-bible-gold hover:bg-[#F4F4F436]'
+              }`}
             >
               Home
             </Link>
@@ -104,14 +105,15 @@ const Header = () => {
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setCoursesDropdownOpen(!coursesDropdownOpen)}
-                className={`px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-1 ${isCoursesActive
-                  ? isAcademicsPage
-                    ? 'bg-[#333333] text-white'
-                    : 'bg-[#F4F4F436] text-white'
-                  : isAcademicsPage
-                    ? 'hover:bg-gray-100 text-[#333333]'
-                    : 'hover:text-bible-gold hover:bg-[#F4F4F436]'
-                  }`}
+                className={`px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-1 ${
+                  isCoursesActive
+                    ? isAcademicsPage
+                      ? 'bg-[#333333] text-white'
+                      : 'bg-[#F4F4F436] text-white'
+                    : isAcademicsPage
+                      ? 'hover:bg-gray-100 text-[#333333]'
+                      : 'hover:text-bible-gold hover:bg-[#F4F4F436]'
+                }`}
                 aria-expanded={coursesDropdownOpen}
                 aria-haspopup="true"
               >
@@ -133,10 +135,11 @@ const Header = () => {
 
               {coursesDropdownOpen && (
                 <div
-                  className={`absolute top-full left-0 mt-2 min-w-[220px] rounded-lg shadow-lg z-50 ${isAcademicsPage
-                    ? 'bg-[#1E1C52] border border-[#F4F4F436]'
-                    : 'bg-white border border-gray-200'
-                    }`}
+                  className={`absolute top-full left-0 mt-2 min-w-[220px] rounded-lg shadow-lg z-50 ${
+                    isAcademicsPage
+                      ? 'bg-white border border-gray-200'
+                      : 'bg-[#1E1C52] border border-[#F4F4F436]'
+                  }`}
                   role="menu"
                 >
                   {courses.length > 0 ? (
@@ -147,14 +150,15 @@ const Header = () => {
                         <Link
                           key={course.id}
                           to={coursePath}
-                          className={`block px-4 py-3 transition-all duration-200 first:rounded-t-lg last:rounded-b-lg ${isCourseActive
+                          className={`block px-4 py-3 transition-all duration-200 first:rounded-t-lg last:rounded-b-lg ${
+                            isCourseActive
                               ? isAcademicsPage
-                                ? 'bg-[#F4F4F436] text-white'
-                                : 'bg-[#333333] text-white'
+                                ? 'bg-[#333333] text-white'
+                                : 'bg-[#F4F4F436] text-white'
                               : isAcademicsPage
-                                ? 'hover:bg-[#F4F4F436] text-white'
-                                : 'hover:bg-gray-100 text-[#333333]'
-                            }`}
+                                ? 'hover:bg-gray-100 text-[#333333]'
+                                : 'hover:bg-[#F4F4F436] text-white'
+                          }`}
                           role="menuitem"
                         >
                           {course.title}
@@ -162,7 +166,9 @@ const Header = () => {
                       )
                     })
                   ) : (
-                    <div className="px-4 py-3 text-sm text-gray-500">
+                    <div className={`px-4 py-3 text-sm ${
+                      isAcademicsPage ? 'text-gray-500' : 'text-gray-400'
+                    }`}>
                       No courses available
                     </div>
                   )}
@@ -173,14 +179,15 @@ const Header = () => {
             {/* Events */}
             <Link
               to="/news"
-              className={`px-4 py-2 rounded-lg transition-all duration-200 ${location.pathname === '/news' || location.pathname.startsWith('/news/')
-                ? isAcademicsPage
-                  ? 'bg-[#333333] text-white'
-                  : 'bg-[#F4F4F436] text-white'
-                : isAcademicsPage
-                  ? 'hover:bg-gray-100 text-[#333333]'
-                  : 'hover:text-bible-gold hover:bg-[#F4F4F436]'
-                }`}
+              className={`px-4 py-2 rounded-lg transition-all duration-200 ${
+                location.pathname === '/news' || location.pathname.startsWith('/news/')
+                  ? isAcademicsPage
+                    ? 'bg-[#333333] text-white'
+                    : 'bg-[#F4F4F436] text-white'
+                  : isAcademicsPage
+                    ? 'hover:bg-gray-100 text-[#333333]'
+                    : 'hover:text-bible-gold hover:bg-[#F4F4F436]'
+              }`}
             >
               Events
             </Link>
@@ -188,14 +195,15 @@ const Header = () => {
             {/* About Us */}
             <Link
               to="/about"
-              className={`px-4 py-2 rounded-lg transition-all duration-200 ${location.pathname === '/about' || location.pathname.startsWith('/about/')
-                ? isAcademicsPage
-                  ? 'bg-[#333333] text-white'
-                  : 'bg-[#F4F4F436] text-white'
-                : isAcademicsPage
-                  ? 'hover:bg-gray-100 text-[#333333]'
-                  : 'hover:text-bible-gold hover:bg-[#F4F4F436]'
-                }`}
+              className={`px-4 py-2 rounded-lg transition-all duration-200 ${
+                location.pathname === '/about' || location.pathname.startsWith('/about/')
+                  ? isAcademicsPage
+                    ? 'bg-[#333333] text-white'
+                    : 'bg-[#F4F4F436] text-white'
+                  : isAcademicsPage
+                    ? 'hover:bg-gray-100 text-[#333333]'
+                    : 'hover:text-bible-gold hover:bg-[#F4F4F436]'
+              }`}
             >
               About Us
             </Link>
@@ -223,10 +231,11 @@ const Header = () => {
           <div className="flex items-center space-x-4">
             <Link
               to="/contact"
-              className={`px-6 py-2 rounded-lg font-medium transition-colors duration-200 ${isAcademicsPage
-                ? 'bg-[#333333] text-white hover:bg-[#555555]'
-                : 'bg-white text-bible-blue hover:bg-yellow-500'
-                }`}
+              className={`px-6 py-2 rounded-lg font-medium transition-colors duration-200 ${
+                isAcademicsPage
+                  ? 'bg-[#333333] text-white hover:bg-[#555555]'
+                  : 'bg-white text-bible-blue hover:bg-yellow-500'
+              }`}
             >
               Contact Us
             </Link>

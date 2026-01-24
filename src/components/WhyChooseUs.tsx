@@ -76,20 +76,8 @@ const WhyChooseUs = () => {
               Why GWBC is Your <br />Best Choice?
             </h2>
             <p className="text-[16px] font-normal text-[#333333] leading-normal">
-              Godswill Bible College is a trusted center for sound biblical training and spiritual development,
-              committed to raising leaders who are equipped to impact the world with truth and excellence.
-              Over the years, <strong>more than 200 students have successfully graduated</strong> from
-              Godswill Bible College and are now serving in ministry and leadership roles{" "}
-              <em>across the globe, including the <strong>United Kingdom, Canada, the United Arab Emirates, India, and Italy</strong></em>.
-              <br /><br />
-              Our college continues to grow as an international learning community, with{" "}
-              <strong>current students studying from Australia and New Zealand</strong>, reflecting our strong
-              global reach and diverse student body. Through solid biblical instruction, practical ministry
-              training, and flexible learning options, Godswill Bible College provides students with the
-              knowledge, character, and spiritual foundation needed to fulfill their God-given calling—no
-              matter where they are in the world.
+              Discover an education that informs your mind, transforms your heart, and prepares you for impactful service.
             </p>
-
           </div>
 
           {/* Right side - Feature cards in 2x2 grid */}

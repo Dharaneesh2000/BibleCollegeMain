@@ -45,17 +45,11 @@ interface CourseContent {
   order_index: number
 }
 
-interface CourseItem {
-  id?: string // for keying
-  name: string
-  credits: number
-}
-
-interface Department {
-  id?: string // for keying
-  name: string
-  totalCredits: number
-  courses: CourseItem[]
+interface CurriculumYear {
+  year: string
+  title: string
+  topics: string[]
+  color: string
 }
 
 interface Requirement {
@@ -72,7 +66,7 @@ const CoursesManagement = () => {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
   const [courseContents, setCourseContents] = useState<CourseContent[]>([])
   const [activeSection, setActiveSection] = useState<'basic' | 'hero' | 'enroll' | 'catalog' | 'overview' | 'curriculum' | 'requirements'>('basic')
-
+  
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -95,13 +89,18 @@ const CoursesManagement = () => {
     catalog_file_name: '',
     catalog_file_size: '',
   })
-
+  
   const [certificateImageFile, setCertificateImageFile] = useState<File | null>(null)
   const [catalogFile, setCatalogFile] = useState<File | null>(null)
   const [uploading, setUploading] = useState(false)
-
+  
   // Curriculum and Requirements state
-  const [departments, setDepartments] = useState<Department[]>([])
+  const [curriculumYears, setCurriculumYears] = useState<CurriculumYear[]>([
+    { year: '1st year', title: '', topics: [], color: '#2B7FFF' },
+    { year: '2nd year', title: '', topics: [], color: '#60A563' },
+    { year: '3rd year', title: '', topics: [], color: '#AD46FF' },
+    { year: '4th year', title: '', topics: [], color: '#F0B100' },
+  ])
   const [requirements, setRequirements] = useState<Requirement[]>([
     { title: '', icon: 'school', bgColor: '#EFF6FF' },
     { title: '', icon: 'certificate', bgColor: '#F0FDF4' },
@@ -146,19 +145,20 @@ const CoursesManagement = () => {
 
       if (error) throw error
       setCourseContents(data || [])
-
+      
       // Load curriculum and requirements from course_content
       const curriculumContent = data?.find(c => c.content_type === 'curriculum')
       const requirementsContent = data?.find(c => c.content_type === 'requirements')
-
-      if (curriculumContent?.metadata?.departments && Array.isArray(curriculumContent.metadata.departments)) {
-        setDepartments(curriculumContent.metadata.departments)
-      } else if (curriculumContent?.metadata?.years) {
-        // Fallback or migration could go here, but for now just clear or use empty on new structure
-        // If needed to preserve data, we could map it, but the structure is different (Year vs Dept)
-        setDepartments([])
+      
+      if (curriculumContent?.metadata?.years && Array.isArray(curriculumContent.metadata.years)) {
+        setCurriculumYears(curriculumContent.metadata.years)
       } else {
-        setDepartments([])
+        setCurriculumYears([
+          { year: '1st year', title: '', topics: [], color: '#2B7FFF' },
+          { year: '2nd year', title: '', topics: [], color: '#60A563' },
+          { year: '3rd year', title: '', topics: [], color: '#AD46FF' },
+          { year: '4th year', title: '', topics: [], color: '#F0B100' },
+        ])
       }
       if (requirementsContent?.metadata?.requirements && Array.isArray(requirementsContent.metadata.requirements)) {
         // Remove borderColor if it exists in old data
@@ -191,14 +191,14 @@ const CoursesManagement = () => {
     return new Promise((resolve) => {
       const img = new Image()
       const url = URL.createObjectURL(file)
-
+      
       img.onload = () => {
         URL.revokeObjectURL(url)
         const width = img.width
         const height = img.height
         const widthDiff = Math.abs(width - expectedWidth)
         const heightDiff = Math.abs(height - expectedHeight)
-
+        
         if (widthDiff <= tolerance && heightDiff <= tolerance) {
           resolve(true)
         } else {
@@ -206,12 +206,12 @@ const CoursesManagement = () => {
           resolve(false)
         }
       }
-
+      
       img.onerror = () => {
         URL.revokeObjectURL(url)
         resolve(false)
       }
-
+      
       img.src = url
     })
   }
@@ -229,7 +229,7 @@ const CoursesManagement = () => {
         e.target.value = ''
         return
       }
-
+      
       // Validate dimensions for certificate image
       if (type === 'certificate') {
         const isValid = await validateImageDimensions(file, 800, 600, 100)
@@ -238,7 +238,7 @@ const CoursesManagement = () => {
           return
         }
       }
-
+      
       if (type === 'certificate') {
         setCertificateImageFile(file)
       }
@@ -324,7 +324,7 @@ const CoursesManagement = () => {
       setActiveSection('basic')
       return false
     }
-
+    
     // Validate enroll card fields
     if (!formData.enroll_languages.trim()) {
       alert('❌ Please enter languages for the enroll card')
@@ -342,18 +342,18 @@ const CoursesManagement = () => {
       setActiveSection('enroll')
       return false
     }
-
+    
     return true
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
+    
     // Validate form
     if (!validateForm()) {
       return
     }
-
+    
     setUploading(true)
 
     try {
@@ -432,70 +432,15 @@ const CoursesManagement = () => {
       // After saving, load the course and show content management
       await fetchCourses()
       const savedCourse = courses.find(c => c.id === savedCourseId) || await fetchCourseById(savedCourseId)
-
-      // AUTO-SAVE CURRICULUM AND REQUIREMENTS
-      // The user expects "Update Course" to save everything. 
-      // We manually invoke the save logic here for curriculum and requirements if they exist in state.
-      if (savedCourseId) {
-        // Save Curriculum
-        if (departments.length > 0) {
-          try {
-            const existingCurriculum = courseContents.find(c => c.content_type === 'curriculum')
-            const metadata = { departments }
-            const content = JSON.stringify(departments)
-            const payload = {
-              course_id: savedCourseId,
-              content_type: 'curriculum',
-              content,
-              metadata,
-              updated_at: new Date().toISOString(),
-            }
-
-            if (existingCurriculum) {
-              await supabase.from('course_content').update(payload).eq('id', existingCurriculum.id)
-            } else {
-              await supabase.from('course_content').insert([payload])
-            }
-          } catch (err) {
-            console.error("Auto-saving curriculum failed", err)
-          }
-        }
-
-        // Save Requirements
-        if (requirements.length > 0) {
-          try {
-            const existingRequirements = courseContents.find(c => c.content_type === 'requirements')
-            const metadata = { requirements }
-            const content = JSON.stringify(requirements)
-            const payload = {
-              course_id: savedCourseId,
-              content_type: 'requirements',
-              content,
-              metadata,
-              updated_at: new Date().toISOString(),
-            }
-
-            if (existingRequirements) {
-              await supabase.from('course_content').update(payload).eq('id', existingRequirements.id)
-            } else {
-              await supabase.from('course_content').insert([payload])
-            }
-          } catch (err) {
-            console.error("Auto-saving requirements failed", err)
-          }
-        }
-      }
-
+      
       if (savedCourse) {
         setSelectedCourse(savedCourse)
         setEditingCourse(savedCourse)
         setShowForm(true)
-        // Keep active section if it was already on a content tab, otherwise go to overview
-        // setActiveSection('overview') 
-
-        // Load course contents again to reflect auto-saves
+        setActiveSection('overview')
+        // Load course contents
         await fetchCourseContents(savedCourseId)
-        alert('✅ Course and all content saved successfully!')
+        alert('✅ Course saved successfully! You can now add course content.')
       } else {
         resetForm()
         alert('✅ Course saved successfully!')
@@ -581,8 +526,8 @@ const CoursesManagement = () => {
     try {
       const existingContent = courseContents.find(c => c.content_type === 'curriculum')
 
-      const metadata = { departments }
-      const content = JSON.stringify(departments)
+      const metadata = { years: curriculumYears }
+      const content = JSON.stringify(curriculumYears)
 
       if (existingContent) {
         const { error } = await supabase
@@ -610,7 +555,7 @@ const CoursesManagement = () => {
 
       await fetchCourseContents(courseId)
       alert('✅ Curriculum saved successfully!')
-      console.log('Curriculum saved:', departments)
+      console.log('Curriculum saved:', curriculumYears)
     } catch (error: any) {
       console.error('Error saving curriculum:', error)
       alert(error.message || 'Failed to save curriculum')
@@ -738,54 +683,22 @@ const CoursesManagement = () => {
     setOverviewContent('')
   }
 
-  const addDepartment = () => {
-    setDepartments([...departments, { name: '', totalCredits: 0, courses: [] }])
+  const addTopicToYear = (yearIndex: number) => {
+    const newYears = [...curriculumYears]
+    newYears[yearIndex].topics.push('')
+    setCurriculumYears(newYears)
   }
 
-  const removeDepartment = (index: number) => {
-    const newDepts = [...departments]
-    newDepts.splice(index, 1)
-    setDepartments(newDepts)
+  const updateTopic = (yearIndex: number, topicIndex: number, value: string) => {
+    const newYears = [...curriculumYears]
+    newYears[yearIndex].topics[topicIndex] = value
+    setCurriculumYears(newYears)
   }
 
-  const updateDepartment = (index: number, field: keyof Department, value: any) => {
-    const newDepts = [...departments]
-    newDepts[index] = { ...newDepts[index], [field]: value }
-    setDepartments(newDepts)
-  }
-
-  const addCourseToDepartment = (deptIndex: number) => {
-    const newDepts = [...departments]
-    newDepts[deptIndex].courses.push({ name: '', credits: 3 })
-    setDepartments(newDepts)
-  }
-
-  const updateCourse = (deptIndex: number, courseIndex: number, field: keyof CourseItem, value: any) => {
-    const newDepts = [...departments]
-    newDepts[deptIndex].courses[courseIndex] = {
-      ...newDepts[deptIndex].courses[courseIndex],
-      [field]: value
-    }
-
-    // Auto calculate total credits if user wants, but keeping it editable for now
-    // Or we can auto-update the department total credits here
-    let total = 0
-    newDepts[deptIndex].courses.forEach(c => total += Number(c.credits) || 0)
-    newDepts[deptIndex].totalCredits = total
-
-    setDepartments(newDepts)
-  }
-
-  const removeCourse = (deptIndex: number, courseIndex: number) => {
-    const newDepts = [...departments]
-    newDepts[deptIndex].courses.splice(courseIndex, 1)
-
-    // Update total credits
-    let total = 0
-    newDepts[deptIndex].courses.forEach(c => total += Number(c.credits) || 0)
-    newDepts[deptIndex].totalCredits = total
-
-    setDepartments(newDepts)
+  const removeTopic = (yearIndex: number, topicIndex: number) => {
+    const newYears = [...curriculumYears]
+    newYears[yearIndex].topics.splice(topicIndex, 1)
+    setCurriculumYears(newYears)
   }
 
   if (loading) {
@@ -835,7 +748,7 @@ const CoursesManagement = () => {
                 </h3>
                 <p className="text-gray-300 text-sm">Complete all required sections</p>
               </div>
-
+              
               <nav className="flex-1 overflow-y-auto p-4 space-y-1">
                 {/* Course Setup Section */}
                 <div className="mb-6">
@@ -844,10 +757,11 @@ const CoursesManagement = () => {
                     <button
                       key={item.id}
                       onClick={() => setActiveSection(item.id)}
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 text-left mb-1 ${activeSection === item.id
-                        ? 'bg-white text-[#15133D] shadow-lg transform scale-105'
-                        : 'text-gray-200 hover:bg-white/10 hover:text-white'
-                        }`}
+                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 text-left mb-1 ${
+                        activeSection === item.id
+                          ? 'bg-white text-[#15133D] shadow-lg transform scale-105'
+                          : 'text-gray-200 hover:bg-white/10 hover:text-white'
+                      }`}
                     >
                       <span className="text-2xl">{item.icon}</span>
                       <div className="flex-1">
@@ -872,10 +786,11 @@ const CoursesManagement = () => {
                     <button
                       key={item.id}
                       onClick={() => setActiveSection(item.id)}
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 text-left mb-1 ${activeSection === item.id
-                        ? 'bg-white text-[#15133D] shadow-lg transform scale-105'
-                        : 'text-gray-200 hover:bg-white/10 hover:text-white'
-                        }`}
+                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 text-left mb-1 ${
+                        activeSection === item.id
+                          ? 'bg-white text-[#15133D] shadow-lg transform scale-105'
+                          : 'text-gray-200 hover:bg-white/10 hover:text-white'
+                      }`}
                     >
                       <span className="text-2xl">{item.icon}</span>
                       <span className="font-semibold text-sm">{item.label}</span>
@@ -906,7 +821,7 @@ const CoursesManagement = () => {
                       <h3 className="text-2xl font-bold text-[#15133D] mb-6 flex items-center gap-3">
                         <span className="text-3xl">📝</span> Basic Information
                       </h3>
-
+                      
                       <div className="space-y-5">
                         <div>
                           <label className="block text-sm font-bold text-gray-700 mb-2">
@@ -1014,7 +929,7 @@ const CoursesManagement = () => {
                         <span className="text-3xl">🎯</span> Hero Section
                       </h3>
                       <p className="text-sm text-gray-600 mb-6">Configure the hero section that appears at the top of the course page</p>
-
+                      
                       <div className="space-y-5">
                         <div>
                           <label className="block text-sm font-bold text-gray-700 mb-2">Hero Title</label>
@@ -1086,7 +1001,7 @@ const CoursesManagement = () => {
                         <span className="text-3xl">🎓</span> Enroll Card
                       </h3>
                       <p className="text-sm text-gray-600 mb-6">Configure the enrollment card that appears on the course page</p>
-
+                      
                       <div className="space-y-5">
                         <div>
                           <label className="block text-sm font-bold text-gray-700 mb-2">
@@ -1169,7 +1084,7 @@ const CoursesManagement = () => {
                         <span className="text-3xl">📄</span> Course Catalog
                       </h3>
                       <p className="text-sm text-gray-600 mb-6">Upload a PDF catalog for students to download</p>
-
+                      
                       <div className="space-y-5">
                         <div>
                           <label className="block text-sm font-bold text-gray-700 mb-2">Course Catalog PDF</label>
@@ -1244,109 +1159,105 @@ const CoursesManagement = () => {
                         </p>
                       </div>
 
-                      {departments.map((dept, deptIndex) => (
-                        <div key={deptIndex} className="border-2 border-gray-200 rounded-lg p-5 bg-gray-50 mb-4">
-                          <div className="flex justify-between items-start mb-4">
-                            <div className="flex-1 mr-4">
-                              <label className="block text-sm font-bold text-gray-700 mb-2">Department Name</label>
+                      {curriculumYears.map((year, yearIndex) => (
+                        <div key={yearIndex} className="border-2 border-gray-200 rounded-lg p-5 bg-gray-50 mb-4">
+                          <div className="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                              <label className="block text-sm font-bold text-gray-700 mb-2">Year Label</label>
                               <input
                                 type="text"
-                                value={dept.name}
-                                onChange={(e) => updateDepartment(deptIndex, 'name', e.target.value)}
+                                value={year.year}
+                                onChange={(e) => {
+                                  const newYears = [...curriculumYears]
+                                  newYears[yearIndex].year = e.target.value
+                                  setCurriculumYears(newYears)
+                                }}
                                 className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] focus:border-[#15133D] transition-all"
-                                placeholder="e.g., Department of Biblical Studies"
+                                placeholder="e.g., 1st year"
                               />
                             </div>
-                            <div className="w-32">
-                              <label className="block text-sm font-bold text-gray-700 mb-2">Total Credits</label>
-                              <div className="px-4 py-2 border-2 border-gray-300 rounded-lg bg-gray-100 text-center font-bold text-[#15133D]">
-                                {dept.totalCredits}
-                              </div>
+                            <div>
+                              <label className="block text-sm font-bold text-gray-700 mb-2">Year Title</label>
+                              <input
+                                type="text"
+                                value={year.title}
+                                onChange={(e) => {
+                                  const newYears = [...curriculumYears]
+                                  newYears[yearIndex].title = e.target.value
+                                  setCurriculumYears(newYears)
+                                }}
+                                className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] focus:border-[#15133D] transition-all"
+                                placeholder="e.g., Foundations of Theology"
+                              />
                             </div>
-                            <button
-                              type="button"
-                              onClick={() => removeDepartment(deptIndex)}
-                              className="ml-4 mt-8 p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                              title="Remove Department"
-                            >
-                              🗑️
-                            </button>
                           </div>
-
-                          <div className="bg-white border text-left border-gray-200 rounded-lg p-4">
-                            <label className="block text-sm font-bold text-gray-700 mb-3">
-                              Courses
+                          <div className="mb-4">
+                            <label className="block text-sm font-bold text-gray-700 mb-2">Year Color</label>
+                            <select
+                              value={year.color}
+                              onChange={(e) => {
+                                const newYears = [...curriculumYears]
+                                newYears[yearIndex].color = e.target.value
+                                setCurriculumYears(newYears)
+                              }}
+                              className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] focus:border-[#15133D] transition-all"
+                            >
+                              <option value="#2B7FFF">Blue</option>
+                              <option value="#60A563">Green</option>
+                              <option value="#AD46FF">Purple</option>
+                              <option value="#F0B100">Yellow</option>
+                              <option value="#FF6B6B">Red</option>
+                              <option value="#4ECDC4">Teal</option>
+                              <option value="#FF8C42">Orange</option>
+                              <option value="#6C5CE7">Violet</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-bold text-gray-700 mb-2">
+                              Topics (Optional - appear in accordion)
                             </label>
-
-                            {dept.courses.length === 0 && (
-                              <div className="mb-3 p-3 bg-gray-50 rounded-lg border border-gray-100 text-center">
-                                <p className="text-xs text-gray-500 italic">
-                                  No courses in this department yet.
+                            {year.topics.length === 0 && (
+                              <div className="mb-3 p-3 bg-gray-100 rounded-lg border border-gray-200">
+                                <p className="text-xs text-gray-600 italic">
+                                  No topics yet. Click "Add Topic" to add curriculum topics for this year.
                                 </p>
                               </div>
                             )}
-
-                            <div className="space-y-3 mb-3">
-                              {dept.courses.map((course, courseIndex) => (
-                                <div key={courseIndex} className="flex gap-3 items-center">
-                                  <div className="flex-1">
-                                    <input
-                                      type="text"
-                                      value={course.name}
-                                      onChange={(e) => updateCourse(deptIndex, courseIndex, 'name', e.target.value)}
-                                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#15133D] text-sm"
-                                      placeholder="Course Name"
-                                    />
-                                  </div>
-                                  <div className="w-24">
-                                    <input
-                                      type="number"
-                                      value={course.credits}
-                                      onChange={(e) => updateCourse(deptIndex, courseIndex, 'credits', parseInt(e.target.value) || 0)}
-                                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#15133D] text-sm text-center"
-                                      placeholder="Credits"
-                                    />
-                                  </div>
-                                  <button
-                                    type="button"
-                                    onClick={() => removeCourse(deptIndex, courseIndex)}
-                                    className="p-2 text-red-500 hover:bg-red-50 rounded transition-colors"
-                                    title="Remove Course"
-                                  >
-                                    ✕
-                                  </button>
-                                </div>
-                              ))}
-                            </div>
-
+                            {year.topics.map((topic, topicIndex) => (
+                              <div key={topicIndex} className="flex gap-2 mb-2">
+                                <input
+                                  type="text"
+                                  value={topic}
+                                  onChange={(e) => updateTopic(yearIndex, topicIndex, e.target.value)}
+                                  className="flex-1 px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] focus:border-[#15133D] transition-all"
+                                  placeholder="Enter topic name"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => removeTopic(yearIndex, topicIndex)}
+                                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm font-medium whitespace-nowrap"
+                                >
+                                  Remove
+                                </button>
+                              </div>
+                            ))}
                             <button
                               type="button"
-                              onClick={() => addCourseToDepartment(deptIndex)}
-                              className="w-full py-2 border-2 border-dashed border-gray-300 text-gray-500 rounded-lg hover:border-[#15133D] hover:text-[#15133D] transition-colors text-sm font-medium"
+                              onClick={() => addTopicToYear(yearIndex)}
+                              className="mt-2 px-4 py-2 bg-[#15133D] text-white rounded-lg hover:bg-[#1a1650] text-sm font-medium"
                             >
-                              + Add Course
+                              + Add Topic to {year.year || 'Year'}
                             </button>
                           </div>
                         </div>
                       ))}
-
-                      <div className="flex justify-between items-center mt-6">
-                        <button
-                          type="button"
-                          onClick={addDepartment}
-                          className="px-4 py-2 border-2 border-[#15133D] text-[#15133D] rounded-lg hover:bg-[#15133D] hover:text-white transition-colors font-medium"
-                        >
-                          + Add New Department
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={handleSaveCurriculum}
-                          className="px-6 py-3 bg-[#15133D] text-white rounded-lg hover:bg-[#1a1650] transition-colors font-semibold shadow-md"
-                        >
-                          💾 Save Curriculum
-                        </button>
-                      </div>
+                      <button
+                        type="button"
+                        onClick={handleSaveCurriculum}
+                        className="px-6 py-3 bg-[#15133D] text-white rounded-lg hover:bg-[#1a1650] transition-colors font-semibold shadow-md"
+                      >
+                        💾 Save Curriculum
+                      </button>
                     </div>
                   </div>
                 )}
@@ -1362,23 +1273,6 @@ const CoursesManagement = () => {
 
                       {requirements.map((req, index) => (
                         <div key={index} className="border-2 border-gray-200 rounded-lg p-5 bg-gray-50 mb-4">
-                          <div className="flex justify-between items-start mb-4">
-                            <h4 className="text-sm font-bold text-[#15133D] uppercase tracking-wide">Requirement {index + 1}</h4>
-                            {requirements.length > 1 && (
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  const newReqs = [...requirements]
-                                  newReqs.splice(index, 1)
-                                  setRequirements(newReqs)
-                                }}
-                                className="text-red-500 hover:text-red-700 text-sm font-medium"
-                              >
-                                🗑️ Remove
-                              </button>
-                            )}
-                          </div>
-
                           <div className="grid grid-cols-2 gap-4 mb-4">
                             <div>
                               <label className="block text-sm font-bold text-gray-700 mb-2">Requirement Title</label>
@@ -1433,22 +1327,6 @@ const CoursesManagement = () => {
                           </div>
                         </div>
                       ))}
-
-                      <div className="flex gap-4 mb-6">
-                        {requirements.length < 3 && (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              const newReqs = [...requirements, { title: '', icon: 'school', bgColor: '#EFF6FF' }]
-                              setRequirements(newReqs)
-                            }}
-                            className="px-4 py-2 border-2 border-[#15133D] text-[#15133D] rounded-lg hover:bg-[#15133D] hover:text-white transition-colors font-medium"
-                          >
-                            + Add Requirement
-                          </button>
-                        )}
-                      </div>
-
                       <button
                         type="button"
                         onClick={handleSaveRequirements}
@@ -1487,7 +1365,7 @@ const CoursesManagement = () => {
               </form>
             </div>
           </div>
-        </div >
+        </div>
       ) : (
         /* Course List View */
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -1506,10 +1384,11 @@ const CoursesManagement = () => {
                       setShowForm(true)
                       handleEdit(course)
                     }}
-                    className={`p-4 border-b border-gray-100 cursor-pointer transition-all ${selectedCourse?.id === course.id
-                      ? 'bg-[#15133D] text-white'
-                      : 'hover:bg-gray-50'
-                      }`}
+                    className={`p-4 border-b border-gray-100 cursor-pointer transition-all ${
+                      selectedCourse?.id === course.id 
+                        ? 'bg-[#15133D] text-white' 
+                        : 'hover:bg-gray-50'
+                    }`}
                   >
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
@@ -1730,14 +1609,12 @@ const CoursesManagement = () => {
         </div>
       )}
 
-      {
-        !showForm && courses.length === 0 && (
-          <div className="bg-white rounded-lg shadow-md border border-gray-200 p-12 text-center">
-            <p className="text-gray-500 text-lg">No courses yet. Click "Add New Course" to get started!</p>
-          </div>
-        )
-      }
-    </div >
+      {!showForm && courses.length === 0 && (
+        <div className="bg-white rounded-lg shadow-md border border-gray-200 p-12 text-center">
+          <p className="text-gray-500 text-lg">No courses yet. Click "Add New Course" to get started!</p>
+        </div>
+      )}
+    </div>
   )
 }
 

@@ -6,7 +6,6 @@ import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
 import CloseIcon from "@mui/icons-material/Close";
-import SchoolIcon from "@mui/icons-material/School";
 import { supabase } from "../lib/supabase";
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
@@ -80,7 +79,7 @@ const ContactSection = () => {
 
   const handlePhoneChange = (value: string | undefined) => {
     setPhoneError(''); // Clear error on change
-
+    
     if (!value) {
       setFormData((prev) => ({ ...prev, phone: '' }));
       return;
@@ -111,7 +110,7 @@ const ContactSection = () => {
     // Extract phone number without country code
     const phoneDigits = value.replace(/\D/g, ''); // Get all digits
     let phoneNumber = phoneDigits;
-
+    
     // Remove country code based on detected country
     if (country === 'IN') {
       phoneNumber = phoneDigits.startsWith('91') ? phoneDigits.substring(2) : phoneDigits;
@@ -133,11 +132,11 @@ const ContactSection = () => {
         setSelectedCountry('GB');
       }
     }
-
+    
     // Country-specific limits
     let maxLength = 15; // Default international max
     let errorMessage = '';
-
+    
     if (country === 'IN') {
       maxLength = 10;
       if (phoneNumber.length > 10) {
@@ -168,7 +167,7 @@ const ContactSection = () => {
         return;
       }
     }
-
+    
     // If within limit, update the value
     if (phoneNumber.length <= maxLength) {
       setFormData((prev) => ({ ...prev, phone: value }));
@@ -264,10 +263,11 @@ const ContactSection = () => {
       {/* Snackbar Notification */}
       {showSnackbar && submitStatus.type && (
         <div
-          className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-6 py-4 rounded-lg shadow-2xl transform transition-all duration-300 ${submitStatus.type === 'success'
-            ? 'bg-green-600 text-white'
-            : 'bg-red-600 text-white'
-            }`}
+          className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-6 py-4 rounded-lg shadow-2xl transform transition-all duration-300 ${
+            submitStatus.type === 'success'
+              ? 'bg-green-600 text-white'
+              : 'bg-red-600 text-white'
+          }`}
           style={{
             animation: 'slideIn 0.3s ease-out',
           }}
@@ -317,7 +317,7 @@ const ContactSection = () => {
             <div className="space-y-8">
               {/* Email */}
               <div className="flex items-center space-x-4 pb-6 border-b border-gray-600">
-                <div
+                <div 
                   className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
                   style={{ background: "#FFFFFF1A" }}
                 >
@@ -338,7 +338,7 @@ const ContactSection = () => {
 
               {/* Phone */}
               <div className="flex items-center space-x-4 pb-6 border-b border-gray-600">
-                <div
+                <div 
                   className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
                   style={{ background: "#FFFFFF1A" }}
                 >
@@ -357,15 +357,15 @@ const ContactSection = () => {
                 </div>
               </div>
 
-              {/* Office Address */}
-              <div className="flex items-start space-x-4 pb-6 border-b border-gray-600">
-                <div
+              {/* Address */}
+              <div className="flex items-center space-x-4">
+                <div 
                   className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
                   style={{ background: "#FFFFFF1A" }}
                 >
                   <img
                     src={GITHome}
-                    alt="Office location icon"
+                    alt="Address location icon for God's Will Bible College in Rourkela, Odisha"
                     className="w-6 h-6 object-contain"
                     width="24"
                     height="24"
@@ -373,27 +373,8 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <p className="text-[18px] font-medium text-white">
-                    <span className="font-bold block mb-1">Office:</span>
-                    No 44 Srinivasa Nagar, Podanur,<br />
-                    Coimbatore 641023,<br />
-                    Tamil Nadu. India
-                  </p>
-                </div>
-              </div>
-
-              {/* Campus Address */}
-              <div className="flex items-start space-x-4">
-                <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
-                  style={{ background: "#FFFFFF1A" }}
-                >
-                  <SchoolIcon sx={{ color: 'white' }} />
-                </div>
-                <div>
-                  <p className="text-[18px] font-medium text-white">
-                    <span className="font-bold block mb-1">Campus:</span>
-                    Pannapti pirivu, Pannapti.<br />
-                    Coimbatore, Tamil Nadu, India
+                    No. 24, Gandhi Street Anna Nagar, Chennai - 600040<br />
+                    Tamil Nadu, India
                   </p>
                 </div>
               </div>

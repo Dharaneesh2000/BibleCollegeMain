@@ -98,13 +98,13 @@ const CourseDetail = () => {
 
   // Get content from course_content table
   const overviewContent = courseContents.find(c => c.content_type === 'overview')?.content || course.overview || ''
-  const curriculumData = courseContents.find(c => c.content_type === 'curriculum')?.metadata?.departments
+  const curriculumData = courseContents.find(c => c.content_type === 'curriculum')?.metadata?.years
   const requirementsData = courseContents.find(c => c.content_type === 'requirements')?.metadata?.requirements
 
   // SEO data
   const courseDescription = course.hero_description || overviewContent.substring(0, 160) || `${course.title} at God's Will Bible College. Residential theological education in Rourkela, Odisha.`
   const courseUrl = `https://godswillbiblecollege.com/academics/${course.slug}`
-
+  
   const courseStructuredData = getCourseStructuredData({
     title: course.title,
     description: courseDescription,
@@ -148,11 +148,11 @@ const CourseDetail = () => {
         <div className="mx-auto px-1 md:px-2 lg:px-1" style={{ maxWidth: '95%' }}>
           {/* Flex layout for 65/35 split */}
           <div className="flex flex-col lg:flex-row gap-10">
-
+            
             {/* LEFT SIDE - 65% */}
             <div className="w-full lg:w-[65%]">
               <CourseOverview content={overviewContent} />
-              <CurriculumStructure departments={curriculumData} />
+              <CurriculumStructure years={curriculumData} />
               <CourseCatalog
                 fileUrl={course.catalog_file_url}
                 fileName={course.catalog_file_name}

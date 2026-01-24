@@ -72,7 +72,7 @@ const NewsEventsPage = () => {
       const day = date.getDate();
       const month = date.toLocaleDateString('en-US', { month: 'short' });
       const year = date.getFullYear();
-      const time = date.toLocaleTimeString('en-US', {
+      const time = date.toLocaleTimeString('en-US', { 
         hour: 'numeric',
         minute: '2-digit',
         hour12: true
@@ -110,7 +110,7 @@ const NewsEventsPage = () => {
             </div>
             {/* Search Bar */}
             <div className="relative w-full md:w-auto">
-              <SearchIcon
+              <SearchIcon 
                 className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
                 style={{ fontSize: '20px' }}
               />
@@ -159,7 +159,7 @@ const NewsEventsPage = () => {
                     <p className="text-[14px] font-normal text-[#333333] mb-4 line-clamp-3">
                       {item.description}
                     </p>
-                    <div className="flex items-center gap-2 font-medium text-sm" style={{ color: '#044DC2' }}>
+                    <div className="flex items-center gap-2 text-bible-gold font-medium text-sm">
                       <CalendarTodayIcon style={{ fontSize: '18px' }} />
                       <span>{formatDate(item.date)}</span>
                     </div>

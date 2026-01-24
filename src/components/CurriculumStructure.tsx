@@ -1,64 +1,71 @@
 import { useState } from "react";
 
-export interface CourseItem {
-  name: string
-  credits: number
-}
-
-export interface Department {
-  name: string
-  totalCredits: number
-  courses: CourseItem[]
+interface Year {
+  year: string
+  title: string
+  topics: string[]
+  color: string
 }
 
 interface CurriculumStructureProps {
-  departments?: Department[]
+  years?: Year[]
 }
 
-const CurriculumStructure = ({ departments }: CurriculumStructureProps) => {
-  const [expandedDept, setExpandedDept] = useState<number | null>(null);
+const CurriculumStructure = ({ years }: CurriculumStructureProps) => {
+  const [expandedYear, setExpandedYear] = useState<number | null>(null);
 
-  if (!departments || departments.length === 0) {
+  // Default years if none provided
+  const defaultYears: Year[] = [
+    {
+      year: "1st year",
+      title: "Foundations of Theology & Scripture",
+      topics: [],
+      color: "#2B7FFF",
+    },
+    {
+      year: "2nd year",
+      title: "Advanced Biblical & Practical Studies",
+      topics: [],
+      color: "#60A563",
+    },
+    {
+      year: "3rd year",
+      title: "Advanced Biblical & Practical Studies",
+      topics: [],
+      color: "#AD46FF",
+    },
+    {
+      year: "4th year",
+      title: "Specialization & Research",
+      topics: [],
+      color: "#F0B100",
+    },
+  ];
+
+  const displayYears = years && years.length > 0 ? years : defaultYears;
+
+  if (!displayYears || displayYears.length === 0) {
     return null
   }
-
-  const displayDepartments = departments;
-
-  // Calculate Grand Total
-  const grandTotal = displayDepartments.reduce((acc, dept) => acc + (Number(dept.totalCredits) || 0), 0);
 
   return (
     <section
       className="bg-white"
       style={{ paddingTop: "0", paddingBottom: "4rem" }}
     >
-      <div className="flex flex-wrap items-center gap-4 mb-5">
-        <h2
-          className=""
-          style={{
-            fontSize: "clamp(20px, 1.35vw + 14px, 26px)",
-            fontWeight: 700,
-            color: "#333333",
-            fontFamily: "Montserrat, sans-serif",
-            marginBottom: 0
-          }}
-        >
-          Curriculum Structure
-        </h2>
-        <div
-          className="inline-flex items-center px-4 py-1.5 rounded-full"
-          style={{
-            backgroundColor: "#EFF6FF",
-            border: "1px solid #BFDBFE"
-          }}
-        >
-          <span className="text-sm font-semibold text-[#15133D]">
-            Grand Total Credits: <span className="text-[#2B7FFF] text-base">{grandTotal}</span>
-          </span>
-        </div>
-      </div>
+      <h2
+        className="mb-5"
+        style={{
+          fontSize: "clamp(20px, 1.35vw + 14px, 26px)",
+          fontWeight: 700,
+          color: "#333333",
+          fontFamily: "Montserrat, sans-serif",
+        }}
+      >
+        Curriculum Structure
+      </h2>
 
-      <div
+      <div 
         className="rounded-lg"
         style={{
           background: "#F9FAFB",
@@ -66,14 +73,14 @@ const CurriculumStructure = ({ departments }: CurriculumStructureProps) => {
         }}
       >
         <div className="space-y-3 md:space-y-4">
-          {displayDepartments.map((dept, index) => (
+          {displayYears.map((yearData, index) => (
             <div
               key={index}
               className="bg-white border border-gray-200 rounded-lg overflow-hidden"
             >
               <button
                 onClick={() =>
-                  setExpandedDept(expandedDept === index ? null : index)
+                  setExpandedYear(expandedYear === index ? null : index)
                 }
                 className="w-full hover:bg-gray-50 transition-colors"
                 style={{
@@ -81,74 +88,107 @@ const CurriculumStructure = ({ departments }: CurriculumStructureProps) => {
                 }}
               >
                 <div className="flex items-center justify-between gap-4">
-                  <div className="flex-1 min-w-0 text-left">
+                  <div className="flex-1 min-w-0">
+                    <div 
+                      className="mb-3 text-left"
+                      style={{ marginBottom: "clamp(8px, 0.625vw + 4px, 12px)" }}
+                    >
+                      <span
+                        className="text-white rounded-full font-semibold whitespace-nowrap inline-block"
+                        style={{ 
+                          backgroundColor: yearData.color,
+                          padding: "clamp(4px, 0.3125vw + 2px, 6px) clamp(12px, 1.0417vw + 6px, 16px)",
+                          fontSize: "clamp(12px, 0.729vw + 8px, 14px)",
+                        }}
+                      >
+                        {yearData.year}
+                      </span>
+                    </div>
                     <h3
-                      className="break-words mb-1"
+                      className="text-left break-words"
                       style={{
-                        fontSize: "clamp(16px, 1.1vw + 10px, 20px)",
+                        fontSize: "clamp(18px, 1.146vw + 12px, 22px)",
                         fontWeight: 600,
                         color: "#333333",
                         fontFamily: "Montserrat, sans-serif",
+                        wordWrap: 'break-word',
+                        overflowWrap: 'break-word',
                         lineHeight: "1.4"
                       }}
                     >
-                      {dept.name}
+                      {yearData.title || `Year ${index + 1}`}
                     </h3>
-                    <p className="text-sm font-medium text-gray-500">
-                      Total Credits: <span className="text-[#2B7FFF]">{dept.totalCredits}</span>
-                    </p>
                   </div>
-                  <svg
-                    className={`text-gray-400 transition-transform flex-shrink-0 ${expandedDept === index ? "rotate-180" : ""
+                  {yearData.topics && yearData.topics.length > 0 && (
+                    <svg
+                      className={`text-gray-600 transition-transform flex-shrink-0 ${
+                        expandedYear === index ? "rotate-180" : ""
                       }`}
-                    style={{
-                      width: "clamp(20px, 1.25vw + 10px, 24px)",
-                      height: "clamp(20px, 1.25vw + 10px, 24px)",
-                    }}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
+                      style={{
+                        width: "clamp(20px, 1.25vw + 10px, 24px)",
+                        height: "clamp(20px, 1.25vw + 10px, 24px)",
+                      }}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  )}
                 </div>
               </button>
 
-              {expandedDept === index && (
-                <div
-                  className="border-t border-gray-100 bg-[#FAFAFA]"
+              {expandedYear === index && yearData.topics && yearData.topics.length > 0 && (
+                <div 
+                  className="border-t border-gray-100"
                   style={{
-                    padding: "clamp(16px, 1.25vw + 8px, 24px)",
+                    paddingLeft: "clamp(16px, 1.25vw + 8px, 24px)",
+                    paddingRight: "clamp(16px, 1.25vw + 8px, 24px)",
+                    paddingBottom: "clamp(16px, 1.25vw + 8px, 24px)",
                   }}
                 >
-                  <div className="overflow-x-auto">
-                    <table className="w-full min-w-[300px]">
-                      <thead>
-                        <tr className="border-b border-gray-200">
-                          <th className="py-3 px-4 text-left text-sm font-semibold text-gray-700 bg-gray-50 rounded-tl-lg">Course</th>
-                          <th className="py-3 px-4 text-center text-sm font-semibold text-gray-700 bg-gray-50 w-24 rounded-tr-lg">Credits</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-100">
-                        {dept.courses.map((course, idx) => (
-                          <tr key={idx} className="hover:bg-white transition-colors">
-                            <td className="py-3 px-4 text-sm text-gray-700 font-medium">{course.name}</td>
-                            <td className="py-3 px-4 text-center text-sm text-gray-600 bg-gray-50/50 font-medium">{course.credits}</td>
-                          </tr>
-                        ))}
-                        {/* Footer Row for Total */}
-                        <tr className="bg-gray-100/50 border-t border-gray-200">
-                          <td className="py-3 px-4 text-sm font-bold text-gray-800 text-right">Department Total</td>
-                          <td className="py-3 px-4 text-center text-sm font-bold text-[#2B7FFF] bg-gray-100">{dept.totalCredits}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                  <ul 
+                    className="mt-4"
+                    style={{
+                      marginTop: "clamp(12px, 1.0417vw + 6px, 16px)",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "clamp(8px, 0.625vw + 4px, 12px)",
+                    }}
+                  >
+                    {yearData.topics.map((topic, topicIndex) => (
+                      <li key={topicIndex} className="flex items-start" style={{ gap: "clamp(8px, 0.625vw + 4px, 12px)" }}>
+                        <div 
+                          className="bg-blue-600 rounded-full flex-shrink-0"
+                          style={{
+                            width: "clamp(6px, 0.3125vw + 4px, 6px)",
+                            height: "clamp(6px, 0.3125vw + 4px, 6px)",
+                            marginTop: "clamp(8px, 0.625vw + 4px, 9px)",
+                          }}
+                        ></div>
+                        <span
+                          className="break-words"
+                          style={{
+                            fontSize: "clamp(16px, 0.9375vw + 10px, 18px)",
+                            fontWeight: 500,
+                            color: "#333333",
+                            fontStyle: "italic",
+                            fontFamily: "Montserrat, sans-serif",
+                            wordWrap: 'break-word',
+                            overflowWrap: 'break-word',
+                            lineHeight: "1.6"
+                          }}
+                        >
+                          {topic}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               )}
             </div>
