@@ -6,6 +6,7 @@ import NewsEventsManagement from '../components/admin/NewsEventsManagement'
 import TestimonialsManagement from '../components/admin/TestimonialsManagement'
 import CoursesManagement from '../components/admin/CoursesManagement'
 import EnrollmentManagement from '../components/admin/EnrollmentManagement'
+import HeroCarouselManagement from '../components/admin/HeroCarouselManagement'
 import Loader from '../components/common/Loader'
 
 const AdminDashboard = () => {
@@ -17,7 +18,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     checkUser()
-    
+
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (!session) {
@@ -65,6 +66,7 @@ const AdminDashboard = () => {
     { id: 'news', label: 'News & Events', icon: '📰', color: 'bg-green-500' },
     { id: 'testimonials', label: 'Testimonials', icon: '💬', color: 'bg-purple-500' },
     { id: 'courses', label: 'Courses', icon: '📚', color: 'bg-orange-500' },
+    { id: 'hero', label: 'Hero Carousel', icon: '🖼️', color: 'bg-cyan-500' },
   ]
 
   return (
@@ -94,11 +96,10 @@ const AdminDashboard = () => {
             <button
               key={item.id}
               onClick={() => setActiveSection(item.id)}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-                activeSection === item.id
-                  ? 'bg-white text-[#15133D] shadow-lg'
-                  : 'text-gray-300 hover:bg-[#1a1650] hover:text-white'
-              }`}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${activeSection === item.id
+                ? 'bg-white text-[#15133D] shadow-lg'
+                : 'text-gray-300 hover:bg-[#1a1650] hover:text-white'
+                }`}
             >
               <span className="text-2xl flex-shrink-0">{item.icon}</span>
               {sidebarOpen && (
@@ -179,6 +180,7 @@ const AdminDashboard = () => {
           {activeSection === 'news' && <NewsEventsManagement />}
           {activeSection === 'testimonials' && <TestimonialsManagement />}
           {activeSection === 'courses' && <CoursesManagement />}
+          {activeSection === 'hero' && <HeroCarouselManagement />}
         </div>
       </main>
     </div>

@@ -9,6 +9,7 @@
     transform: translateX(100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -20,12 +21,15 @@
     transform: translateX(-100px) scaleX(0);
     opacity: 0;
   }
+
   50% {
     opacity: 1;
   }
+
   70% {
     transform: translateX(10px) scaleX(1.2);
   }
+
   100% {
     transform: translateX(0) scaleX(1);
     opacity: 1;
@@ -42,48 +46,48 @@
   .btn-primary {
     @apply bg-bible-blue text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors duration-200;
   }
-  
+
   .btn-secondary {
     @apply bg-transparent border-2 border-bible-blue text-bible-blue px-6 py-3 rounded-lg font-medium hover:bg-bible-blue hover:text-white transition-colors duration-200;
   }
-  
+
   .section-padding {
     @apply py-8 md:py-12 lg:py-16 px-4;
   }
-  
+
   .container-custom {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
-  
+
   /* Responsive text sizes */
   .responsive-text-xs {
     @apply text-xs sm:text-sm;
   }
-  
+
   .responsive-text-sm {
     @apply text-sm sm:text-base;
   }
-  
+
   .responsive-text-base {
     @apply text-base sm:text-lg;
   }
-  
+
   .responsive-text-lg {
     @apply text-lg sm:text-xl lg:text-2xl;
   }
-  
+
   .responsive-text-xl {
     @apply text-xl sm:text-2xl lg:text-3xl;
   }
-  
+
   .responsive-text-2xl {
     @apply text-2xl sm:text-3xl lg:text-4xl;
   }
-  
+
   .responsive-text-3xl {
     @apply text-3xl sm:text-4xl lg:text-5xl;
   }
-  
+
   .responsive-text-4xl {
     @apply text-4xl sm:text-5xl lg:text-6xl;
   }
@@ -97,8 +101,17 @@
     @apply border-red-500;
   }
 
+  .phone-input .PhoneInput {
+    @apply relative flex items-center;
+  }
+
   .phone-input .PhoneInputCountry {
-    @apply mr-2;
+    @apply absolute left-3 top-1/2 z-10 mr-0 transform -translate-y-1/2;
+  }
+
+  .phone-input .PhoneInputInput {
+    @apply pl-12;
+    /* Make space for the flag */
   }
 
   .phone-input .PhoneInputCountryIcon {
@@ -112,11 +125,11 @@
   .phone-input .PhoneInputCountrySelectArrow {
     display: none !important;
   }
-  
+
   .phone-input .PhoneInputCountryIcon {
     cursor: default;
   }
-  
+
   .phone-input .PhoneInputCountrySelect {
     cursor: default;
   }

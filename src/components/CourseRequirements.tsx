@@ -13,26 +13,8 @@ interface CourseRequirementsProps {
 }
 
 const CourseRequirements = ({ requirements }: CourseRequirementsProps) => {
-  // Default requirements if none provided
-  const defaultRequirements: Requirement[] = [
-    {
-      icon: "school",
-      title: "12th Grade Completion Certificate",
-      bgColor: "#EFF6FF",
-    },
-    {
-      icon: "certificate",
-      title: "Minimum 50% aggregate marks",
-      bgColor: "#F0FDF4",
-    },
-    {
-      icon: "document",
-      title: "Character certificate from previous institution",
-      bgColor: "#FAF5FF",
-    },
-  ];
 
-  const displayRequirements = requirements && requirements.length > 0 ? requirements : defaultRequirements;
+  const displayRequirements = requirements?.filter(r => r.title && r.title.trim().length > 0);
 
   const getIcon = (iconType: string) => {
     switch (iconType) {

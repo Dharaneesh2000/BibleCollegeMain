@@ -53,9 +53,9 @@ const NewsEvents = () => {
       const day = date.getDate();
       const month = date.toLocaleDateString('en-US', { month: 'short' });
       const year = date.getFullYear();
-      
+
       let formattedDate = `${day} ${month}, ${year}`;
-      
+
       if (startTime) {
         // Format time if provided (assuming it's in HH:MM or HH:MM:SS format)
         const timeParts = startTime.split(':');
@@ -67,7 +67,7 @@ const NewsEvents = () => {
         const formattedTime = `${hours}:${minutes} ${ampm}`;
         formattedDate += ` | ${formattedTime}`;
       }
-      
+
       return formattedDate;
     } catch {
       return dateString;
@@ -142,24 +142,24 @@ const NewsEvents = () => {
                       />
                     </div>
                   </div>
-                  
+
                   {/* Content Section - Smaller than image */}
                   <div className="px-4 pb-4 pt-3 flex flex-col">
                     {/* Title */}
                     <h3 className="text-[18px] font-bold text-[#333333] mb-2 leading-tight line-clamp-2">
                       {item.title}
                     </h3>
-                    
+
                     {/* Description - Up to 2 rows, max 40 characters */}
                     <p className="text-[14px] font-normal text-[#333333] mb-3 line-clamp-2" style={{ lineHeight: '1.3' }}>
-                      {truncateDescription(item.description, 40)}
+                      {truncateDescription(item.description, 80)}
                     </p>
-                    
+
                     {/* Date and Time */}
                     <div className="flex items-center gap-2">
-                      <img 
-                        src={DateEventIcon} 
-                        alt="Date icon" 
+                      <img
+                        src={DateEventIcon}
+                        alt="Date icon"
                         className="w-8 h-8 flex-shrink-0"
                         width="32"
                         height="32"

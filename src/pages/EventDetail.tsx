@@ -8,6 +8,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import LazyImage from '../components/LazyImage'
 import SEO from '../components/SEO'
 import Loader from '../components/common/Loader'
+import JourneyFooter from '../components/JourneyFooter'
 
 interface Event {
   id: string
@@ -366,37 +367,8 @@ const EventDetail = () => {
         )}
       </div>
 
-      {/* Begin Your Journey Section (Footer CTA) */}
-      <div className="bg-[#0B0A1F] py-24 text-center">
-        <div className="container mx-auto px-0">
-          <h2 className="text-[36px] md:text-[42px] font-bold text-white mb-4 font-poppins">
-            Begin Your Journey with Us
-          </h2>
-          <p className="text-[#A3A3A3] text-lg max-w-2xl mx-auto mb-10 font-poppins leading-relaxed">
-            Whether you're exploring your calling or ready to take the next step, we're here to walk with you. Discover how Grace Bible College can equip you for a lifetime of faithful ministry.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <Link
-              to="/academics"
-              className="px-8 py-3.5 bg-[#FDBA08] text-[#0F0E24] rounded-[8px] font-bold text-[15px] hover:bg-[#e0a507] transition-colors min-w-[180px]"
-            >
-              Explore Programs
-            </Link>
-            <button
-              onClick={() => {
-                const contactSection = document.getElementById('contact');
-                if (contactSection) {
-                  contactSection.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
-              className="px-8 py-3.5 border border-[#3E3D55] text-white rounded-[8px] font-bold text-[15px] hover:bg-[#1a1835] transition-colors min-w-[180px] flex items-center justify-center gap-2"
-            >
-              Contact Us
-            </button>
-          </div>
-        </div>
-      </div>
+      {/* Journey Footer */}
+      <JourneyFooter />
     </div>
   )
 }
