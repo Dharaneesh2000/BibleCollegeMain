@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react';
 import Faculty1 from "../../assets/images/Faculty1.jpeg";
-import Faculty2 from "../../assets/images/Faculty2.jpeg";
-import Faculty3 from "../../assets/images/Faculty3.jpeg";
+import Faculty2 from "../../assets/images/faculty2.jpeg";
+import Faculty3 from "../../assets/images/faculty3.jpeg";
 import Faculty4 from "../../assets/images/Faculty4.jpeg";
 import Faculty5 from "../../assets/images/Faculty5.jpeg";
 import LazyImage from './LazyImage';
