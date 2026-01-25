@@ -44,7 +44,7 @@ const About = () => {
       </section>
 
       {/* Mission & Vision and Our Story Section - Continuous Background */}
-      <section 
+      <section
         className="py-20 md:py-24"
         style={{
           background: 'linear-gradient(180deg, #FFFFFF 0%, #EAE9FE 100%)'
@@ -53,7 +53,7 @@ const About = () => {
         <div className="container mx-auto max-w-7xl">
           {/* Mission & Vision */}
           <div className="mb-20" style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
-            <h2 
+            <h2
               className="text-[#333333] text-center mb-4"
               style={{
                 fontSize: '30px',
@@ -69,7 +69,7 @@ const About = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
               {/* Mission Card */}
-              <div 
+              <div
                 className="bg-white p-8 rounded-[12px]"
                 style={{
                   border: '1px solid #E6E6E6'
@@ -84,7 +84,7 @@ const About = () => {
                     height="74"
                   />
                 </div>
-                <h3 
+                <h3
                   className="text-[#1C398E] mb-4"
                   style={{
                     fontSize: '24px',
@@ -99,7 +99,7 @@ const About = () => {
               </div>
 
               {/* Vision Card */}
-              <div 
+              <div
                 className="bg-white p-8 rounded-[12px]"
                 style={{
                   border: '1px solid #E6E6E6'
@@ -114,7 +114,7 @@ const About = () => {
                     height="74"
                   />
                 </div>
-                <h3 
+                <h3
                   className="text-[#59168B] mb-4"
                   style={{
                     fontSize: '24px',
@@ -168,7 +168,7 @@ const About = () => {
 
               {/* Right side - Text Content */}
               <div className="lg:col-span-2 flex flex-col justify-center" style={{ height: '100%' }}>
-                <h2 
+                <h2
                   className="text-[#333333] mb-4"
                   style={{
                     fontSize: '30px',
@@ -180,7 +180,7 @@ const About = () => {
                   Our Story
                 </h2>
                 <p className="text-[#636363] leading-relaxed text-lg">
-                  God's Will Bible College was founded in 2013 by Pastor John Reuben, a visionary leader with a heart for equipping the next generation of Christian ministers. After completing his theological studies in Aberdeen, Scotland and Birmingham, England, Pastor John returned to India with a burning passion to raise up leaders who would carry the Gospel to the ends of the earth. Together with his wife, Chinthija, and a dedicated team of faculty members, the college began its journey of providing quality theological education rooted in Scripture and empowered by the Holy Spirit. Since its inception, God's Will Bible College has trained and graduated over 300 students, many of whom have been ordained as pastors and evangelists. These alumni are now actively serving in various regions, impacting lives and communities through vibrant ministry. From humble beginnings to a thriving institution, the college continues to stand as a beacon of spiritual formation, academic excellence, and missional purpose.
+                  God's Will Bible College was founded in 2013 by Pastor John Ruban, a visionary leader with a heart for equipping the next generation of Christian ministers. After completing his theological studies in Aberdeen, Scotland and Birmingham, England, Pastor John returned to India with a burning passion to raise up leaders who would carry the Gospel to the ends of the earth. Together with his wife, Chinthija, and a dedicated team of faculty members, the college began its journey of providing quality theological education rooted in Scripture and empowered by the Holy Spirit. Since its inception, God's Will Bible College has trained and graduated over 300 students, many of whom have been ordained as pastors and evangelists. These alumni are now actively serving in various regions, impacting lives and communities through vibrant ministry. From humble beginnings to a thriving institution, the college continues to stand as a beacon of spiritual formation, academic excellence, and missional purpose.
                 </p>
               </div>
             </div>
@@ -191,7 +191,7 @@ const About = () => {
       {/* Our Core Values Section */}
       <section className="py-14 md:py-16 bg-white">
         <div className="container mx-auto max-w-7xl" style={{ paddingLeft: '2rem', paddingRight: '2rem' }}>
-          <h2 
+          <h2
             className="text-[#333333] text-center mb-4"
             style={{
               fontSize: '30px',
@@ -207,7 +207,7 @@ const About = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {/* Theological Foundations */}
-            <div 
+            <div
               className="bg-white p-6 rounded-[12px]"
               style={{
                 border: '1px solid #E6E6E6'
@@ -216,7 +216,7 @@ const About = () => {
               <div className="mb-4 flex items-center justify-center w-[60px] h-[60px] rounded-lg" style={{ backgroundColor: '#E3F2FD' }}>
                 <MenuBookOutlinedIcon sx={{ fontSize: 24, color: '#1976D2' }} />
               </div>
-              <h3 
+              <h3
                 className="text-[#333333]"
                 style={{
                   fontSize: '16px',
@@ -226,7 +226,7 @@ const About = () => {
               >
                 Theological Foundations
               </h3>
-              <p 
+              <p
                 className="text-[#636363] leading-relaxed"
                 style={{
                   fontSize: '14px',
@@ -238,7 +238,7 @@ const About = () => {
             </div>
 
             {/* Christ-Centered Focus */}
-            <div 
+            <div
               className="bg-white p-6 rounded-[12px]"
               style={{
                 border: '1px solid #E6E6E6'
@@ -247,7 +247,7 @@ const About = () => {
               <div className="mb-4 flex items-center justify-center w-[60px] h-[60px] rounded-lg" style={{ backgroundColor: '#FFEBEE' }}>
                 <FavoriteIcon sx={{ fontSize: 24, color: '#D32F2F' }} />
               </div>
-              <h3 
+              <h3
                 className="text-[#333333]"
                 style={{
                   fontSize: '16px',
@@ -257,7 +257,7 @@ const About = () => {
               >
                 Christ-Centered Focus
               </h3>
-              <p 
+              <p
                 className="text-[#636363] leading-relaxed"
                 style={{
                   fontSize: '14px',
@@ -269,7 +269,7 @@ const About = () => {
             </div>
 
             {/* Discipleship and Character */}
-            <div 
+            <div
               className="bg-white p-6 rounded-[12px]"
               style={{
                 border: '1px solid #E6E6E6'
@@ -278,7 +278,7 @@ const About = () => {
               <div className="mb-4 flex items-center justify-center w-[60px] h-[60px] rounded-lg" style={{ backgroundColor: '#E8F5E9' }}>
                 <PeopleOutlinedIcon sx={{ fontSize: 24, color: '#388E3C' }} />
               </div>
-              <h3 
+              <h3
                 className="text-[#333333]"
                 style={{
                   fontSize: '16px',
@@ -288,7 +288,7 @@ const About = () => {
               >
                 Discipleship and Character
               </h3>
-              <p 
+              <p
                 className="text-[#636363] leading-relaxed"
                 style={{
                   fontSize: '14px',
@@ -300,7 +300,7 @@ const About = () => {
             </div>
 
             {/* Mission and Service */}
-            <div 
+            <div
               className="bg-white p-6 rounded-[12px]"
               style={{
                 border: '1px solid #E6E6E6'
@@ -309,7 +309,7 @@ const About = () => {
               <div className="mb-4 flex items-center justify-center w-[60px] h-[60px] rounded-lg" style={{ backgroundColor: '#E1F5FE' }}>
                 <PublicOutlinedIcon sx={{ fontSize: 24, color: '#0277BD' }} />
               </div>
-              <h3 
+              <h3
                 className="text-[#333333]"
                 style={{
                   fontSize: '16px',
@@ -319,7 +319,7 @@ const About = () => {
               >
                 Mission and Service
               </h3>
-              <p 
+              <p
                 className="text-[#636363] leading-relaxed"
                 style={{
                   fontSize: '14px',
@@ -331,7 +331,7 @@ const About = () => {
             </div>
 
             {/* Academic Excellence */}
-            <div 
+            <div
               className="bg-white p-6 rounded-[12px]"
               style={{
                 border: '1px solid #E6E6E6'
@@ -340,7 +340,7 @@ const About = () => {
               <div className="mb-4 flex items-center justify-center w-[60px] h-[60px] rounded-lg" style={{ backgroundColor: '#FFF9C4' }}>
                 <SchoolOutlinedIcon sx={{ fontSize: 24, color: '#F57F17' }} />
               </div>
-              <h3 
+              <h3
                 className="text-[#333333]"
                 style={{
                   fontSize: '16px',
@@ -350,7 +350,7 @@ const About = () => {
               >
                 Academic Excellence
               </h3>
-              <p 
+              <p
                 className="text-[#636363] leading-relaxed"
                 style={{
                   fontSize: '14px',
@@ -362,7 +362,7 @@ const About = () => {
             </div>
 
             {/* Stewardship and Accountability */}
-            <div 
+            <div
               className="bg-white p-6 rounded-[12px]"
               style={{
                 border: '1px solid #E6E6E6'
@@ -371,7 +371,7 @@ const About = () => {
               <div className="mb-4 flex items-center justify-center w-[60px] h-[60px] rounded-lg" style={{ backgroundColor: '#E0F2F1' }}>
                 <AccountBalanceOutlinedIcon sx={{ fontSize: 24, color: '#00796B' }} />
               </div>
-              <h3 
+              <h3
                 className="text-[#333333]"
                 style={{
                   fontSize: '16px',
@@ -381,7 +381,7 @@ const About = () => {
               >
                 Stewardship and Accountability
               </h3>
-              <p 
+              <p
                 className="text-[#636363] leading-relaxed"
                 style={{
                   fontSize: '14px',
@@ -393,7 +393,7 @@ const About = () => {
             </div>
 
             {/* Practical Ministry */}
-            <div 
+            <div
               className="bg-white p-6 rounded-[12px]"
               style={{
                 border: '1px solid #E6E6E6'
@@ -402,7 +402,7 @@ const About = () => {
               <div className="mb-4 flex items-center justify-center w-[60px] h-[60px] rounded-lg" style={{ backgroundColor: '#FFF3E0' }}>
                 <HandshakeOutlinedIcon sx={{ fontSize: 24, color: '#E65100' }} />
               </div>
-              <h3 
+              <h3
                 className="text-[#333333]"
                 style={{
                   fontSize: '16px',
@@ -412,7 +412,7 @@ const About = () => {
               >
                 Practical Ministry
               </h3>
-              <p 
+              <p
                 className="text-[#636363] leading-relaxed"
                 style={{
                   fontSize: '14px',
@@ -424,7 +424,7 @@ const About = () => {
             </div>
 
             {/* Church Partnership */}
-            <div 
+            <div
               className="bg-white p-6 rounded-[12px]"
               style={{
                 border: '1px solid #E6E6E6'
@@ -433,7 +433,7 @@ const About = () => {
               <div className="mb-4 flex items-center justify-center w-[60px] h-[60px] rounded-lg" style={{ backgroundColor: '#F3E5F5' }}>
                 <BusinessOutlinedIcon sx={{ fontSize: 24, color: '#7B1FA2' }} />
               </div>
-              <h3 
+              <h3
                 className="text-[#333333]"
                 style={{
                   fontSize: '16px',
@@ -443,7 +443,7 @@ const About = () => {
               >
                 Church Partnership
               </h3>
-              <p 
+              <p
                 className="text-[#636363] leading-relaxed"
                 style={{
                   fontSize: '14px',
@@ -458,14 +458,14 @@ const About = () => {
       </section>
 
       {/* Accreditation & Affiliation Section */}
-      <section 
+      <section
         className="py-14 md:py-16"
         style={{
           background: 'linear-gradient(153.68deg, #EFF6FF -98.22%, rgba(5, 101, 255, 0.1) 13.44%)'
         }}
       >
         <div className="container mx-auto max-w-7xl" style={{ paddingLeft: '1.75rem', paddingRight: '1.75rem' }}>
-          <h2 
+          <h2
             className="text-[#333333] text-center mb-4"
             style={{
               fontSize: '30px',
@@ -481,7 +481,7 @@ const About = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
             {/* Accreditation Card */}
-            <div 
+            <div
               className="bg-white p-8 rounded-[12px]"
               style={{
                 border: '1px solid #E6E6E6'
@@ -496,7 +496,7 @@ const About = () => {
                   height="41"
                 />
               </div>
-              <h3 
+              <h3
                 className="text-[#333333] mb-4"
                 style={{
                   fontSize: '20.5px',
@@ -505,7 +505,7 @@ const About = () => {
               >
                 Accredited Institution
               </h3>
-              <p 
+              <p
                 className="text-[#636363] leading-relaxed"
                 style={{
                   fontSize: '18px',
@@ -517,7 +517,7 @@ const About = () => {
             </div>
 
             {/* Affiliation Card */}
-            <div 
+            <div
               className="bg-white p-8 rounded-[12px]"
               style={{
                 border: '1px solid #E6E6E6'
@@ -526,7 +526,7 @@ const About = () => {
               <div className="mb-6 flex items-center justify-center w-[80px] h-[80px] rounded-lg" style={{ backgroundColor: '#F3E5F5' }}>
                 <LanguageIcon sx={{ fontSize: 41, color: '#7B1FA2' }} />
               </div>
-              <h3 
+              <h3
                 className="text-[#333333] mb-4"
                 style={{
                   fontSize: '20.5px',
@@ -535,7 +535,7 @@ const About = () => {
               >
                 Affiliated Institution
               </h3>
-              <p 
+              <p
                 className="text-[#636363] leading-relaxed"
                 style={{
                   fontSize: '18px',
@@ -552,7 +552,7 @@ const About = () => {
       {/* Campus Life & Facilities Section */}
       <section className="py-20 md:py-24 bg-white">
         <div className="container mx-auto max-w-7xl" style={{ paddingLeft: '0.75rem', paddingRight: '0.75rem' }}>
-          <h2 
+          <h2
             className="text-[#333333] text-center mb-4"
             style={{
               fontSize: '30px',
@@ -579,7 +579,7 @@ const About = () => {
                 />
               </div>
               <div className="p-6">
-                <h3 
+                <h3
                   className="text-[#333333] mb-3"
                   style={{
                     fontSize: '23.5px',
@@ -606,7 +606,7 @@ const About = () => {
                 />
               </div>
               <div className="p-6">
-                <h3 
+                <h3
                   className="text-[#333333] mb-3"
                   style={{
                     fontSize: '23.5px',
