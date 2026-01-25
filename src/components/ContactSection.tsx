@@ -373,9 +373,7 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <p className="text-[18px] font-medium text-white">
-                    <span className="font-bold block mb-1">Office:</span>
-                    No 44 Srinivasa Nagar, Podanur,<br />
-                    Coimbatore 641023,<br />
+                    No 44 Srinivasa Nagar, Podanur, Coimbatore 641023,<br />
                     Tamil Nadu. India
                   </p>
                 </div>
@@ -391,7 +389,6 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <p className="text-[18px] font-medium text-white">
-                    <span className="font-bold block mb-1">Campus:</span>
                     Pannapti pirivu, Pannapti.<br />
                     Coimbatore, Tamil Nadu, India
                   </p>
