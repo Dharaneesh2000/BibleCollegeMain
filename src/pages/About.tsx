@@ -542,7 +542,7 @@ const About = () => {
                   fontWeight: 400
                 }}
               >
-                Affiliated with The Gospel Ministries, Birmingham, England.
+                Affiliated with The Word Ministries, Birmingham, England.
               </p>
             </div>
           </div>

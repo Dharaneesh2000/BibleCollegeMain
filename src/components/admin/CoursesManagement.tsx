@@ -390,6 +390,46 @@ const CoursesManagement = () => {
       // Auto-generate path from slug
       const autoPath = `/academics/${slug}`
 
+      // Check for duplicate slug before updating/inserting
+      if (editingCourse) {
+        // When editing, check if slug exists for another course
+        if (slug !== editingCourse.slug) {
+          const { data: existingCourses, error: checkError } = await supabase
+            .from('courses')
+            .select('id')
+            .eq('slug', slug)
+            .neq('id', editingCourse.id)
+
+          if (checkError) {
+            throw checkError
+          }
+
+          if (existingCourses && existingCourses.length > 0) {
+            alert(`❌ A course with the slug "${slug}" already exists. Please use a different slug.`)
+            setUploading(false)
+            setActiveSection('basic')
+            return
+          }
+        }
+      } else {
+        // When creating, check if slug already exists
+        const { data: existingCourses, error: checkError } = await supabase
+          .from('courses')
+          .select('id')
+          .eq('slug', slug)
+
+        if (checkError) {
+          throw checkError
+        }
+
+        if (existingCourses && existingCourses.length > 0) {
+          alert(`❌ A course with the slug "${slug}" already exists. Please use a different slug.`)
+          setUploading(false)
+          setActiveSection('basic')
+          return
+        }
+      }
+
       const courseData = {
         ...formData,
         slug,
@@ -502,7 +542,14 @@ const CoursesManagement = () => {
       }
     } catch (error: any) {
       console.error('Error saving course:', error)
-      alert(error.message || 'Failed to save')
+      
+      // Check for duplicate slug constraint violation
+      if (error?.code === '23505' || error?.message?.includes('duplicate key value violates unique constraint') || error?.message?.includes('courses_slug_key')) {
+        alert(`❌ A course with the slug "${formData.slug}" already exists. Please use a different slug.`)
+        setActiveSection('basic')
+      } else {
+        alert(error.message || 'Failed to save course')
+      }
     } finally {
       setUploading(false)
     }
