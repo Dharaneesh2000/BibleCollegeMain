@@ -59,23 +59,23 @@ const WhyChooseUs = () => {
   ];
 
   return (
-    <section className="py-20 lg:py-28 bg-white flex items-center" aria-labelledby="why-choose-us-heading">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+    <section className="py-12 sm:py-16 lg:py-20 xl:py-28 bg-white flex items-center" aria-labelledby="why-choose-us-heading">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-start">
           {/* Left side - Text content */}
           <div>
             <div
               ref={barRef}
-              className="w-[94px] h-[7px] bg-[#012659] mb-6"
+              className="w-[70px] sm:w-[94px] h-[5px] sm:h-[7px] bg-[#012659] mb-4 sm:mb-6"
               style={{
                 animation: isVisible ? 'barSlideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)' : 'none',
                 transformOrigin: 'left center'
               }}
             ></div>
-            <h2 id="why-choose-us-heading" className="text-[40px] font-bold text-[#333333] leading-tight mb-3">
-              Why GWBC is Your <br />Best Choice?
+            <h2 id="why-choose-us-heading" className="text-[28px] sm:text-[32px] lg:text-[36px] xl:text-[40px] font-bold text-[#333333] leading-tight mb-3">
+              Why GWBC is Your <br className="hidden sm:inline" />Best Choice?
             </h2>
-            <p className="text-[16px] font-normal text-[#333333] leading-normal">
+            <p className="text-[14px] sm:text-[15px] lg:text-[16px] font-normal text-[#333333] leading-normal">
               Godswill Bible College is a trusted center for sound biblical training and spiritual development,
               committed to raising leaders who are equipped to impact the world with truth and excellence.
               Over the years, <strong>more than 200 students have successfully graduated</strong> from
@@ -93,25 +93,25 @@ const WhyChooseUs = () => {
           </div>
 
           {/* Right side - Feature cards in 2x2 grid */}
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             {features.map((feature, index) => (
               <div
                 key={index}
-                className={`${feature.color} p-[20px] rounded-[12px] shadow-sm`}
+                className={`${feature.color} p-4 sm:p-5 lg:p-[20px] rounded-[12px] shadow-sm`}
               >
-                <div className="mb-4">
+                <div className="mb-3 sm:mb-4">
                   <LazyImage
                     src={feature.icon}
                     alt={`${feature.title} - ${feature.description.substring(0, 50)}`}
-                    className="w-[60px] h-[60px] object-contain rounded-full"
+                    className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] object-contain rounded-full"
                     width="60"
                     height="60"
                   />
                 </div>
-                <h3 className="text-[22px] font-semibold text-[#333333] mb-3 leading-snug">
+                <h3 className="text-[18px] sm:text-[20px] lg:text-[22px] font-semibold text-[#333333] mb-2 sm:mb-3 leading-snug">
                   {feature.title}
                 </h3>
-                <p className="text-[16px] font-normal text-[#636363] leading-relaxed">
+                <p className="text-[14px] sm:text-[15px] lg:text-[16px] font-normal text-[#636363] leading-relaxed">
                   {feature.description}
                 </p>
               </div>

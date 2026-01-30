@@ -39,15 +39,26 @@ const SEO = ({
     // Update or create meta tags
     updateMetaTag('description', description)
     updateMetaTag('keywords', keywords)
-    
+
     // Open Graph tags
     updateMetaTag('og:title', title, 'property')
     updateMetaTag('og:description', description, 'property')
     updateMetaTag('og:image', image.startsWith('http') ? image : `${url}${image}`, 'property')
     updateMetaTag('og:url', url, 'property')
     updateMetaTag('og:type', type, 'property')
+
+    // Update Canonical URL
+    let linkCanonical = document.querySelector("link[rel='canonical']") as HTMLLinkElement;
+    if (linkCanonical) {
+      linkCanonical.href = url;
+    } else {
+      linkCanonical = document.createElement('link');
+      linkCanonical.rel = 'canonical';
+      linkCanonical.href = url;
+      document.head.appendChild(linkCanonical);
+    }
     updateMetaTag('og:site_name', siteName, 'property')
-    
+
     // Twitter Card tags
     updateMetaTag('twitter:card', 'summary_large_image')
     updateMetaTag('twitter:title', title)

@@ -17,17 +17,17 @@ const OurFaculty = () => {
       image: Faculty1,
     },
     {
-      name: "Pastor. Chinthiya John",
+      name: "Pastor Chinthiya John",
       title: "Principal",
       image: Faculty2,
     },
     {
-      name: "Pastor. Moses David",
+      name: "Pastor Moses David",
       title: "Faculty",
       image: Faculty4,
     },
     {
-      name: "Pastor. Arun Kumar",
+      name: "Pastor Arun Kumar",
       title: "Faculty",
       image: Faculty5,
     },

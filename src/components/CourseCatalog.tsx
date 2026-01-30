@@ -29,18 +29,18 @@ const CourseCatalog = ({ fileUrl, fileName, fileSize }: CourseCatalogProps) => {
         Course Catalog
       </h2>
 
-      <div className="rounded-lg p-6 hover:shadow-lg transition-shadow duration-300" style={{ background: '#E8E7EC' }}>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center flex-shrink-0">
-              <svg className="w-7 h-7 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+      <div className="rounded-lg p-4 sm:p-6 hover:shadow-lg transition-shadow duration-300" style={{ background: '#E8E7EC' }}>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center space-x-3 sm:space-x-4 flex-1 min-w-0">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-lg flex items-center justify-center flex-shrink-0">
+              <svg className="w-6 h-6 sm:w-7 sm:h-7 text-red-600" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
               </svg>
             </div>
-            <div>
+            <div className="min-w-0 flex-1">
               <p 
+                className="text-sm sm:text-base truncate"
                 style={{ 
-                  fontSize: '16px', 
                   fontWeight: 500, 
                   color: '#000000',
                   fontFamily: 'Montserrat, sans-serif'
@@ -50,9 +50,8 @@ const CourseCatalog = ({ fileUrl, fileName, fileSize }: CourseCatalogProps) => {
               </p>
               {fileSize && (
                 <p 
-                  className="mt-0.5"
+                  className="mt-0.5 text-xs sm:text-sm"
                   style={{ 
-                    fontSize: '12px', 
                     fontWeight: 400, 
                     color: '#000000',
                     fontFamily: 'Montserrat, sans-serif'
@@ -66,7 +65,7 @@ const CourseCatalog = ({ fileUrl, fileName, fileSize }: CourseCatalogProps) => {
 
           <button 
             onClick={handleDownload}
-            className="px-5 py-2.5 rounded-lg transition-colors duration-200 flex items-center space-x-2 flex-shrink-0"
+            className="w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 flex-shrink-0"
             style={{ 
               backgroundColor: '#030213',
               fontSize: '12px',

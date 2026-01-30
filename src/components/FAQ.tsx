@@ -60,13 +60,13 @@ const FAQ = () => {
     >
       <button
         onClick={() => toggleFAQ(originalIndex)}
-        className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+        className="w-full px-4 sm:px-6 py-3 sm:py-4 text-left flex justify-between items-start sm:items-center hover:bg-gray-50 transition-colors duration-200 gap-3"
       >
-        <span className="font-[600] text-[18px] text-[#333333]">{faq.question}</span>
-        <div className="w-6 h-6 flex items-center justify-center flex-shrink-0">
+        <span className="font-[600] text-[14px] sm:text-[16px] lg:text-[18px] text-[#333333] flex-1">{faq.question}</span>
+        <div className="w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-0">
           {isOpen(originalIndex) ? (
             <svg
-              className="w-5 h-5 text-gray-500"
+              className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -80,7 +80,7 @@ const FAQ = () => {
             </svg>
           ) : (
             <svg
-              className="w-5 h-5 text-gray-500"
+              className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -96,8 +96,8 @@ const FAQ = () => {
         </div>
       </button>
       {isOpen(originalIndex) && (
-        <div className="px-6 pb-4">
-          <p className="text-[14px] font-[400] text-[#333333]">{faq.answer}</p>
+        <div className="px-4 sm:px-6 pb-3 sm:pb-4">
+          <p className="text-[13px] sm:text-[14px] font-[400] text-[#333333] leading-relaxed">{faq.answer}</p>
         </div>
       )}
     </div>
@@ -105,22 +105,22 @@ const FAQ = () => {
 
   return (
     <section
-      className="py-20 lg:py-28 flex items-center"
+      className="py-12 sm:py-16 lg:py-20 xl:py-28 flex items-center"
       style={{
         background: 'linear-gradient(181.77deg, #E8E7EC 1.5%, #DBD9FF 147.24%)'
       }}
     >
-      <div className="container mx-auto px-4 pb-8">
+      <div className="container mx-auto px-4 sm:px-6 pb-6 sm:pb-8">
         {/* Title & Subtitle */}
-        <div className="text-left mb-12">
-          <h2 className="text-[46px] font-[700] text-[#242424] mb-3">FAQ's</h2>
-          <p className="text-[14px] font-[400] text-[#4B5563]" style={{ lineHeight: '1.3' }}>
+        <div className="text-left mb-8 sm:mb-10 lg:mb-12">
+          <h2 className="text-[32px] sm:text-[38px] lg:text-[42px] xl:text-[46px] font-[700] text-[#242424] mb-2 sm:mb-3">FAQ's</h2>
+          <p className="text-[13px] sm:text-[14px] font-[400] text-[#4B5563]" style={{ lineHeight: '1.3' }}>
             Everything you need to know about our Bible College, programs, admissions, and life on<span className="hidden lg:inline"><br /></span> campus — all in one place
           </p>
         </div>
 
         {/* FAQ List - Two independent columns */}
-        <div className="flex flex-col md:flex-row gap-6 pb-8">
+        <div className="flex flex-col md:flex-row gap-4 sm:gap-6 pb-6 sm:pb-8">
           {/* Left Column */}
           <div className="flex-1 flex flex-col gap-6">
             {leftColumnFAQs.map((faq, colIndex) => {

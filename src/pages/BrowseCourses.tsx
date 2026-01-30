@@ -119,10 +119,10 @@ const BrowseCourses = () => {
         image="/images/BannerImage.png"
         structuredData={breadcrumbData}
       />
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16">
         {/* Header Row */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-          <h1 className="text-[34px] font-[700] text-[#333333] mb-4 md:mb-0">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 sm:mb-8 gap-4">
+          <h1 className="text-[28px] sm:text-[32px] lg:text-[34px] font-[700] text-[#333333]">
             Browse Courses
           </h1>
 
@@ -166,7 +166,7 @@ const BrowseCourses = () => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {filteredCourses.map((course) => (
               <Link
                 key={course.id}
@@ -174,7 +174,7 @@ const BrowseCourses = () => {
                 className="group border border-[#E6E6E6] rounded-lg overflow-hidden transform transition-all duration-500 hover:-translate-y-1 hover:shadow-lg"
               >
                 {/* Course Image */}
-                <div className="relative overflow-hidden h-64">
+                <div className="relative overflow-hidden h-48 sm:h-56 lg:h-64">
                   <LazyImage
                     src={course.image_url || BOTA}
                     alt={`${course.title} - ${course.duration || 'Theology program'} at God's Will Bible College`}
@@ -194,14 +194,14 @@ const BrowseCourses = () => {
                 </div>
 
                 {/* Course Info */}
-                <div className="p-4">
-                  <h3 className="text-[22px] font-[600] text-[#333333] mb-2 transition-colors duration-300 group-hover:text-[#012659]">
+                <div className="p-3 sm:p-4">
+                  <h3 className="text-[18px] sm:text-[20px] lg:text-[22px] font-[600] text-[#333333] mb-2 transition-colors duration-300 group-hover:text-[#012659]">
                     {course.title}
                   </h3>
                   {course.duration && (
-                    <div className="flex items-center text-[14px] font-[500] text-[#333333]">
+                    <div className="flex items-center text-[12px] sm:text-[14px] font-[500] text-[#333333]">
                       <svg
-                        className="w-4 h-4 mr-2 text-[#012659]"
+                        className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2 text-[#012659]"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"

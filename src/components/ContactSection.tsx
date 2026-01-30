@@ -264,7 +264,7 @@ const ContactSection = () => {
       {/* Snackbar Notification */}
       {showSnackbar && submitStatus.type && (
         <div
-          className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-6 py-4 rounded-lg shadow-2xl transform transition-all duration-300 ${submitStatus.type === 'success'
+          className={`fixed bottom-4 left-4 right-4 sm:bottom-6 sm:left-auto sm:right-6 sm:max-w-md z-50 flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 rounded-lg shadow-2xl transform transition-all duration-300 ${submitStatus.type === 'success'
             ? 'bg-green-600 text-white'
             : 'bg-red-600 text-white'
             }`}
@@ -273,16 +273,16 @@ const ContactSection = () => {
           }}
         >
           {submitStatus.type === 'success' ? (
-            <CheckCircleIcon className="text-white" />
+            <CheckCircleIcon className="text-white flex-shrink-0" style={{ fontSize: '20px' }} />
           ) : (
-            <ErrorIcon className="text-white" />
+            <ErrorIcon className="text-white flex-shrink-0" style={{ fontSize: '20px' }} />
           )}
-          <span className="font-medium">{submitStatus.message}</span>
+          <span className="font-medium text-sm sm:text-base flex-1">{submitStatus.message}</span>
           <button
             onClick={() => setShowSnackbar(false)}
-            className="ml-2 hover:bg-white/20 rounded-full p-1 transition-colors"
+            className="ml-2 hover:bg-white/20 rounded-full p-1 transition-colors flex-shrink-0"
           >
-            <CloseIcon className="text-white text-sm" />
+            <CloseIcon className="text-white" style={{ fontSize: '18px' }} />
           </button>
         </div>
       )}
@@ -300,80 +300,99 @@ const ContactSection = () => {
         <div className="absolute inset-0 bg-black opacity-0"></div>
       </div>
 
-      <div className="container mx-auto px-4 relative py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 lg:gap-x-32 items-start">
+      <div className="container mx-auto px-4 sm:px-6 relative py-8 sm:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 lg:gap-x-32 items-start">
           {/* Left side - Contact info */}
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             <div>
-              <h2 id="contact-heading" className="text-[38px] font-[700] mb-4 text-white">
+              <h2 id="contact-heading" className="text-[28px] sm:text-[32px] lg:text-[38px] font-[700] mb-3 sm:mb-4 text-white">
                 Get in touch with us
               </h2>
-              <p className="text-[18px] font-[400] text-white" style={{ lineHeight: '1.3', paddingBottom: '48px' }}>
+              <p className="text-[16px] sm:text-[18px] font-[400] text-white" style={{ lineHeight: '1.3', paddingBottom: '32px' }}>
                 Everything you need to know about our Bible College, programs,
                 admissions, and life on campus — all in one place.
               </p>
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-6 sm:space-y-8">
               {/* Email */}
-              <div className="flex items-center space-x-4 pb-6 border-b border-gray-600">
+              <div className="flex items-start sm:items-center space-x-3 sm:space-x-4 pb-4 sm:pb-6 border-b border-gray-600">
                 <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0"
                   style={{ background: "#FFFFFF1A" }}
                 >
                   <img
                     src={GITMail}
                     alt="Email contact icon for God's Will Bible College"
-                    className="w-6 h-6 object-contain"
+                    className="w-5 h-5 sm:w-6 sm:h-6 object-contain"
                     width="24"
                     height="24"
                   />
                 </div>
-                <div>
-                  <p className="text-[18px] font-medium text-white">
-                    johnruban10@gmail.com
-                  </p>
+                <div className="flex-1 min-w-0">
+                  <a
+                    href="mailto:godswillbiblecollege2025@gmail.com"
+                    className="text-[14px] sm:text-[16px] lg:text-[18px] font-medium text-white cursor-pointer hover:opacity-80 break-all"
+                    aria-label="Send email to godswillbiblecollege2025@gmail.com"
+                    title="Click to send an email"
+                  >
+                    godswillbiblecollege2025@gmail.com
+                  </a>
                 </div>
               </div>
 
               {/* Phone */}
-              <div className="flex items-center space-x-4 pb-6 border-b border-gray-600">
+              <div className="flex items-start sm:items-center space-x-3 sm:space-x-4 pb-4 sm:pb-6 border-b border-gray-600">
                 <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0"
                   style={{ background: "#FFFFFF1A" }}
                 >
                   <img
                     src={GITPhone}
                     alt="Phone contact icon for God's Will Bible College"
-                    className="w-6 h-6 object-contain"
+                    className="w-5 h-5 sm:w-6 sm:h-6 object-contain"
                     width="24"
                     height="24"
                   />
                 </div>
-                <div>
-                  <p className="text-[18px] font-medium text-white">
-                    <a href="tel:+919841012879">+91 98410 12879</a><br />
-                    <a href="tel:+919942073588">+91 99420 73588</a>
+                <div className="flex-1">
+                  <p className="text-[14px] sm:text-[16px] lg:text-[18px] font-medium text-white">
+                    <a
+                      href="tel:+919841012879"
+                      className="text-white cursor-pointer hover:opacity-80 block mb-1"
+                      aria-label="Call +91 98410 12879"
+                      title="Click to call +91 98410 12879"
+                    >
+                      +91 98410 12879
+                    </a>
+                    <a
+                      href="tel:+919942073588"
+                      className="text-white cursor-pointer hover:opacity-80 block"
+                      aria-label="Call +91 99420 73588"
+                      title="Click to call +91 99420 73588"
+                    >
+                      +91 99420 73588
+                    </a>
                   </p>
                 </div>
               </div>
 
               {/* Office Address */}
-              <div className="flex items-start space-x-4 pb-6 border-b border-gray-600">
+              <div className="flex items-start space-x-3 sm:space-x-4 pb-4 sm:pb-6 border-b border-gray-600">
                 <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0"
                   style={{ background: "#FFFFFF1A" }}
                 >
                   <img
                     src={GITHome}
                     alt="Office location icon"
-                    className="w-6 h-6 object-contain"
+                    className="w-5 h-5 sm:w-6 sm:h-6 object-contain"
                     width="24"
                     height="24"
                   />
                 </div>
-                <div>
-                  <p className="text-[18px] font-medium text-white">
+                <div className="flex-1">
+                  <p className="text-[14px] sm:text-[16px] lg:text-[18px] font-medium text-white">
                     No 44 Srinivasa Nagar, Podanur, Coimbatore 641023,<br />
                     Tamil Nadu. India
                   </p>
@@ -381,15 +400,15 @@ const ContactSection = () => {
               </div>
 
               {/* Campus Address */}
-              <div className="flex items-start space-x-4">
+              <div className="flex items-start space-x-3 sm:space-x-4">
                 <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0"
                   style={{ background: "#FFFFFF1A" }}
                 >
-                  <SchoolIcon sx={{ color: 'white' }} />
+                  <SchoolIcon sx={{ fontSize: { xs: '20px', sm: '24px' }, color: 'white' }} />
                 </div>
-                <div>
-                  <p className="text-[18px] font-medium text-white">
+                <div className="flex-1">
+                  <p className="text-[14px] sm:text-[16px] lg:text-[18px] font-medium text-white">
                     Pannapti pirivu, Pannapti.<br />
                     Coimbatore, Tamil Nadu, India
                   </p>
@@ -399,8 +418,8 @@ const ContactSection = () => {
           </div>
 
           {/* Right side - Contact form */}
-          <div className="bg-white rounded-lg pt-8 px-8 lg:pt-10 lg:px-10 self-start" style={{ paddingBottom: '1rem' }}>
-            <form onSubmit={handleSubmit} className="space-y-5" aria-label="Contact form">
+          <div className="bg-white rounded-lg pt-6 px-4 sm:pt-8 sm:px-6 lg:pt-10 lg:px-10 self-start" style={{ paddingBottom: '1rem' }}>
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5" aria-label="Contact form">
               <div>
                 <input
                   type="text"

@@ -82,8 +82,8 @@ const NewsEvents = () => {
 
   if (loading) {
     return (
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-8 md:px-12 lg:px-16">
+      <section className="py-12 sm:py-16 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
           <Loader message="Loading news and events..." />
         </div>
       </section>
@@ -93,34 +93,34 @@ const NewsEvents = () => {
   return (
     <>
       <section
-        className="min-h-[821px] py-16 flex items-center"
+        className="min-h-[400px] sm:min-h-[500px] lg:min-h-[821px] py-12 sm:py-16 flex items-center"
         style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #EAE9FE 100%)' }}
         aria-labelledby="news-events-heading"
       >
-        <div className="container mx-auto px-8 md:px-12 lg:px-16">
-          <div className="flex justify-between items-start mb-12">
-            <div>
-              <h2 id="news-events-heading" className="text-[38px] font-[700] text-[#333333] mb-3">
+        <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
+          <div className="flex flex-col sm:flex-row justify-between items-start mb-8 sm:mb-10 lg:mb-12 gap-4">
+            <div className="flex-1">
+              <h2 id="news-events-heading" className="text-[28px] sm:text-[32px] lg:text-[36px] xl:text-[38px] font-[700] text-[#333333] mb-2 sm:mb-3">
                 Latest News & Events
               </h2>
-              <p className="text-[18px] font-[400] text-[#333333]" style={{ lineHeight: '1.3' }}>
+              <p className="text-[14px] sm:text-[16px] lg:text-[18px] font-[400] text-[#333333]" style={{ lineHeight: '1.3' }}>
                 Learn from dedicated mentors who are experts in their fields and passionate about your<span className="hidden lg:inline"><br /></span> spiritual and academic growth.
               </p>
             </div>
             <button
               onClick={() => navigate('/news')}
-              className="flex items-center gap-2 px-4 py-2 rounded-[6px] bg-[#15133D] text-[12px] font-medium text-[#ffffff] hover:bg-[#1a1650] transition-colors"
+              className="flex items-center gap-2 px-4 py-2 rounded-[6px] bg-[#15133D] text-[12px] font-medium text-[#ffffff] hover:bg-[#1a1650] transition-colors self-start sm:self-auto"
             >
-              View All <ChevronRightIcon style={{ color: "#ffffff" }} />
+              View All <ChevronRightIcon style={{ color: "#ffffff", fontSize: '16px' }} />
             </button>
           </div>
 
           {news.length === 0 ? (
-            <div className="text-center py-12 text-gray-500">
-              <p>No news or events available at the moment.</p>
+            <div className="text-center py-8 sm:py-12 text-gray-500">
+              <p className="text-sm sm:text-base">No news or events available at the moment.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
               {news.map((item) => (
                 <article
                   key={item.id}
@@ -128,8 +128,8 @@ const NewsEvents = () => {
                   onClick={() => navigate(`/news/${item.id}`)}
                 >
                   {/* Image Section with padding - Horizontal rectangle (wider than tall) */}
-                  <div className="px-4 pt-4">
-                    <div className="w-full h-[180px] overflow-hidden rounded-[8px]">
+                  <div className="px-3 sm:px-4 pt-3 sm:pt-4">
+                    <div className="w-full h-[150px] sm:h-[180px] overflow-hidden rounded-[8px]">
                       <LazyImage
                         src={item.image_url || "/images/Events.png"}
                         alt={`${item.title} - News and events at God's Will Bible College`}
@@ -144,14 +144,14 @@ const NewsEvents = () => {
                   </div>
 
                   {/* Content Section - Smaller than image */}
-                  <div className="px-4 pb-4 pt-3 flex flex-col">
+                  <div className="px-3 sm:px-4 pb-3 sm:pb-4 pt-2 sm:pt-3 flex flex-col">
                     {/* Title */}
-                    <h3 className="text-[18px] font-bold text-[#333333] mb-2 leading-tight line-clamp-2">
+                    <h3 className="text-[16px] sm:text-[18px] font-bold text-[#333333] mb-2 leading-tight line-clamp-2">
                       {item.title}
                     </h3>
 
                     {/* Description - Up to 2 rows, max 40 characters */}
-                    <p className="text-[14px] font-normal text-[#333333] mb-3 line-clamp-2" style={{ lineHeight: '1.3' }}>
+                    <p className="text-[13px] sm:text-[14px] font-normal text-[#333333] mb-2 sm:mb-3 line-clamp-2" style={{ lineHeight: '1.3' }}>
                       {truncateDescription(item.description, 80)}
                     </p>
 
@@ -160,11 +160,11 @@ const NewsEvents = () => {
                       <img
                         src={DateEventIcon}
                         alt="Date icon"
-                        className="w-8 h-8 flex-shrink-0"
+                        className="w-6 h-6 sm:w-8 sm:h-8 flex-shrink-0"
                         width="32"
                         height="32"
                       />
-                      <p className="text-[16px] font-medium" style={{ color: '#044DC2' }}>
+                      <p className="text-[14px] sm:text-[16px] font-medium" style={{ color: '#044DC2' }}>
                         {formatDate(item.date, item.start_time)}
                       </p>
                     </div>

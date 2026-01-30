@@ -206,7 +206,7 @@ const EventDetail = () => {
         />
 
         {/* Hero Content */}
-        <div className="absolute bottom-0 left-0 right-0 py-8 md:py-12 lg:py-20 px-0 container mx-auto text-white">
+        <div className="absolute bottom-0 left-0 right-0 py-8 md:py-12 lg:py-20 px-4 sm:px-6 md:px-0 container mx-auto text-white">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight max-w-4xl tracking-tight">
             {event.title}
           </h1>
@@ -232,21 +232,21 @@ const EventDetail = () => {
       </div>
 
       {/* Main Content Container */}
-      <div className="container mx-auto px-0 py-20 lg:py-24">
-        <div className="flex flex-col lg:flex-row gap-16 mb-24">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-0 py-12 sm:py-16 lg:py-20 xl:py-24">
+        <div className="flex flex-col lg:flex-row gap-8 sm:gap-12 lg:gap-16 mb-16 sm:mb-20 lg:mb-24">
 
           {/* Left Column: About Event (65%) */}
           <div className="lg:w-[65%]">
-            <h2 className="text-[28px] font-bold text-[#333333] mb-8 font-poppins">About this Event</h2>
-            <div className="text-[#545454] leading-[1.8] text-[20px] font-normal whitespace-pre-wrap font-poppins">
+            <h2 className="text-[24px] sm:text-[26px] lg:text-[28px] font-bold text-[#333333] mb-6 sm:mb-8 font-poppins">About this Event</h2>
+            <div className="text-[#545454] leading-[1.8] text-[16px] sm:text-[18px] lg:text-[20px] font-normal whitespace-pre-wrap font-poppins">
               {event.about_content || event.description}
             </div>
           </div>
 
           {/* Right Column: What to Expect (35%) */}
-          <div className="lg:w-[35%] space-y-8">
-            <div className="bg-white border border-[#E6E6E6] rounded-[20px] p-8 shadow-sm">
-              <h3 className="text-[24px] font-bold text-[#1A2633] mb-8 font-poppins">What to Expect</h3>
+          <div className="lg:w-[35%] space-y-6 sm:space-y-8">
+            <div className="bg-white border border-[#E6E6E6] rounded-[20px] p-6 sm:p-8 shadow-sm">
+              <h3 className="text-[20px] sm:text-[22px] lg:text-[24px] font-bold text-[#1A2633] mb-6 sm:mb-8 font-poppins">What to Expect</h3>
 
               {event.what_to_expect && event.what_to_expect.length > 0 ? (
                 <div className="space-y-6">
@@ -291,9 +291,9 @@ const EventDetail = () => {
 
         {/* Speaker Details */}
         {event.speakers && Array.isArray(event.speakers) && event.speakers.length > 0 && (
-          <div className="mb-24">
-            <h2 className="text-[28px] font-bold text-[#333333] mb-12 font-poppins">Speaker Details</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="mb-16 sm:mb-20 lg:mb-24">
+            <h2 className="text-[24px] sm:text-[26px] lg:text-[28px] font-bold text-[#333333] mb-8 sm:mb-10 lg:mb-12 font-poppins">Speaker Details</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
               {event.speakers.map((speaker: any, index: number) => (
                 <div
                   key={index}
@@ -322,18 +322,18 @@ const EventDetail = () => {
 
         {/* Related Events */}
         {relatedEvents.length > 0 && (
-          <div className="mb-20">
-            <div className="flex justify-between items-center mb-10">
-              <h2 className="text-[48px] font-bold text-[#333333] font-poppins">Related Events</h2>
+          <div className="mb-12 sm:mb-16 lg:mb-20">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 sm:mb-10 gap-4">
+              <h2 className="text-[32px] sm:text-[40px] lg:text-[48px] font-bold text-[#333333] font-poppins">Related Events</h2>
               <Link
                 to="/news"
-                className="px-6 py-2.5 bg-[#15133D] text-white rounded-[8px] text-sm font-semibold hover:bg-[#1a1650] transition-colors"
+                className="px-5 sm:px-6 py-2 sm:py-2.5 bg-[#15133D] text-white rounded-[8px] text-xs sm:text-sm font-semibold hover:bg-[#1a1650] transition-colors"
               >
                 View more &gt;
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {relatedEvents.map((relatedEvent) => (
                 <div
                   key={relatedEvent.id}

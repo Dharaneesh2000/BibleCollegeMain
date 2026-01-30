@@ -145,12 +145,12 @@ const CourseDetail = () => {
 
       {/* Main content */}
       <div className="relative">
-        <div className="mx-auto px-1 md:px-2 lg:px-1" style={{ maxWidth: '95%' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-1" style={{ maxWidth: '95%' }}>
           {/* Flex layout for 65/35 split */}
-          <div className="flex flex-col lg:flex-row gap-10">
+          <div className="flex flex-col lg:flex-row gap-6 sm:gap-8 lg:gap-10">
 
             {/* LEFT SIDE - 65% */}
-            <div className="w-full lg:w-[65%]">
+            <div className="w-full lg:w-[65%] order-2 lg:order-1">
               <CourseOverview content={overviewContent} />
               <CurriculumStructure departments={curriculumData} />
               <CourseCatalog
@@ -162,9 +162,9 @@ const CourseDetail = () => {
             </div>
 
             {/* RIGHT SIDE - 35% */}
-            <div className="w-full lg:w-[35%] flex justify-end pr-4 lg:pr-8">
-              {/* Sticky Enroll Card - overlaps hero, stops at CourseRequirements */}
-              <div className="sticky top-24 self-start -mt-[17rem]">
+            <div className="w-full lg:w-[35%] flex justify-center lg:justify-end pr-0 lg:pr-4 xl:pr-8 order-1 lg:order-2">
+              {/* Sticky Enroll Card - overlaps hero on desktop, normal flow on mobile */}
+              <div className="w-full max-w-md lg:max-w-none lg:sticky lg:top-24 lg:self-start lg:-mt-[17rem]">
                 <EnrollCard
                   title={course.title}
                   duration={course.duration || ''}

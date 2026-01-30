@@ -99,27 +99,27 @@ const NewsEventsPage = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-white py-16">
-        <div className="container mx-auto px-8 md:px-12 lg:px-16">
+      <div className="min-h-screen bg-white py-12 sm:py-16">
+        <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
           {/* Header Section */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6 pb-6" style={{ borderBottom: '1px solid #E6E6E6' }}>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 sm:mb-10 lg:mb-12 gap-4 sm:gap-6 pb-4 sm:pb-6" style={{ borderBottom: '1px solid #E6E6E6' }}>
             <div>
-              <h1 className="text-[34px] font-[700] text-[#333333]">
+              <h1 className="text-[28px] sm:text-[32px] lg:text-[34px] font-[700] text-[#333333]">
                 Events
               </h1>
             </div>
             {/* Search Bar */}
             <div className="relative w-full md:w-auto">
               <SearchIcon
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
-                style={{ fontSize: '20px' }}
+                className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+                style={{ fontSize: '18px' }}
               />
               <input
                 type="text"
                 placeholder="Search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full md:w-[300px] pl-12 pr-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] focus:border-transparent"
+                className="w-full md:w-[300px] pl-10 sm:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] focus:border-transparent text-sm sm:text-base"
                 style={{ border: '0.5px solid #B2B3B7' }}
               />
             </div>
@@ -127,18 +127,18 @@ const NewsEventsPage = () => {
 
           {/* Events Grid */}
           {filteredItems.length === 0 ? (
-            <div className="text-center py-12 text-gray-500">
-              <p>No events found matching your search.</p>
+            <div className="text-center py-8 sm:py-12 text-gray-500">
+              <p className="text-sm sm:text-base">No events found matching your search.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
               {filteredItems.map((item) => (
                 <article
                   key={item.id}
                   className="bg-white rounded-[12px] shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer"
                   onClick={() => handleEventClick(item)}
                 >
-                  <div className="p-[15px]">
+                  <div className="p-3 sm:p-4 lg:p-[15px]">
                     <div className="aspect-video overflow-hidden rounded-[12px]">
                       <LazyImage
                         src={item.image_url || "/images/Events.png"}
@@ -152,15 +152,15 @@ const NewsEventsPage = () => {
                       />
                     </div>
                   </div>
-                  <div className="p-6">
-                    <h3 className="text-[18px] font-semibold text-[#1A2633] mb-2 line-clamp-2">
+                  <div className="p-4 sm:p-5 lg:p-6">
+                    <h3 className="text-[16px] sm:text-[17px] lg:text-[18px] font-semibold text-[#1A2633] mb-2 line-clamp-2">
                       {item.title}
                     </h3>
-                    <p className="text-[14px] font-normal text-[#333333] mb-4 line-clamp-3">
+                    <p className="text-[13px] sm:text-[14px] font-normal text-[#333333] mb-3 sm:mb-4 line-clamp-3">
                       {item.description}
                     </p>
-                    <div className="flex items-center gap-2 font-medium text-sm" style={{ color: '#044DC2' }}>
-                      <CalendarTodayIcon style={{ fontSize: '18px' }} />
+                    <div className="flex items-center gap-2 font-medium text-xs sm:text-sm" style={{ color: '#044DC2' }}>
+                      <CalendarTodayIcon style={{ fontSize: '16px' }} />
                       <span>{formatDate(item.date)}</span>
                     </div>
                   </div>
