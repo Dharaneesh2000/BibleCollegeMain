@@ -358,12 +358,12 @@ const ContactSection = () => {
                 <div className="flex-1">
                   <p className="text-[14px] sm:text-[16px] lg:text-[18px] font-medium text-white">
                     <a
-                      href="tel:+919842012878"
+                      href="tel:+919842012879"
                       className="text-white cursor-pointer hover:opacity-80 block mb-1"
-                      aria-label="Call +91 98420 12878"
-                      title="Click to call +91 98420 12878"
+                      aria-label="Call +91 98420 12879"
+                      title="Click to call +91 98420 12879"
                     >
-                      +91 98420 12878
+                      +91 98420 12879
                     </a>
                     <a
                       href="tel:+919942073588"

@@ -27,7 +27,7 @@ interface Course {
   certificate_image_path: string | null
   enroll_languages: string | null
   enroll_course_type: string | null
-  enroll_accredited: boolean | null
+  enroll_accredited: string | null
   // Course Catalog Section
   catalog_file_url: string | null
   catalog_file_path: string | null
@@ -90,7 +90,7 @@ const CoursesManagement = () => {
     // Enroll Card
     enroll_languages: '',
     enroll_course_type: '',
-    enroll_accredited: true,
+    enroll_accredited: '',
     // Catalog
     catalog_file_name: '',
     catalog_file_size: '',
@@ -443,6 +443,8 @@ const CoursesManagement = () => {
         certificate_image_path: certificateImagePath,
         catalog_file_path: catalogFilePath,
         hero_title: formData.hero_title || formData.title,
+        // Convert empty strings to NULL for optional text fields
+        enroll_accredited: formData.enroll_accredited.trim() || null,
       }
 
       let savedCourseId = courseId
@@ -589,7 +591,7 @@ const CoursesManagement = () => {
       hero_degree_tag: course.hero_degree_tag || '',
       enroll_languages: course.enroll_languages || '',
       enroll_course_type: course.enroll_course_type || '',
-      enroll_accredited: course.enroll_accredited ?? true,
+      enroll_accredited: course.enroll_accredited || '',
       catalog_file_name: course.catalog_file_name || '',
       catalog_file_size: course.catalog_file_size || '',
     })
@@ -772,7 +774,7 @@ const CoursesManagement = () => {
       hero_degree_tag: '',
       enroll_languages: '',
       enroll_course_type: '',
-      enroll_accredited: true,
+      enroll_accredited: '',
       catalog_file_name: '',
       catalog_file_size: '',
     })
@@ -1191,17 +1193,19 @@ const CoursesManagement = () => {
                           />
                         </div>
 
-                        <div className="flex items-center p-4 bg-gray-50 rounded-lg border border-gray-200">
-                          <input
-                            type="checkbox"
-                            id="enroll_accredited"
-                            checked={formData.enroll_accredited}
-                            onChange={(e) => setFormData({ ...formData, enroll_accredited: e.target.checked })}
-                            className="w-5 h-5 text-[#15133D] border-gray-300 rounded focus:ring-[#15133D]"
-                          />
-                          <label htmlFor="enroll_accredited" className="ml-3 text-sm font-medium text-gray-700">
-                            Course is accredited
+                        <div>
+                          <label htmlFor="enroll_accredited" className="block text-sm font-medium text-gray-700 mb-2">
+                            Accredited by <span className="text-gray-500 font-normal">(Optional)</span>
                           </label>
+                          <input
+                            type="text"
+                            id="enroll_accredited"
+                            value={formData.enroll_accredited}
+                            onChange={(e) => setFormData({ ...formData, enroll_accredited: e.target.value })}
+                            placeholder="Enter accreditation name (e.g., IATA, ABC Accreditation)"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#15133D] focus:border-transparent"
+                          />
+                          <p className="mt-1 text-xs text-gray-500">Enter any accreditation text. Leave empty to hide this field on the course page.</p>
                         </div>
                       </div>
                     </div>
@@ -1695,10 +1699,12 @@ const CoursesManagement = () => {
                             <p className="text-gray-900">{selectedCourse.enroll_course_type}</p>
                           </div>
                         )}
-                        <div>
-                          <p className="text-sm font-semibold text-gray-600">Accredited</p>
-                          <p className="text-gray-900">{selectedCourse.enroll_accredited ? 'Yes' : 'No'}</p>
-                        </div>
+                        {selectedCourse.enroll_accredited && (
+                          <div>
+                            <p className="text-sm font-semibold text-gray-600">Accredited by</p>
+                            <p className="text-gray-900">{selectedCourse.enroll_accredited}</p>
+                          </div>
+                        )}
                         {selectedCourse.certificate_image_url && (
                           <div>
                             <p className="text-sm font-semibold text-gray-600 mb-2">Certificate Image</p>

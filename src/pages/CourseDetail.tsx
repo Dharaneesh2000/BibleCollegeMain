@@ -26,7 +26,7 @@ interface Course {
   certificate_image_url: string | null
   enroll_languages: string | null
   enroll_course_type: string | null
-  enroll_accredited: boolean | null
+  enroll_accredited: string | null
   catalog_file_url: string | null
   catalog_file_name: string | null
   catalog_file_size: string | null
@@ -170,7 +170,7 @@ const CourseDetail = () => {
                   duration={course.duration || ''}
                   languages={course.enroll_languages || ''}
                   courseType={course.enroll_course_type || ''}
-                  accredited={course.enroll_accredited ?? true}
+                  accredited={course.enroll_accredited}
                   certificateImageUrl={course.certificate_image_url}
                   courseId={course.id}
                 />

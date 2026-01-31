@@ -6,7 +6,7 @@ interface EnrollCardProps {
   duration?: string
   languages?: string
   courseType?: string
-  accredited?: boolean
+  accredited?: string | null
   certificateImageUrl?: string | null
   courseId?: string
 }
@@ -16,7 +16,7 @@ const EnrollCard = ({
   duration = "4 Years",
   languages = "English & Tamil",
   courseType = "Full-time / Residential / On-Campus",
-  accredited = true,
+  accredited = null,
   certificateImageUrl,
   courseId
 }: EnrollCardProps) => {
@@ -52,11 +52,15 @@ const EnrollCard = ({
               <img
                 src={certificateImageUrl}
                 alt={`${title} Certificate - Accredited theology degree from God's Will Bible College`}
-                className="w-full h-auto"
+                className="w-full h-auto object-cover"
+                style={{ aspectRatio: '4/3' }}
                 width="500"
-                height="350"
+                height="375"
               />
             </div>
+            <p className="text-xs text-gray-500 mt-2 text-center">
+              Recommended image size: 800x600px (4:3 ratio) or 1200x900px
+            </p>
           </div>
         )}
 
@@ -170,30 +174,32 @@ const EnrollCard = ({
             )}
 
             {/* Accredited by */}
-            <div 
-              className="flex items-center py-4"
-              style={{ borderBottom: '0.47px solid #E6E6E6' }}
-            >
-              <div className="flex items-center space-x-3" style={{ width: '40%' }}>
-                <svg
-                  className="w-5 h-5 text-gray-700"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                <p className="text-sm font-medium text-gray-700">Accredited by</p>
+            {accredited && (
+              <div 
+                className="flex items-center py-4"
+                style={{ borderBottom: '0.47px solid #E6E6E6' }}
+              >
+                <div className="flex items-center space-x-3" style={{ width: '40%' }}>
+                  <svg
+                    className="w-5 h-5 text-gray-700"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <p className="text-sm font-medium text-gray-700">Accredited by</p>
+                </div>
+                <p className="text-sm text-gray-900 font-medium text-left break-words" style={{ width: '60%', wordWrap: 'break-word', overflowWrap: 'break-word' }}>
+                  {accredited}
+                </p>
               </div>
-              <p className="text-sm text-gray-900 font-medium text-left" style={{ width: '60%' }}>
-                {accredited ? 'Yes' : 'No'}
-              </p>
-            </div>
+            )}
           </div>
 
           {/* Enroll button */}
