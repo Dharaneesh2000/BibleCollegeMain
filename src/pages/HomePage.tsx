@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import HeroSection from '../components/HeroSection'
 import WhyChooseUs from '../components/WhyChooseUs'
 import AboutProgram from '../components/AboutProgram'
@@ -18,6 +19,19 @@ const HomePage = () => {
       getCollegeStructuredData()
     ]
   }
+
+  // Handle scroll to contact section when hash is present
+  useEffect(() => {
+    if (window.location.hash === '#contact') {
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        const contactSection = document.getElementById('contact')
+        if (contactSection) {
+          contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      }, 100)
+    }
+  }, [])
 
   return (
     <div>

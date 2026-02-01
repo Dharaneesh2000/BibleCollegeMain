@@ -68,6 +68,20 @@ const Header = () => {
   // Check if any course is active
   const isCoursesActive = location.pathname.startsWith('/academics/')
 
+  // Handle contact us click - scroll to contact section
+  const handleContactClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // If we're on the homepage, scroll to contact section
+    if (location.pathname === '/') {
+      e.preventDefault()
+      const contactSection = document.getElementById('contact')
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    }
+    // Otherwise, navigate to homepage with hash (will be handled by HomePage)
+    // The default Link behavior will work for other pages
+  }
+
   return (
     <header
       className={`shadow-lg ${isAcademicsPage ? 'text-[#333333]' : 'text-white'}`}
@@ -224,7 +238,8 @@ const Header = () => {
           {/* Right side buttons */}
           <div className="hidden md:flex items-center space-x-4">
             <Link
-              to="/contact"
+              to={location.pathname === '/' ? '#' : '/#contact'}
+              onClick={handleContactClick}
               className={`px-6 py-2 rounded-lg font-medium transition-colors duration-200 ${isAcademicsPage
                 ? 'bg-[#333333] text-white hover:bg-[#555555]'
                 : 'bg-white text-bible-blue hover:bg-yellow-500'
@@ -391,8 +406,11 @@ const Header = () => {
               </Link>
 
               <Link
-                to="/contact"
-                onClick={() => setMobileMenuOpen(false)}
+                to={location.pathname === '/' ? '#' : '/#contact'}
+                onClick={(e) => {
+                  setMobileMenuOpen(false)
+                  handleContactClick(e)
+                }}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-center ${isAcademicsPage
                   ? 'bg-[#333333] text-white hover:bg-[#555555]'
                   : 'bg-white text-bible-blue hover:bg-yellow-500'
