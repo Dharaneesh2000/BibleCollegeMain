@@ -12,6 +12,7 @@ interface ContactSubmission {
   selected_course: string | null
   created_at: string
   read: boolean
+  course_name?: string // Display name for the course
 }
 
 const ContactSubmissions = () => {
@@ -23,6 +24,13 @@ const ContactSubmissions = () => {
     fetchSubmissions()
   }, [])
 
+  // Helper function to check if a string is a UUID
+  const isUUID = (str: string | null): boolean => {
+    if (!str) return false
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+    return uuidRegex.test(str)
+  }
+
   const fetchSubmissions = async () => {
     try {
       const { data, error } = await supabase
@@ -31,7 +39,32 @@ const ContactSubmissions = () => {
         .order('created_at', { ascending: false })
 
       if (error) throw error
-      setSubmissions(data || [])
+
+      // For submissions with UUID course IDs, fetch course names
+      const submissionsWithCourseNames = await Promise.all(
+        (data || []).map(async (submission) => {
+          // If selected_course is a UUID, fetch the course name
+          if (submission.selected_course && isUUID(submission.selected_course)) {
+            try {
+              const { data: courseData, error: courseError } = await supabase
+                .from('courses')
+                .select('title')
+                .eq('id', submission.selected_course)
+                .single()
+
+              if (!courseError && courseData) {
+                return { ...submission, course_name: courseData.title }
+              }
+            } catch (err) {
+              console.error('Error fetching course name:', err)
+            }
+          }
+          // If it's already a course name or null, use it as is
+          return { ...submission, course_name: submission.selected_course }
+        })
+      )
+
+      setSubmissions(submissionsWithCourseNames)
     } catch (error) {
       console.error('Error fetching submissions:', error)
     } finally {
@@ -151,7 +184,7 @@ const ContactSubmissions = () => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="text-sm text-gray-900">
-                        {submission.selected_course || '-'}
+                        {submission.course_name || submission.selected_course || '-'}
                       </div>
                     </td>
                   </tr>
@@ -201,7 +234,7 @@ const ContactSubmissions = () => {
 
                 <div>
                   <label className="text-sm font-medium text-gray-700">What type of course</label>
-                  <p className="mt-1 text-gray-900">{modalSubmission.selected_course || 'Not selected'}</p>
+                  <p className="mt-1 text-gray-900">{modalSubmission.course_name || modalSubmission.selected_course || 'Not selected'}</p>
                 </div>
               </div>
             </div>

@@ -225,13 +225,17 @@ const ContactSection = () => {
         return;
       }
 
+      // Find the course name from the selected course ID
+      const selectedCourse = courses.find(course => course.id === formData.select)
+      const courseName = selectedCourse ? selectedCourse.title : (formData.select || null)
+
       const { error } = await supabase
         .from('contact_submissions')
         .insert([{
           name: formData.name,
           email: formData.email,
           phone: formData.phone || null,
-          selected_course: formData.select || null,
+          selected_course: courseName,
           message: '',
         }]);
 
