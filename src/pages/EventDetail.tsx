@@ -182,7 +182,7 @@ const EventDetail = () => {
       <SEO
         title={`${event.title} - God's Will Bible College`}
         description={eventDescription.substring(0, 160)}
-        keywords={`${event.title}, Bible college event, Christian event, ${event.location || 'Rourkela'}, Odisha, theological event`}
+        keywords={`${event.title}, Bible college event, Christian event, ${event.location || 'Coimbatore'}, Tamil Nadu, theological event`}
         url={eventUrl}
         image={event.hero_image_url || event.image_url || "/images/BannerImage.png"}
         type="article"

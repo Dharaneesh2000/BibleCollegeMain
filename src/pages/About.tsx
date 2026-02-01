@@ -26,7 +26,7 @@ const About = () => {
       <SEO
         title="About Us - God's Will Bible College | Our Mission, Vision & Story"
         description="Learn about God's Will Bible College - our mission to prepare faithful Christian ministers, our vision for global theological excellence, and our inspiring story since 2013."
-        keywords="about God's Will Bible College, Bible college mission, theological education vision, Christian ministry training, Bible college history, Rourkela Odisha"
+        keywords="about God's Will Bible College, Bible college mission, theological education vision, Christian ministry training, Bible college history, Coimbatore Tamil Nadu"
         url="https://godswillbiblecollege.com/about"
         image={AboutUsImage}
       />

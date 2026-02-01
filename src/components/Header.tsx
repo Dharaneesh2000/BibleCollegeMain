@@ -82,7 +82,7 @@ const Header = () => {
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
-            <img src={Logo} alt="God's Will Bible College Logo - Residential theological education in Rourkela, Odisha" className="w-12 h-12" width="48" height="48" />
+            <img src={Logo} alt="God's Will Bible College Logo - Residential theological education in Coimbatore, Tamil Nadu" className="w-12 h-12" width="48" height="48" />
           </Link>
 
           {/* Navigation */}

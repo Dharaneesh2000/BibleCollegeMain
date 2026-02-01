@@ -7,11 +7,11 @@ export const getOrganizationStructuredData = () => ({
   "alternateName": "GWBC",
   "url": "https://godswillbiblecollege.com",
   "logo": "https://godswillbiblecollege.com/images/Logo.png",
-  "description": "God's Will Bible College is a residential theological institution in Rourkela, Odisha, dedicated to equipping men and women for Christian ministry across India.",
+  "description": "God's Will Bible College is a residential theological institution in Coimbatore, Tamil Nadu, dedicated to equipping men and women for Christian ministry across India.",
   "address": {
     "@type": "PostalAddress",
-    "addressLocality": "Rourkela",
-    "addressRegion": "Odisha",
+    "addressLocality": "Coimbatore",
+    "addressRegion": "Tamil Nadu",
     "addressCountry": "IN"
   },
   "contactPoint": {
@@ -31,11 +31,11 @@ export const getCollegeStructuredData = () => ({
   "name": "God's Will Bible College",
   "url": "https://godswillbiblecollege.com",
   "logo": "https://godswillbiblecollege.com/images/Logo.png",
-  "description": "Residential theological institution in Rourkela, Odisha, offering affordable, mission-focused theological education for Christian ministry across India.",
+  "description": "Residential theological institution in Coimbatore, Tamil Nadu, offering affordable, mission-focused theological education for Christian ministry across India.",
   "address": {
     "@type": "PostalAddress",
-    "addressLocality": "Rourkela",
-    "addressRegion": "Odisha",
+    "addressLocality": "Coimbatore",
+    "addressRegion": "Tamil Nadu",
     "addressCountry": "IN"
   },
   "offers": {

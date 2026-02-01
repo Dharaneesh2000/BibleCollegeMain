@@ -12,9 +12,9 @@ interface SEOProps {
 }
 
 const SEO = ({
-  title = "God's Will Bible College - Residential Theological Education in Rourkela, Odisha",
-  description = "God's Will Bible College is a residential theological institution in Rourkela, Odisha, dedicated to equipping men and women for Christian ministry across India. Affordable, mission-focused theological education.",
-  keywords = "Bible college, theological education, Christian ministry training, Rourkela, Odisha, India, residential Bible college, theology degree, pastoral training, missionary training, affordable theological education",
+  title = "God's Will Bible College - Residential Theological Education in Coimbatore, Tamil Nadu",
+  description = "God's Will Bible College is a residential theological institution in Coimbatore, Tamil Nadu, dedicated to equipping men and women for Christian ministry across India. Affordable, mission-focused theological education.",
+  keywords = "Bible college, theological education, Christian ministry training, Coimbatore, Tamil Nadu, India, residential Bible college, theology degree, pastoral training, missionary training, affordable theological education",
   image = "/images/BannerImage.png",
   url = "https://godswillbiblecollege.com",
   type = "website",

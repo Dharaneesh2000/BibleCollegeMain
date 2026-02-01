@@ -102,7 +102,7 @@ const CourseDetail = () => {
   const requirementsData = courseContents.find(c => c.content_type === 'requirements')?.metadata?.requirements
 
   // SEO data
-  const courseDescription = course.hero_description || overviewContent.substring(0, 160) || `${course.title} at God's Will Bible College. Residential theological education in Rourkela, Odisha.`
+  const courseDescription = course.hero_description || overviewContent.substring(0, 160) || `${course.title} at God's Will Bible College. Residential theological education in Coimbatore, Tamil Nadu.`
   const courseUrl = `https://godswillbiblecollege.com/academics/${course.slug}`
 
   const courseStructuredData = getCourseStructuredData({
@@ -128,7 +128,7 @@ const CourseDetail = () => {
       <SEO
         title={`${course.title} - God's Will Bible College | ${course.duration || 'Theology Program'}`}
         description={courseDescription}
-        keywords={`${course.title}, theology course, Bible college program, ${course.duration || 'theology degree'}, Christian ministry training, Rourkela, Odisha, theological education`}
+        keywords={`${course.title}, theology course, Bible college program, ${course.duration || 'theology degree'}, Christian ministry training, Coimbatore, Tamil Nadu, theological education`}
         url={courseUrl}
         image="/images/BannerImage.png"
         type="article"
