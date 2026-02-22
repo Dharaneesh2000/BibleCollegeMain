@@ -468,7 +468,7 @@ const About = () => {
                   State-of-the-Art Library
                 </h3>
                 <p className="text-[#636363] leading-relaxed text-sm sm:text-base">
-                  Access over 50,000 theological resources and digital databases.
+                  Our library offers rich resources in Biblical Studies, Theology, Church History, Christian Ministry, Mission, and related disciplines.
                 </p>
               </div>
             </div>
@@ -491,7 +491,7 @@ const About = () => {
                   Chapel & Worship
                 </h3>
                 <p className="text-[#636363] leading-relaxed text-sm sm:text-base">
-                  Our library offers rich resources in Biblical Studies, Theology, Church History, Christian Ministry, Mission, and related disciplines.
+                  Regular chapel services and worship gatherings for spiritual growth.
                 </p>
               </div>
             </div>
