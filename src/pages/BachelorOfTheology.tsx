@@ -17,7 +17,7 @@ const BachelorOfTheology = () => {
         <div className="container mx-auto px-4">
           {/* Flex layout for 60/40 split */}
           <div className="flex flex-col lg:flex-row gap-10">
-            
+
             {/* LEFT SIDE - 60% */}
             <div className="w-full lg:w-[60%]">
               <CourseOverview />

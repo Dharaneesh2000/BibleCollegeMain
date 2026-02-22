@@ -164,7 +164,7 @@ const CourseDetail = () => {
             {/* RIGHT SIDE - 35% */}
             <div className="w-full lg:w-[35%] flex justify-center lg:justify-end pr-0 lg:pr-4 xl:pr-8 order-1 lg:order-2">
               {/* Sticky Enroll Card - overlaps hero on desktop, normal flow on mobile */}
-              <div className="w-full max-w-md lg:max-w-none lg:sticky lg:top-24 lg:self-start lg:-mt-[17rem]">
+              <div className="w-full max-w-md lg:max-w-none lg:sticky lg:top-24 lg:self-start lg:-mt-[22rem]">
                 <EnrollCard
                   title={course.title}
                   duration={course.duration || ''}

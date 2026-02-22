@@ -333,34 +333,40 @@ const EventDetail = () => {
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-              {relatedEvents.map((relatedEvent) => (
-                <div
-                  key={relatedEvent.id}
-                  className="group cursor-pointer"
-                  onClick={() => navigate(`/news/${relatedEvent.id}`)}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+              {relatedEvents.map((item) => (
+                <article
+                  key={item.id}
+                  className="bg-white rounded-[12px] shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+                  onClick={() => navigate(`/news/${item.id}`)}
                 >
-                  <div className="rounded-[16px] overflow-hidden mb-5 aspect-[16/9]">
-                    <LazyImage
-                      src={relatedEvent.image_url || "/images/Events.png"}
-                      alt={relatedEvent.title}
-                      className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                      width="400"
-                      height="225"
-                    />
+                  <div className="p-3 sm:p-4 lg:p-[15px]">
+                    <div className="aspect-video overflow-hidden rounded-[12px]">
+                      <LazyImage
+                        src={item.image_url || "/images/Events.png"}
+                        alt={`${item.title} - News and events at God's Will Bible College`}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 rounded-[12px]"
+                        width="400"
+                        height="225"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = "/images/Events.png";
+                        }}
+                      />
+                    </div>
                   </div>
-                  <h3 className="text-[20px] font-bold text-[#1A2633] mb-3 leading-snug font-poppins group-hover:text-[#15133D] transition-colors">
-                    {relatedEvent.title}
-                  </h3>
-                  <p className="text-[#64748B] text-sm leading-relaxed mb-4 line-clamp-2 font-poppins">
-                    {relatedEvent.description}
-                  </p>
-
-                  <div className="flex items-center gap-2 text-[#2563EB] font-medium text-sm">
-                    <CalendarTodayIcon style={{ fontSize: '18px' }} />
-                    <span>{formatCardDate(relatedEvent.date, relatedEvent.start_time)}</span>
+                  <div className="p-4 sm:p-5 lg:p-6">
+                    <h3 className="text-[16px] sm:text-[17px] lg:text-[18px] font-semibold text-[#1A2633] mb-2 line-clamp-2 font-poppins">
+                      {item.title}
+                    </h3>
+                    <p className="text-[13px] sm:text-[14px] font-normal text-[#333333] mb-3 sm:mb-4 line-clamp-3 font-poppins">
+                      {item.description}
+                    </p>
+                    <div className="flex items-center gap-2 font-medium text-xs sm:text-sm font-poppins" style={{ color: '#044DC2' }}>
+                      <CalendarTodayIcon style={{ fontSize: '16px' }} />
+                      <span>{formatCardDate(item.date, item.start_time)}</span>
+                    </div>
                   </div>
-                </div>
+                </article>
               ))}
             </div>
           </div>

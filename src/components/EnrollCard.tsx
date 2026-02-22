@@ -21,7 +21,7 @@ const EnrollCard = ({
   courseId
 }: EnrollCardProps) => {
   const [isEnrollmentModalOpen, setIsEnrollmentModalOpen] = useState(false)
-  
+
   const handleEnrollClick = () => {
     setIsEnrollmentModalOpen(true)
   };
@@ -29,14 +29,14 @@ const EnrollCard = ({
   return (
     <div className="relative max-w-[550px] w-full">
       {/* Single slanted background card */}
-      <div 
+      <div
         className="absolute inset-0 rounded-[23px] transform rotate-6"
         style={{
           background: 'linear-gradient(135deg, #BEDBFF 0%, #E9D4FF 100%)',
           zIndex: 0,
         }}
       />
-      
+
       {/* Main card */}
       <div className="relative bg-white rounded-[11px] shadow-2xl overflow-hidden" style={{ zIndex: 2 }}>
         {/* Certificate image */}
@@ -58,9 +58,6 @@ const EnrollCard = ({
                 height="375"
               />
             </div>
-            <p className="text-xs text-gray-500 mt-2 text-center">
-              Recommended image size: 800x600px (4:3 ratio) or 1200x900px
-            </p>
           </div>
         )}
 
@@ -68,7 +65,7 @@ const EnrollCard = ({
         <div className="px-6 pb-6">
           <div className="space-y-0">
             {/* Title */}
-            <div 
+            <div
               className="flex items-center py-4"
               style={{ borderBottom: '0.47px solid #E6E6E6' }}
             >
@@ -95,7 +92,7 @@ const EnrollCard = ({
 
             {/* Duration */}
             {duration && (
-              <div 
+              <div
                 className="flex items-center py-4"
                 style={{ borderBottom: '0.47px solid #E6E6E6' }}
               >
@@ -121,7 +118,7 @@ const EnrollCard = ({
 
             {/* Languages */}
             {languages && (
-              <div 
+              <div
                 className="flex items-center py-4"
                 style={{ borderBottom: '0.47px solid #E6E6E6' }}
               >
@@ -147,7 +144,7 @@ const EnrollCard = ({
 
             {/* Course Type */}
             {courseType && (
-              <div 
+              <div
                 className="flex items-center py-4"
                 style={{ borderBottom: '0.47px solid #E6E6E6' }}
               >
@@ -175,7 +172,7 @@ const EnrollCard = ({
 
             {/* Accredited by */}
             {accredited && (
-              <div 
+              <div
                 className="flex items-center py-4"
                 style={{ borderBottom: '0.47px solid #E6E6E6' }}
               >

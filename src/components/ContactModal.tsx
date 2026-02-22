@@ -25,6 +25,7 @@ const ContactModal = ({ onClose }: ContactModalProps) => {
     email: "",
     phone: "",
     select: "",
+    preferred_language: "",
   })
   const [courses, setCourses] = useState<Course[]>([])
   const [submitting, setSubmitting] = useState(false)
@@ -97,7 +98,7 @@ const ContactModal = ({ onClose }: ContactModalProps) => {
 
   const handlePhoneChange = (value: string | undefined) => {
     setPhoneError('') // Clear error on change
-    
+
     if (!value) {
       setFormData((prev) => ({ ...prev, phone: '' }))
       return
@@ -128,7 +129,7 @@ const ContactModal = ({ onClose }: ContactModalProps) => {
     // Extract phone number without country code
     const phoneDigits = value.replace(/\D/g, '') // Get all digits
     let phoneNumber = phoneDigits
-    
+
     // Remove country code based on detected country
     if (country === 'IN') {
       phoneNumber = phoneDigits.startsWith('91') ? phoneDigits.substring(2) : phoneDigits
@@ -150,11 +151,11 @@ const ContactModal = ({ onClose }: ContactModalProps) => {
         setSelectedCountry('GB')
       }
     }
-    
+
     // Country-specific limits
     let maxLength = 15 // Default international max
     let errorMessage = ''
-    
+
     if (country === 'IN') {
       maxLength = 10
       if (phoneNumber.length > 10) {
@@ -185,7 +186,7 @@ const ContactModal = ({ onClose }: ContactModalProps) => {
         return
       }
     }
-    
+
     // If within limit, update the value
     if (phoneNumber.length <= maxLength) {
       setFormData((prev) => ({ ...prev, phone: value }))
@@ -249,6 +250,7 @@ const ContactModal = ({ onClose }: ContactModalProps) => {
           email: formData.email,
           phone: formData.phone || null,
           selected_course: formData.select || null,
+          preferred_language: formData.preferred_language || null,
           message: '',
         }])
 
@@ -262,7 +264,9 @@ const ContactModal = ({ onClose }: ContactModalProps) => {
         email: "",
         phone: "",
         select: "",
+        preferred_language: "",
       })
+
       // Close modal after success
       setTimeout(() => {
         onClose()
@@ -348,6 +352,29 @@ const ContactModal = ({ onClose }: ContactModalProps) => {
 
               <div>
                 <select
+                  id="modal-preferred-language"
+                  name="preferred_language"
+                  value={formData.preferred_language}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bible-blue focus:border-transparent bg-white appearance-none cursor-pointer"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%239CA3AF' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E")`,
+                    backgroundPosition: 'right 0.5rem center',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: '1.5em 1.5em',
+                    paddingRight: '2.5rem',
+                    color: formData.preferred_language ? '#000000' : '#9CA3AF'
+                  }}
+                  required
+                >
+                  <option value="" disabled style={{ color: '#9CA3AF' }}>Preferred language</option>
+                  <option value="Tamil" style={{ color: '#000000' }}>Tamil</option>
+                  <option value="English" style={{ color: '#000000' }}>English</option>
+                </select>
+              </div>
+
+              <div>
+                <select
                   id="modal-select"
                   name="select"
                   value={formData.select}
@@ -359,12 +386,12 @@ const ContactModal = ({ onClose }: ContactModalProps) => {
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: '1.5em 1.5em',
                     paddingRight: '2.5rem',
-                    color: '#9CA3AF'
+                    color: formData.select ? '#000000' : '#9CA3AF'
                   }}
                 >
                   <option value="" disabled style={{ color: '#9CA3AF' }}>What type of course</option>
                   {courses.map((course) => (
-                    <option key={course.id} value={course.id} style={{ color: '#9CA3AF' }}>
+                    <option key={course.id} value={course.id} style={{ color: '#000000' }}>
                       {course.title}
                     </option>
                   ))}
@@ -392,11 +419,10 @@ const ContactModal = ({ onClose }: ContactModalProps) => {
       {/* Snackbar Notification */}
       {showSnackbar && submitStatus.type && (
         <div
-          className={`fixed bottom-6 right-6 z-[60] flex items-center gap-3 px-6 py-4 rounded-lg shadow-2xl transform transition-all duration-300 ${
-            submitStatus.type === 'success'
-              ? 'bg-green-600 text-white'
-              : 'bg-red-600 text-white'
-          }`}
+          className={`fixed bottom-6 right-6 z-[60] flex items-center gap-3 px-6 py-4 rounded-lg shadow-2xl transform transition-all duration-300 ${submitStatus.type === 'success'
+            ? 'bg-green-600 text-white'
+            : 'bg-red-600 text-white'
+            }`}
         >
           {submitStatus.type === 'success' ? (
             <CheckCircleIcon className="text-white" />

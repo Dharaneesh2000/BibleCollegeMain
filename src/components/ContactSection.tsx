@@ -25,6 +25,7 @@ const ContactSection = () => {
     email: "",
     phone: "",
     select: "",
+    preferred_language: "",
   });
   const [submitting, setSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error' | null; message: string }>({ type: null, message: '' });
@@ -236,6 +237,7 @@ const ContactSection = () => {
           email: formData.email,
           phone: formData.phone || null,
           selected_course: courseName,
+          preferred_language: formData.preferred_language || null,
           message: '',
         }]);
 
@@ -249,7 +251,9 @@ const ContactSection = () => {
         email: "",
         phone: "",
         select: "",
+        preferred_language: "",
       });
+
     } catch (error: any) {
       console.error('Error submitting form:', error);
       setSubmitStatus({ type: 'error', message: 'Failed to submit. Please try again later.' });
@@ -469,6 +473,29 @@ const ContactSection = () => {
 
               <div>
                 <select
+                  id="preferred_language"
+                  name="preferred_language"
+                  value={formData.preferred_language}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bible-blue focus:border-transparent bg-white appearance-none cursor-pointer"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%239CA3AF' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E")`,
+                    backgroundPosition: 'right 0.5rem center',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: '1.5em 1.5em',
+                    paddingRight: '2.5rem',
+                    color: formData.preferred_language ? '#000000' : '#9CA3AF'
+                  }}
+                  required
+                >
+                  <option value="" disabled style={{ color: '#9CA3AF' }}>Preferred language</option>
+                  <option value="Tamil" style={{ color: '#000000' }}>Tamil</option>
+                  <option value="English" style={{ color: '#000000' }}>English</option>
+                </select>
+              </div>
+
+              <div>
+                <select
                   id="select"
                   name="select"
                   value={formData.select}
@@ -480,12 +507,12 @@ const ContactSection = () => {
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: '1.5em 1.5em',
                     paddingRight: '2.5rem',
-                    color: '#9CA3AF'
+                    color: formData.select ? '#000000' : '#9CA3AF'
                   }}
                 >
                   <option value="" disabled style={{ color: '#9CA3AF' }}>What type of course</option>
                   {courses.map((course) => (
-                    <option key={course.id} value={course.id} style={{ color: '#9CA3AF' }}>
+                    <option key={course.id} value={course.id} style={{ color: '#000000' }}>
                       {course.title}
                     </option>
                   ))}

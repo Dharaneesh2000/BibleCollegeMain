@@ -10,6 +10,7 @@ interface ContactSubmission {
   message: string
   course_type: string | null
   selected_course: string | null
+  preferred_language: string | null
   created_at: string
   read: boolean
   course_name?: string // Display name for the course
@@ -80,9 +81,9 @@ const ContactSubmissions = () => {
         .eq('id', id)
 
       if (error) throw error
-      
+
       // Update local state immediately for better UX
-      setSubmissions(prev => 
+      setSubmissions(prev =>
         prev.map(sub => sub.id === id ? { ...sub, read: true } : sub)
       )
     } catch (error) {
@@ -150,6 +151,9 @@ const ContactSubmissions = () => {
                   Phone Number
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Preferred Language
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   What type of course
                 </th>
               </tr>
@@ -157,7 +161,7 @@ const ContactSubmissions = () => {
             <tbody className="bg-white divide-y divide-gray-200">
               {submissions.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
+                  <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
                     No submissions yet
                   </td>
                 </tr>
@@ -181,6 +185,9 @@ const ContactSubmissions = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">{submission.phone || '-'}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">{submission.preferred_language || '-'}</div>
                     </td>
                     <td className="px-6 py-4">
                       <div className="text-sm text-gray-900">
@@ -230,6 +237,11 @@ const ContactSubmissions = () => {
                 <div>
                   <label className="text-sm font-medium text-gray-700">Phone Number</label>
                   <p className="mt-1 text-gray-900">{modalSubmission.phone || 'Not provided'}</p>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-gray-700">Preferred Language</label>
+                  <p className="mt-1 text-gray-900">{modalSubmission.preferred_language || 'Not provided'}</p>
                 </div>
 
                 <div>
