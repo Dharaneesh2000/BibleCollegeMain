@@ -14,6 +14,7 @@ interface Enrollment {
   date_of_birth: string
   nationality: string
   languages: string
+  preferred_language: string | null
   marital_status: string
   church_name: string
   church_position: string | null
@@ -110,7 +111,7 @@ const EnrollmentManagement = () => {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
       const blob = await response.blob()
-      
+
       return new Promise((resolve, reject) => {
         const reader = new FileReader()
         reader.onloadend = () => {
@@ -154,7 +155,7 @@ const EnrollmentManagement = () => {
 
   const downloadAsPDF = async (enrollment: Enrollment) => {
     setDownloadingPDF(enrollment.id)
-    
+
     try {
       const doc = new jsPDF()
       const pageWidth = doc.internal.pageSize.getWidth()
@@ -211,7 +212,9 @@ const EnrollmentManagement = () => {
       yPosition += 6
       doc.text(`Nationality: ${enrollment.nationality}`, margin, yPosition)
       yPosition += 6
-      doc.text(`Languages: ${enrollment.languages}`, margin, yPosition)
+      doc.text(`Languages Known: ${enrollment.languages}`, margin, yPosition)
+      yPosition += 6
+      doc.text(`Preferred Language: ${enrollment.preferred_language || 'Not specified'}`, margin, yPosition)
       yPosition += 6
       doc.text(`Marital Status: ${enrollment.marital_status}`, margin, yPosition)
       yPosition += 6
@@ -257,31 +260,31 @@ const EnrollmentManagement = () => {
       try {
         doc.text('E-Signature:', margin, yPosition)
         yPosition += 8
-        
+
         checkPageBreak(50) // Check if we need new page for image
-        
+
         const eSignatureBase64 = await loadImageAsBase64(enrollment.e_signature_url)
-        
+
         // Get image dimensions by creating a temporary image
         const tempImg = new Image()
         tempImg.src = eSignatureBase64
         await new Promise((resolve) => {
           tempImg.onload = resolve
         })
-        
+
         // Calculate image dimensions to fit within page margins while maintaining aspect ratio
         const maxImageWidth = pageWidth - 2 * margin
         const maxImageHeight = 50 // Max height for signature
         const aspectRatio = tempImg.width / tempImg.height
         let imageWidth = maxImageWidth
         let imageHeight = imageWidth / aspectRatio
-        
+
         // If height exceeds max, scale down based on height
         if (imageHeight > maxImageHeight) {
           imageHeight = maxImageHeight
           imageWidth = imageHeight * aspectRatio
         }
-        
+
         doc.addImage(eSignatureBase64, 'JPEG', margin, yPosition, imageWidth, imageHeight, undefined, 'FAST')
         yPosition += imageHeight + 10
       } catch (error) {
@@ -298,31 +301,31 @@ const EnrollmentManagement = () => {
       try {
         doc.text('Photo Copy:', margin, yPosition)
         yPosition += 8
-        
+
         checkPageBreak(70) // Check if we need new page for image
-        
+
         const photoCopyBase64 = await loadImageAsBase64(enrollment.photo_copy_url)
-        
+
         // Get image dimensions by creating a temporary image
         const tempImg = new Image()
         tempImg.src = photoCopyBase64
         await new Promise((resolve) => {
           tempImg.onload = resolve
         })
-        
+
         // Calculate image dimensions to fit within page margins while maintaining aspect ratio
         const maxImageWidth = pageWidth - 2 * margin
         const maxImageHeight = 70 // Max height for photo copy
         const aspectRatio = tempImg.width / tempImg.height
         let imageWidth = maxImageWidth
         let imageHeight = imageWidth / aspectRatio
-        
+
         // If height exceeds max, scale down based on height
         if (imageHeight > maxImageHeight) {
           imageHeight = maxImageHeight
           imageWidth = imageHeight * aspectRatio
         }
-        
+
         doc.addImage(photoCopyBase64, 'JPEG', margin, yPosition, imageWidth, imageHeight, undefined, 'FAST')
         yPosition += imageHeight + 10
       } catch (error) {
@@ -388,31 +391,28 @@ const EnrollmentManagement = () => {
         <div className="flex gap-2">
           <button
             onClick={() => setFilterRead('all')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              filterRead === 'all'
-                ? 'bg-[#15133D] text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${filterRead === 'all'
+              ? 'bg-[#15133D] text-white'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
           >
             All
           </button>
           <button
             onClick={() => setFilterRead('unread')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              filterRead === 'unread'
-                ? 'bg-[#15133D] text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${filterRead === 'unread'
+              ? 'bg-[#15133D] text-white'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
           >
             Unread
           </button>
           <button
             onClick={() => setFilterRead('read')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              filterRead === 'read'
-                ? 'bg-[#15133D] text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${filterRead === 'read'
+              ? 'bg-[#15133D] text-white'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
           >
             Read
           </button>
@@ -435,6 +435,9 @@ const EnrollmentManagement = () => {
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Phone
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Preferred Language
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Date
@@ -473,17 +476,19 @@ const EnrollmentManagement = () => {
                       <div className="text-sm text-gray-900">{enrollment.phone}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">{enrollment.preferred_language || '-'}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
                         {new Date(enrollment.created_at).toLocaleDateString()}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          enrollment.read
-                            ? 'bg-gray-100 text-gray-800'
-                            : 'bg-blue-100 text-blue-800'
-                        }`}
+                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${enrollment.read
+                          ? 'bg-gray-100 text-gray-800'
+                          : 'bg-blue-100 text-blue-800'
+                          }`}
                       >
                         {enrollment.read ? 'Read' : 'New'}
                       </span>
@@ -499,9 +504,8 @@ const EnrollmentManagement = () => {
                         <button
                           onClick={() => downloadAsPDF(enrollment)}
                           disabled={downloadingPDF === enrollment.id}
-                          className={`text-green-600 hover:text-green-800 font-medium ${
-                            downloadingPDF === enrollment.id ? 'opacity-50 cursor-not-allowed' : ''
-                          }`}
+                          className={`text-green-600 hover:text-green-800 font-medium ${downloadingPDF === enrollment.id ? 'opacity-50 cursor-not-allowed' : ''
+                            }`}
                         >
                           {downloadingPDF === enrollment.id ? 'Generating...' : 'Download PDF'}
                         </button>
@@ -578,8 +582,12 @@ const EnrollmentManagement = () => {
                       <p className="mt-1 text-gray-900">{selectedEnrollment.nationality}</p>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-700">Languages</label>
+                      <label className="text-sm font-medium text-gray-700">Languages Known</label>
                       <p className="mt-1 text-gray-900">{selectedEnrollment.languages}</p>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">Preferred Language</label>
+                      <p className="mt-1 text-gray-900">{selectedEnrollment.preferred_language || '-'}</p>
                     </div>
                     <div>
                       <label className="text-sm font-medium text-gray-700">Marital Status</label>
@@ -673,9 +681,8 @@ const EnrollmentManagement = () => {
               <button
                 onClick={() => downloadAsPDF(selectedEnrollment)}
                 disabled={downloadingPDF === selectedEnrollment.id}
-                className={`px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors ${
-                  downloadingPDF === selectedEnrollment.id ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
+                className={`px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors ${downloadingPDF === selectedEnrollment.id ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
               >
                 {downloadingPDF === selectedEnrollment.id ? 'Generating PDF...' : 'Download PDF'}
               </button>

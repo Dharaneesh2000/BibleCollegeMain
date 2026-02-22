@@ -21,14 +21,15 @@ interface EnrollmentData {
   dateOfBirth: string
   nationality: string
   languages: string
+  preferredLanguage: string
   maritalStatus: string
-  
+
   // Step 2: Church & Training Information
   churchName: string
   churchPosition: string
   pastorOverseerAwareness: string
   previousBibleSchool: string
-  
+
   // Step 3: Documents
   eSignature: File | null
   photoCopy: File | null
@@ -40,7 +41,7 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [phoneError, setPhoneError] = useState<string>('')
   const [selectedCountry, setSelectedCountry] = useState<Country>('IN')
-  
+
   const [formData, setFormData] = useState<EnrollmentData>({
     name: '',
     address: '',
@@ -49,6 +50,7 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
     dateOfBirth: '',
     nationality: '',
     languages: '',
+    preferredLanguage: '',
     maritalStatus: '',
     churchName: '',
     churchPosition: '',
@@ -71,23 +73,23 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
     const today = new Date()
     const age = today.getFullYear() - birthDate.getFullYear()
     const monthDiff = today.getMonth() - birthDate.getMonth()
-    
+
     // Must be at least 16 years old and not future date
     if (age < 16 || (age === 16 && monthDiff < 0) || birthDate > today) {
       return false
     }
-    
+
     // Not too old (reasonable limit: 100 years)
     if (age > 100) {
       return false
     }
-    
+
     return true
   }
 
   const validateStep1 = () => {
     const newErrors: Record<string, string> = {}
-    
+
     // Name validation
     if (!formData.name.trim()) {
       newErrors.name = 'Name is required'
@@ -96,14 +98,14 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
     } else if (!/^[a-zA-Z\s'-]+$/.test(formData.name.trim())) {
       newErrors.name = 'Name can only contain letters, spaces, hyphens, and apostrophes'
     }
-    
+
     // Address validation
     if (!formData.address.trim()) {
       newErrors.address = 'Address is required'
     } else if (formData.address.trim().length < 10) {
       newErrors.address = 'Address must be at least 10 characters'
     }
-    
+
     // Phone validation
     if (!formData.phone || !formData.phone.trim()) {
       newErrors.phone = 'Phone number is required'
@@ -116,69 +118,74 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
         newErrors.phone = 'Please enter a valid phone number with country code'
       }
     }
-    
+
     // Email validation
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required'
     } else if (!validateEmail(formData.email.trim())) {
       newErrors.email = 'Please enter a valid email address (e.g., name@example.com)'
     }
-    
+
     // Date of Birth validation
     if (!formData.dateOfBirth) {
       newErrors.dateOfBirth = 'Date of Birth is required'
     } else if (!validateDateOfBirth(formData.dateOfBirth)) {
       newErrors.dateOfBirth = 'Please enter a valid date of birth (must be at least 16 years old)'
     }
-    
+
     // Nationality validation
     if (!formData.nationality.trim()) {
       newErrors.nationality = 'Nationality is required'
     } else if (formData.nationality.trim().length < 2) {
       newErrors.nationality = 'Nationality must be at least 2 characters'
     }
-    
+
     // Languages validation
     if (!formData.languages.trim()) {
       newErrors.languages = 'Languages are required'
     } else if (formData.languages.trim().length < 2) {
       newErrors.languages = 'Please specify at least one language'
     }
-    
+
     // Marital Status validation
     if (!formData.maritalStatus) {
       newErrors.maritalStatus = 'Marital Status is required'
     }
-    
+
+    // Preferred Language validation
+    if (!formData.preferredLanguage) {
+      newErrors.preferredLanguage = 'Preferred language is required'
+    }
+
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
   const validateStep2 = () => {
     const newErrors: Record<string, string> = {}
-    
+
     // Church name validation
     if (!formData.churchName.trim()) {
       newErrors.churchName = 'Church name is required'
     } else if (formData.churchName.trim().length < 2) {
       newErrors.churchName = 'Church name must be at least 2 characters'
     }
-    
+
     // Church position (optional field, but if filled should be valid)
     if (formData.churchPosition && formData.churchPosition.trim().length > 0 && formData.churchPosition.trim().length < 2) {
       newErrors.churchPosition = 'Church position must be at least 2 characters if provided'
     }
-    
+
     // Pastor/Overseer awareness validation
     if (!formData.pastorOverseerAwareness) {
       newErrors.pastorOverseerAwareness = 'Please select whether your Pastor/Overseer is aware'
     }
-    
+
     // Previous Bible School validation
     if (!formData.previousBibleSchool) {
       newErrors.previousBibleSchool = 'Please select whether you have previous Bible School experience'
     }
-    
+
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
@@ -206,19 +213,19 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
 
   const validateStep3 = () => {
     const newErrors: Record<string, string> = {}
-    
+
     // E-Signature validation
     const eSignatureError = validateFile(formData.eSignature, 'E-Signature')
     if (eSignatureError) {
       newErrors.eSignature = eSignatureError
     }
-    
+
     // Photo copy validation
     const photoCopyError = validateFile(formData.photoCopy, 'Photo copy')
     if (photoCopyError) {
       newErrors.photoCopy = photoCopyError
     }
-    
+
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
@@ -290,7 +297,7 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
       } catch (uploadError: any) {
         console.error('File upload error:', uploadError)
         const errorMessage = uploadError.message || 'Unknown error'
-        
+
         if (errorMessage.includes('Bucket not found') || errorMessage.includes('not found')) {
           alert(
             'Storage bucket not found. Please create the "enrollments" bucket in Supabase Storage:\n\n' +
@@ -327,11 +334,11 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
         email: formData.email,
         phone: formData.phone
       })
-      
+
       // Save to database
       console.log('=== ATTEMPTING DATABASE INSERT ===')
       console.log('Files uploaded successfully:', { eSignatureUrl, photoCopyUrl })
-      
+
       const insertPayload = {
         course_id: courseId || null,
         course_title: courseTitle,
@@ -343,6 +350,7 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
         date_of_birth: formData.dateOfBirth,
         nationality: formData.nationality,
         languages: formData.languages,
+        preferred_language: formData.preferredLanguage,
         marital_status: formData.maritalStatus,
         // Step 2
         church_name: formData.churchName,
@@ -353,16 +361,16 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
         e_signature_url: eSignatureUrl,
         photo_copy_url: photoCopyUrl
       }
-      
+
       console.log('Insert payload:', insertPayload)
       console.log('Supabase client config:', {
         url: import.meta.env.VITE_SUPABASE_URL,
         hasKey: !!import.meta.env.VITE_SUPABASE_ANON_KEY
       })
-      
+
       // Make the insert request
       console.log('Making insert request to:', `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/enrollments`)
-      
+
       const insertResponse = await supabase
         .from('enrollments')
         .insert(insertPayload)
@@ -371,7 +379,7 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
       console.log('=== INSERT RESPONSE ===')
       console.log('Response data:', insertResponse.data)
       console.log('Response error:', insertResponse.error)
-      
+
       const { data: insertData, error } = insertResponse
 
       if (error) {
@@ -386,7 +394,7 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
         console.error('Error details:', error.details)
         console.error('Error hint:', error.hint)
         console.error('Full error object:', error)
-        
+
         // Check if it's an RLS policy error
         if (error.code === '42501' || error.message?.includes('row-level security') || error.message?.includes('violates row-level security')) {
           const rlsError = new Error(
@@ -402,21 +410,21 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
         }
         throw error
       }
-      
+
       console.log('✅ Insert successful!', insertData)
 
       alert('Enrollment submitted successfully! We will contact you soon.')
       handleClose()
     } catch (error: any) {
       console.error('Error submitting enrollment:', error)
-      
+
       let errorMessage = error.message || 'Failed to submit enrollment. Please try again.'
-      
+
       // Provide helpful guidance for RLS errors
       if (errorMessage.includes('row-level security') || errorMessage.includes('RLS')) {
         errorMessage += '\n\nSolution: Run the fix_rls_policies.sql file in your Supabase SQL Editor to fix this issue.'
       }
-      
+
       alert(`Error: ${errorMessage}`)
     } finally {
       setLoading(false)
@@ -433,6 +441,7 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
       dateOfBirth: '',
       nationality: '',
       languages: '',
+      preferredLanguage: '',
       maritalStatus: '',
       churchName: '',
       churchPosition: '',
@@ -465,7 +474,7 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
     // Validate file immediately on selection
     const fieldName = field === 'eSignature' ? 'E-Signature' : 'Photo copy'
     const validationError = validateFile(file, fieldName)
-    
+
     if (validationError) {
       setErrors(prev => ({ ...prev, [field]: validationError }))
       return
@@ -479,7 +488,7 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
     // Special handling for phone field with length validation
     if (field === 'phone' && typeof value === 'string') {
       setPhoneError('') // Clear error on change
-      
+
       if (!value) {
         setFormData(prev => ({ ...prev, [field]: '' }))
         if (errors[field]) {
@@ -517,7 +526,7 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
       // Extract phone number without country code
       const phoneDigits = value.replace(/\D/g, '') // Get all digits
       let phoneNumber = phoneDigits
-      
+
       // Remove country code based on detected country
       if (country === 'IN') {
         phoneNumber = phoneDigits.startsWith('91') ? phoneDigits.substring(2) : phoneDigits
@@ -539,11 +548,11 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
           setSelectedCountry('GB')
         }
       }
-      
+
       // Country-specific limits with error messages
       let maxLength = 15 // Default international max
       let errorMessage = ''
-      
+
       if (country === 'IN') {
         maxLength = 10
         if (phoneNumber.length > 10) {
@@ -574,7 +583,7 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
           return
         }
       }
-      
+
       // If within limit, update the value
       if (phoneNumber.length <= maxLength) {
         setFormData(prev => ({ ...prev, [field]: value }))
@@ -622,15 +631,15 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
             {/* Background connector line - behind everything */}
             <div className="absolute top-7 left-1/4 right-1/4 h-1.5 bg-white/20 rounded-full z-0" />
             {/* Progress connector line - behind everything */}
-            <div 
+            <div
               className="absolute top-7 h-1.5 bg-gradient-to-r from-white/90 to-white/70 shadow-lg shadow-white/50 rounded-full transition-all duration-700 ease-out z-0"
-              style={{ 
+              style={{
                 left: '25%',
                 width: currentStep === 1 ? '0%' : currentStep === 2 ? '25%' : '50%',
                 transition: 'width 0.7s cubic-bezier(0.4, 0, 0.2, 1)'
               }}
             />
-            
+
             {[1, 2, 3].map((step) => (
               <div key={step} className="flex flex-col items-center flex-1 relative z-10">
                 <div className="relative">
@@ -642,13 +651,12 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
                   )}
                   {/* Step circle */}
                   <div
-                    className={`relative w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 transform z-20 ${
-                      currentStep === step
-                        ? 'bg-white text-[#15133D] shadow-xl scale-110 ring-4 ring-white/30'
-                        : currentStep > step
+                    className={`relative w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 transform z-20 ${currentStep === step
+                      ? 'bg-white text-[#15133D] shadow-xl scale-110 ring-4 ring-white/30'
+                      : currentStep > step
                         ? 'bg-white text-[#15133D] shadow-lg scale-105'
                         : 'bg-[#1a1650] text-white/60 border-2 border-white/40'
-                    }`}
+                      }`}
                   >
                     {currentStep > step ? (
                       <svg className="w-6 h-6 text-[#15133D]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -660,11 +668,10 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
                   </div>
                 </div>
                 {/* Step label */}
-                <span className={`text-sm mt-3 font-medium transition-all duration-300 text-center ${
-                  currentStep >= step 
-                    ? 'text-white font-semibold' 
-                    : 'text-white/60'
-                }`}>
+                <span className={`text-sm mt-3 font-medium transition-all duration-300 text-center ${currentStep >= step
+                  ? 'text-white font-semibold'
+                  : 'text-white/60'
+                  }`}>
                   {step === 1 && 'Personal Info'}
                   {step === 2 && 'Church & Training'}
                   {step === 3 && 'Documents'}
@@ -680,16 +687,15 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
           {currentStep === 1 && (
             <div className="space-y-4">
               <h3 className="text-xl font-semibold text-gray-900 mb-4">Personal Information</h3>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => handleInputChange('name', e.target.value)}
-                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${
-                    errors.name ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${errors.name ? 'border-red-500' : 'border-gray-300'
+                    }`}
                 />
                 {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
               </div>
@@ -700,9 +706,8 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
                   value={formData.address}
                   onChange={(e) => handleInputChange('address', e.target.value)}
                   rows={3}
-                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${
-                    errors.address ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${errors.address ? 'border-red-500' : 'border-gray-300'
+                    }`}
                 />
                 {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
               </div>
@@ -731,9 +736,8 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
                     type="email"
                     value={formData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
-                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${
-                      errors.email ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${errors.email ? 'border-red-500' : 'border-gray-300'
+                      }`}
                   />
                   {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                 </div>
@@ -746,9 +750,8 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
                     type="date"
                     value={formData.dateOfBirth}
                     onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
-                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${
-                      errors.dateOfBirth ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${errors.dateOfBirth ? 'border-red-500' : 'border-gray-300'
+                      }`}
                   />
                   {errors.dateOfBirth && <p className="text-red-500 text-sm mt-1">{errors.dateOfBirth}</p>}
                 </div>
@@ -759,9 +762,8 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
                     type="text"
                     value={formData.nationality}
                     onChange={(e) => handleInputChange('nationality', e.target.value)}
-                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${
-                      errors.nationality ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${errors.nationality ? 'border-red-500' : 'border-gray-300'
+                      }`}
                   />
                   {errors.nationality && <p className="text-red-500 text-sm mt-1">{errors.nationality}</p>}
                 </div>
@@ -775,11 +777,25 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
                     value={formData.languages}
                     onChange={(e) => handleInputChange('languages', e.target.value)}
                     placeholder="e.g., English, Tamil, Hindi"
-                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${
-                      errors.languages ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${errors.languages ? 'border-red-500' : 'border-gray-300'
+                      }`}
                   />
                   {errors.languages && <p className="text-red-500 text-sm mt-1">{errors.languages}</p>}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Preferred Language *</label>
+                  <select
+                    value={formData.preferredLanguage}
+                    onChange={(e) => handleInputChange('preferredLanguage', e.target.value)}
+                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${errors.preferredLanguage ? 'border-red-500' : 'border-gray-300'
+                      }`}
+                  >
+                    <option value="">Select...</option>
+                    <option value="Tamil">Tamil</option>
+                    <option value="English">English</option>
+                  </select>
+                  {errors.preferredLanguage && <p className="text-red-500 text-sm mt-1">{errors.preferredLanguage}</p>}
                 </div>
 
                 <div>
@@ -787,9 +803,8 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
                   <select
                     value={formData.maritalStatus}
                     onChange={(e) => handleInputChange('maritalStatus', e.target.value)}
-                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${
-                      errors.maritalStatus ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${errors.maritalStatus ? 'border-red-500' : 'border-gray-300'
+                      }`}
                   >
                     <option value="">Select...</option>
                     <option value="Single">Single</option>
@@ -805,16 +820,15 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
           {currentStep === 2 && (
             <div className="space-y-4">
               <h3 className="text-xl font-semibold text-gray-900 mb-4">Church & Training Information</h3>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Church Name *</label>
                 <input
                   type="text"
                   value={formData.churchName}
                   onChange={(e) => handleInputChange('churchName', e.target.value)}
-                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${
-                    errors.churchName ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${errors.churchName ? 'border-red-500' : 'border-gray-300'
+                    }`}
                 />
                 {errors.churchName && <p className="text-red-500 text-sm mt-1">{errors.churchName}</p>}
               </div>
@@ -894,16 +908,15 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
           {currentStep === 3 && (
             <div className="space-y-4">
               <h3 className="text-xl font-semibold text-gray-900 mb-4">Documents & Confirmation</h3>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">E-Signature Upload *</label>
                 <input
                   type="file"
                   accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
                   onChange={(e) => handleFileChange('eSignature', e.target.files?.[0] || null)}
-                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${
-                    errors.eSignature ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${errors.eSignature ? 'border-red-500' : 'border-gray-300'
+                    }`}
                 />
                 {errors.eSignature && <p className="text-red-500 text-sm mt-1">{errors.eSignature}</p>}
                 {formData.eSignature && !errors.eSignature && (
@@ -921,9 +934,8 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
                   type="file"
                   accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
                   onChange={(e) => handleFileChange('photoCopy', e.target.files?.[0] || null)}
-                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${
-                    errors.photoCopy ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${errors.photoCopy ? 'border-red-500' : 'border-gray-300'
+                    }`}
                 />
                 {errors.photoCopy && <p className="text-red-500 text-sm mt-1">{errors.photoCopy}</p>}
                 {formData.photoCopy && !errors.photoCopy && (
@@ -949,15 +961,14 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
           <button
             onClick={handleBack}
             disabled={currentStep === 1}
-            className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-              currentStep === 1
-                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
+            className={`px-6 py-2 rounded-lg font-medium transition-colors ${currentStep === 1
+              ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
           >
             Back
           </button>
-          
+
           {currentStep < 3 ? (
             <button
               onClick={handleNext}
@@ -969,9 +980,8 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
             <button
               onClick={handleSubmit}
               disabled={loading}
-              className={`px-6 py-2 bg-[#15133D] text-white rounded-lg font-medium hover:opacity-90 transition-colors ${
-                loading ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
+              className={`px-6 py-2 bg-[#15133D] text-white rounded-lg font-medium hover:opacity-90 transition-colors ${loading ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
             >
               {loading ? 'Submitting...' : 'Submit Enrollment'}
             </button>
