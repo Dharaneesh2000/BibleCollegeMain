@@ -14,7 +14,6 @@ interface Enrollment {
   date_of_birth: string
   nationality: string
   languages: string
-  preferred_language: string | null
   marital_status: string
   church_name: string
   church_position: string | null
@@ -213,8 +212,6 @@ const EnrollmentManagement = () => {
       doc.text(`Nationality: ${enrollment.nationality}`, margin, yPosition)
       yPosition += 6
       doc.text(`Languages Known: ${enrollment.languages}`, margin, yPosition)
-      yPosition += 6
-      doc.text(`Preferred Language: ${enrollment.preferred_language || 'Not specified'}`, margin, yPosition)
       yPosition += 6
       doc.text(`Marital Status: ${enrollment.marital_status}`, margin, yPosition)
       yPosition += 6
@@ -437,9 +434,6 @@ const EnrollmentManagement = () => {
                   Phone
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Preferred Language
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Date
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -474,9 +468,6 @@ const EnrollmentManagement = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">{enrollment.phone}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{enrollment.preferred_language || '-'}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
@@ -584,10 +575,6 @@ const EnrollmentManagement = () => {
                     <div>
                       <label className="text-sm font-medium text-gray-700">Languages Known</label>
                       <p className="mt-1 text-gray-900">{selectedEnrollment.languages}</p>
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium text-gray-700">Preferred Language</label>
-                      <p className="mt-1 text-gray-900">{selectedEnrollment.preferred_language || '-'}</p>
                     </div>
                     <div>
                       <label className="text-sm font-medium text-gray-700">Marital Status</label>

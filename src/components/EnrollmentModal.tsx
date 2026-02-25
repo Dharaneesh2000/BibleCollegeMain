@@ -21,7 +21,6 @@ interface EnrollmentData {
   dateOfBirth: string
   nationality: string
   languages: string
-  preferredLanguage: string
   maritalStatus: string
 
   // Step 2: Church & Training Information
@@ -50,7 +49,6 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
     dateOfBirth: '',
     nationality: '',
     languages: '',
-    preferredLanguage: '',
     maritalStatus: '',
     churchName: '',
     churchPosition: '',
@@ -152,10 +150,6 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
       newErrors.maritalStatus = 'Marital Status is required'
     }
 
-    // Preferred Language validation
-    if (!formData.preferredLanguage) {
-      newErrors.preferredLanguage = 'Preferred language is required'
-    }
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -350,7 +344,6 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
         date_of_birth: formData.dateOfBirth,
         nationality: formData.nationality,
         languages: formData.languages,
-        preferred_language: formData.preferredLanguage,
         marital_status: formData.maritalStatus,
         // Step 2
         church_name: formData.churchName,
@@ -441,7 +434,6 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
       dateOfBirth: '',
       nationality: '',
       languages: '',
-      preferredLanguage: '',
       maritalStatus: '',
       churchName: '',
       churchPosition: '',
@@ -783,20 +775,6 @@ const EnrollmentModal = ({ isOpen, onClose, courseTitle, courseId }: EnrollmentM
                   {errors.languages && <p className="text-red-500 text-sm mt-1">{errors.languages}</p>}
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Preferred Language *</label>
-                  <select
-                    value={formData.preferredLanguage}
-                    onChange={(e) => handleInputChange('preferredLanguage', e.target.value)}
-                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15133D] ${errors.preferredLanguage ? 'border-red-500' : 'border-gray-300'
-                      }`}
-                  >
-                    <option value="">Select...</option>
-                    <option value="Tamil">Tamil</option>
-                    <option value="English">English</option>
-                  </select>
-                  {errors.preferredLanguage && <p className="text-red-500 text-sm mt-1">{errors.preferredLanguage}</p>}
-                </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Marital Status *</label>
